@@ -1,0 +1,102 @@
+{
+    "name": "PlayerControllInputAction",
+    "maps": [
+        {
+            "name": "MainScene",
+            "id": "54e91f89-b598-4fc8-bcfd-cd88400d147d",
+            "actions": [
+                {
+                    "name": "Move",
+                    "type": "Button",
+                    "id": "8cfdd14c-958f-46a2-a11b-09c7ccfab6b0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Direction",
+                    "type": "Value",
+                    "id": "42ee4bd3-7f3d-411b-948e-9ac7416ca9b9",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Trap",
+                    "type": "Button",
+                    "id": "05bfaf7b-cd88-4a89-beb1-21c53a6c25d9",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "167f1830-3d7d-451b-b942-3dbdb1d1441e",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerControll",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "757de4eb-6de1-482a-b4d6-14350384ce2c",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerControll",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f7310d03-6732-4207-ba6d-96a44bbe310e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerControll",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "56dfc5b1-669f-4768-9c2e-1771c6f61cef",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "PlayerControll",
+                    "action": "Trap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "PlayerControll",
+            "bindingGroup": "PlayerControll",
+            "devices": [
+                {
+                    "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                },
+                {
+                    "devicePath": "<Mouse>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        }
+    ]
+}
