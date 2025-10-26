@@ -4,8 +4,8 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     Rigidbody2D rb;
+    MeoshiGage meoshiGage;
 
-    Vector2 direction = new(0,0);
     const float MOVE_POWER = 500;
 
     /// <summary>
@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     void Init()
     {
         rb = GetComponent<Rigidbody2D>();
+        meoshiGage = GetComponent<MeoshiGage>();
     }
 
     private void Awake()
@@ -28,15 +29,14 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        
     }
 
     /// <summary>
     /// ‘O•û‚É‰Á‘¬(ˆÚ“®)
     /// </summary>
-    void Move()
+    public void Move(float force)
     {
-        rb.AddForce(transform.up * MOVE_POWER);
+        rb.AddForce(force * MOVE_POWER * transform.up);
     }
 
     /// <summary>
@@ -64,7 +64,8 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         //ƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½‚Æ‚«‚¾‚¯ˆÚ“®
-        if (context.started) Move();
+        //if (context.started) Move();
+        if(context.canceled) meoshiGage.StopBar();
     }
     
     /// <summary>
