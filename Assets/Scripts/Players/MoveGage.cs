@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class MeoshiGage : MonoBehaviour
+public class MoveGage : MonoBehaviour
 {
-    [SerializeField] PlayerController playerCon;
+    [SerializeField] PlayerManager playerManager;
 
     [SerializeField] Image bar;
     [SerializeField] Image middleGage;
@@ -14,20 +14,32 @@ public class MeoshiGage : MonoBehaviour
 
     [SerializeField] float barSpeed = 1;
     [SerializeField] int direction = 1;
+    [SerializeField] float moveCoolTime = 1;
 
     [SerializeField, Range(0, 1)] float difficulty = 0;
-    [SerializeField] float middle_MaxSize = 400; 
-    [SerializeField] float middle_MinSize = 80; 
-    [SerializeField] float high_MaxSize = 300; 
-    [SerializeField] float high_MinSize = 30;
+    [SerializeField] float middle_MaxSize = 150; 
+    [SerializeField] float middle_MinSize = 30; 
+    [SerializeField] float high_MaxSize = 100; 
+    [SerializeField] float high_MinSize = 10;
 
     [SerializeField] float middleGageSize;
     [SerializeField] float highGageSize;
 
-    const int GAGE_SIZE = 500;
-    const int BAR_SPEED_ADJUST = 800;
+    const int GAGE_SIZE = 200;
+    const int BAR_SPEED_ADJUST = 200;
 
     bool isStop = false;
+
+    private void Awake()
+    {
+        Init();
+    }
+
+    void Init()
+    {
+        //ゲージエリア初期化
+        SetGageDifficulty();
+    }
 
     private void Update()
     {
@@ -41,13 +53,13 @@ public class MeoshiGage : MonoBehaviour
         if (isStop) return;
         isStop = true;
         CheckWhereStop();
-        Invoke(nameof(ResetBar), 0.5f);
+        Invoke(nameof(ResetBar), moveCoolTime);
     }
 
     void ResetBar()
     {
         isStop = false;
-        bar.rectTransform.localPosition = new Vector2(-250, 0);
+        bar.rectTransform.localPosition = new Vector2(-100, bar.rectTransform.localPosition.y);
     }
 
     /// <summary>
@@ -101,15 +113,15 @@ public class MeoshiGage : MonoBehaviour
 
         if (barX <= highBorder)
         {
-            playerCon.Move(1);
+            playerManager.playerController.Move(1);
         }
         else if(barX <= middleBorder)
         {
-            playerCon.Move(0.5f);
+            playerManager.playerController.Move(0.5f);
         }
         else
         {
-            playerCon.Move(0.2f);
+            playerManager.playerController.Move(0.2f);
         }
     }
 }

@@ -8,7 +8,7 @@
                 {
                     "name": "Move",
                     "type": "Button",
-                    "id": "8cfdd14c-958f-46a2-a11b-09c7ccfab6b0",
+                    "id": "42ee4bd3-7f3d-411b-948e-9ac7416ca9b9",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -17,7 +17,7 @@
                 {
                     "name": "Direction",
                     "type": "Value",
-                    "id": "42ee4bd3-7f3d-411b-948e-9ac7416ca9b9",
+                    "id": "8cfdd14c-958f-46a2-a11b-09c7ccfab6b0",
                     "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
@@ -36,34 +36,23 @@
             "bindings": [
                 {
                     "name": "",
-                    "id": "167f1830-3d7d-451b-b942-3dbdb1d1441e",
+                    "id": "f7310d03-6732-4207-ba6d-96a44bbe310e",
                     "path": "<Gamepad>/buttonEast",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PlayerControll",
+                    "groups": "Gamepads",
                     "action": "Move",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
                 {
                     "name": "",
-                    "id": "757de4eb-6de1-482a-b4d6-14350384ce2c",
+                    "id": "4db10faa-bc2c-4053-9244-d5a3d5541947",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PlayerControll",
+                    "groups": "Keyborad_Mouse",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f7310d03-6732-4207-ba6d-96a44bbe310e",
-                    "path": "<Gamepad>/leftStick",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "PlayerControll",
-                    "action": "Direction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -73,8 +62,140 @@
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
                     "processors": "",
-                    "groups": "PlayerControll",
+                    "groups": "Gamepads",
                     "action": "Trap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a6844d9-257c-4266-b39b-fbd817f09f32",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Trap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "2D Vector WASD",
+                    "id": "493700e8-0e88-4d03-a60a-5f510dc5c83e",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Direction",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Up",
+                    "id": "4c1ce3d7-a14a-4407-8af6-ea99acb6d1dd",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Down",
+                    "id": "76d503f4-e928-436b-9f61-30cd29eb824e",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Left",
+                    "id": "747fa81b-d5af-477f-a3b2-2d6b44f2b9b4",
+                    "path": "<Keyboard>/a",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "Right",
+                    "id": "0c9ca945-eed3-4be2-b9f9-3f9f83f2299d",
+                    "path": "<Keyboard>/d",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "2D Vector Arrow",
+                    "id": "889fcb5a-0968-4bf7-81d8-5f29826d9e19",
+                    "path": "2DVector",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Direction",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "up",
+                    "id": "e5964d93-f2ae-4a81-8253-2ad1c20ba3a7",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "down",
+                    "id": "c05a5033-826f-4261-ae96-415232c23ddf",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "left",
+                    "id": "0197e6d7-bf6d-4bd3-82cb-0c265c0212c9",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "right",
+                    "id": "2456167a-ae20-4516-bd7e-6a9257229ca8",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyborad_Mouse",
+                    "action": "Direction",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "167f1830-3d7d-451b-b942-3dbdb1d1441e",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "Direction",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -83,11 +204,22 @@
     ],
     "controlSchemes": [
         {
-            "name": "PlayerControll",
-            "bindingGroup": "PlayerControll",
+            "name": "Gamepads",
+            "bindingGroup": "Gamepads",
             "devices": [
                 {
                     "devicePath": "<Gamepad>",
+                    "isOptional": false,
+                    "isOR": false
+                }
+            ]
+        },
+        {
+            "name": "Keyborad_Mouse",
+            "bindingGroup": "Keyborad_Mouse",
+            "devices": [
+                {
+                    "devicePath": "<Keyboard>",
                     "isOptional": false,
                     "isOR": false
                 },

@@ -3,10 +3,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    MoveGage moveGage;
+
     Rigidbody2D rb;
-    MeoshiGage meoshiGage;
+    [SerializeField] Transform cameraTf;
 
     const float MOVE_POWER = 500;
+
+    [SerializeField] float moveSpeed = 1;
 
     /// <summary>
     /// 初期化
@@ -14,7 +18,7 @@ public class PlayerController : MonoBehaviour
     void Init()
     {
         rb = GetComponent<Rigidbody2D>();
-        meoshiGage = GetComponent<MeoshiGage>();
+        moveGage = GetComponent<MoveGage>();
     }
 
     private void Awake()
@@ -29,6 +33,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Vector3 pos = transform.position;
+        cameraTf.position = new Vector3(pos.x, pos.y, -10);
     }
 
     /// <summary>
@@ -36,7 +42,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void Move(float force)
     {
-        rb.AddForce(force * MOVE_POWER * transform.up);
+        rb.AddForce(force * moveSpeed * MOVE_POWER * transform.up);
     }
 
     /// <summary>
@@ -55,6 +61,20 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    #region #外部から使う関数
+
+    /// <summary>
+    /// 移動距離の倍率を指定
+    /// </summary>
+    /// <param name="speedRatio"></param>
+    public void SetMoveSpeedRatio(float speedRatio = 1)
+    {
+        moveSpeed = speedRatio;
+    }
+
+
+    #endregion
+
     #region #入力関数
 
     /// <summary>
@@ -64,8 +84,7 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         //ボタンが押されたときだけ移動
-        //if (context.started) Move();
-        if(context.canceled) meoshiGage.StopBar();
+        if(context.canceled) moveGage.StopBar();
     }
     
     /// <summary>
@@ -75,7 +94,8 @@ public class PlayerController : MonoBehaviour
     public void OnTrap(InputAction.CallbackContext context)
     {
         ////ボタンが押されたとき
-        //if (context.started) { }
+        if (context.started) { }
+        //context.canceled
     }
 
     /// <summary>
