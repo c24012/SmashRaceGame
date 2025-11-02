@@ -4,13 +4,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     MoveGage moveGage;
+    [SerializeField] CorseChack corseChack;
 
     Rigidbody2D rb;
     [SerializeField] Transform cameraTf;
 
-    const float MOVE_POWER = 500;
+    [SerializeField] float moveSpeedRatio = 1;
+    CorseChack.EAttribute road = CorseChack.EAttribute.None;
 
-    [SerializeField] float moveSpeed = 1;
+    const float MOVE_POWER = 500;
 
     /// <summary>
     /// 初期化
@@ -34,15 +36,32 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Vector3 pos = transform.position;
-        cameraTf.position = new Vector3(pos.x, pos.y, -10);
+        cameraTf.position = new Vector3(pos.x, pos.y, cameraTf.position.z);
+    }
+
+    private void FixedUpdate()
+    {
+        //現在の道の状態を確認＆取得
+        road = corseChack.GetAttribute(transform.position);
+        //状態によって摩擦力を増減
+        if (road == CorseChack.EAttribute.Road) rb.drag = 3;
+        else if (road == CorseChack.EAttribute.Dart) rb.drag = 4;
     }
 
     /// <summary>
     /// 前方に加速(移動)
     /// </summary>
-    public void Move(float force)
+    public void Move(float power)
     {
-        rb.AddForce(force * moveSpeed * MOVE_POWER * transform.up);
+        //進む力を計算
+        float force = power * moveSpeedRatio * MOVE_POWER;
+        //ダート判定の時は減速
+        if(road == CorseChack.EAttribute.Dart)
+        {
+            force *= 0.5f;
+        }
+        //前方に加速
+        rb.AddForce(force * transform.up);
     }
 
     /// <summary>
@@ -69,7 +88,7 @@ public class PlayerController : MonoBehaviour
     /// <param name="speedRatio"></param>
     public void SetMoveSpeedRatio(float speedRatio = 1)
     {
-        moveSpeed = speedRatio;
+        moveSpeedRatio = speedRatio;
     }
 
 

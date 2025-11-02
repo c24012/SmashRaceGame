@@ -117,11 +117,11 @@ public class MoveGage : MonoBehaviour
         }
         else if(barX <= middleBorder)
         {
-            playerManager.playerController.Move(0.5f);
+            playerManager.playerController.Move(0.7f);
         }
         else
         {
-            playerManager.playerController.Move(0.2f);
+            playerManager.playerController.Move(0.5f);
         }
     }
 }
