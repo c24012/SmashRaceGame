@@ -3,6 +3,7 @@ using System.Drawing;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,20 @@ public class PlayerController : MonoBehaviour
 
     const float MOVE_POWER = 500;
 
+    [SerializeField] float moveSpeed = 1;
+
+    //トラップの変数
+    [Header("生成するトラップ")]
+    public GameObject[] trapObj;
+
+    [Header("置くトラップの種類の番号")]
+    public int trapNum = 0;
+
+    [Header("Rayの長さ")]
+    public float length;
+
+    PlayerManager playerManager;
+
     /// <summary>
     /// 初期化
     /// </summary>
@@ -27,6 +42,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         moveGage = GetComponent<MoveGage>();
+
+        playerManager = GetComponent<PlayerManager>();
     }
 
     private void Awake()
@@ -82,7 +99,20 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Trap()
     {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, length, 1);
 
+        //壁に当たったか、当たってないか
+        if (hit.collider != null)
+        {
+
+            Instantiate(trapObj[trapNum], hit.point, Quaternion.identity).
+                GetComponent<TrapSc>().trapNum = playerManager.playerNum;
+        }
+        else
+        {
+            Instantiate(trapObj[trapNum], transform.position + transform.up * length, Quaternion.identity).
+                GetComponent<TrapSc>().trapNum = playerManager.playerNum;
+        }
     }
 
     /// <summary>
@@ -144,7 +174,10 @@ public class PlayerController : MonoBehaviour
     public void OnTrap(InputAction.CallbackContext context)
     {
         ////ボタンが押されたとき
-        if (context.started) { }
+        if (context.canceled)
+        {
+            Trap();
+        }
         //context.canceled
     }
 

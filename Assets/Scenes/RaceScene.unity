@@ -207,7 +207,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 110966431}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Levels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -247,7 +247,7 @@ GameObject:
   - component: {fileID: 231992570}
   - component: {fileID: 231992571}
   - component: {fileID: 231992572}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Middle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -323,7 +323,7 @@ GameObject:
   - component: {fileID: 235091554}
   - component: {fileID: 235091553}
   - component: {fileID: 235091552}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: GUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -424,7 +424,7 @@ GameObject:
   - component: {fileID: 503497770}
   - component: {fileID: 503497772}
   - component: {fileID: 503497771}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: soul
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -499,7 +499,7 @@ GameObject:
   - component: {fileID: 519420032}
   - component: {fileID: 519420031}
   - component: {fileID: 519420029}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: PlayerCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -771,7 +771,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 680498455}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -882,7 +882,7 @@ GameObject:
   - component: {fileID: 743493590}
   - component: {fileID: 743493592}
   - component: {fileID: 743493591}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Low
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1035,7 +1035,7 @@ GameObject:
   - component: {fileID: 1153293133}
   - component: {fileID: 1153293132}
   - component: {fileID: 1153293131}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: High
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1287,7 +1287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1689019477}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: MoveGages
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1415,9 +1415,9 @@ GameObject:
   - component: {fileID: 1772527803}
   - component: {fileID: 1772527805}
   - component: {fileID: 1772527808}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Character
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1683,12 +1683,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add47cf38f74cc04299c159fcf469743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corseChack: {fileID: 642798678}
-  myCamera: {fileID: 519420028}
-  moveSpeedRatio: 1
-  cameraZoom: 0
-  mapSizeWeight_test: 480
-  mapSizeHeight_test: 270
+  cameraTf: {fileID: 519420032}
+  moveSpeed: 1
 --- !u!114 &1772527811
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,7 +1710,7 @@ GameObject:
   - component: {fileID: 1872418213}
   - component: {fileID: 1872418215}
   - component: {fileID: 1872418214}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
