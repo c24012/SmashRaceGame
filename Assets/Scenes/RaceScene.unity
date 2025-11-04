@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &28536634
 RectTransform:
   m_ObjectHideFlags: 0
@@ -545,11 +545,11 @@ Camera:
     y: 0.5
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.7
+  orthographic size: 5.4
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -574,7 +574,7 @@ Transform:
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.74, y: -0.29000002, z: -10}
+  m_LocalPosition: {x: 1.55, y: -0.63, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -808,7 +808,7 @@ GameObject:
   - component: {fileID: 720842974}
   - component: {fileID: 720842973}
   m_Layer: 5
-  m_Name: ViewLineVirtial
+  m_Name: ViewLineVeirtial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1112,7 +1112,7 @@ GameObject:
   - component: {fileID: 1173140270}
   - component: {fileID: 1173140269}
   m_Layer: 5
-  m_Name: Canvas
+  m_Name: MainGUICanvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1589,6 +1589,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 05bfaf7b-cd88-4a89-beb1-21c53a6c25d9
     m_ActionName: MainScene/Trap[/XInputControllerWindows/buttonNorth]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1772527810}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnZoom
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: a05e34df-ee15-401e-a440-a92d7c411a48
+    m_ActionName: MainScene/Zoom[/Keyboard/q,/Keyboard/e]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
   m_DefaultActionMap: MainScene
@@ -1668,8 +1684,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   corseChack: {fileID: 642798678}
-  cameraTf: {fileID: 519420032}
+  myCamera: {fileID: 519420028}
   moveSpeedRatio: 1
+  cameraZoom: 0
+  mapSizeWeight_test: 480
+  mapSizeHeight_test: 270
 --- !u!114 &1772527811
 MonoBehaviour:
   m_ObjectHideFlags: 0
