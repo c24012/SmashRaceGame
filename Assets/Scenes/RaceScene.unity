@@ -1683,8 +1683,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add47cf38f74cc04299c159fcf469743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTf: {fileID: 519420032}
+  corseChack: {fileID: 642798678}
+  myCamera: {fileID: 519420028}
+  moveSpeedRatio: 1
+  cameraZoom: 0
+  mapSizeWeight_test: 480
+  mapSizeHeight_test: 270
   moveSpeed: 1
+  trapObj:
+  - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
+  trapNum: 0
+  length: 2
 --- !u!114 &1772527811
 MonoBehaviour:
   m_ObjectHideFlags: 0
