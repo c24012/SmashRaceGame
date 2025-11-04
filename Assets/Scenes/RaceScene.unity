@@ -636,8 +636,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -691038595
+  m_SortingLayer: -1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: d504ca839244a704596a68a91342a237, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1683,8 +1683,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: add47cf38f74cc04299c159fcf469743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraTf: {fileID: 519420032}
+  corseChack: {fileID: 642798678}
+  myCamera: {fileID: 519420028}
+  moveSpeedRatio: 1
+  cameraZoom: 0
+  mapSizeWeight_test: 480
+  mapSizeHeight_test: 270
   moveSpeed: 1
+  trapObj:
+  - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
+  trapNum: 0
+  length: 2
 --- !u!114 &1772527811
 MonoBehaviour:
   m_ObjectHideFlags: 0
