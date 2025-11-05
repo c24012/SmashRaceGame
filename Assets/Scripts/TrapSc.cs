@@ -39,10 +39,9 @@ public class TrapSc : MonoBehaviour
                 //ÉfÉoÉt
                 pm.playerController.SetMoveSpeedRatio(0.8f);
                 //Debug.Log("è¡Ç¶é∏ÇπÇÎ");
+                col.enabled = false;
+                sr.enabled = false;
             }
-            col.enabled = false;
-            sr.enabled = false;
-
             Invoke(nameof(EffectReset), effectTime);
         }
     }
