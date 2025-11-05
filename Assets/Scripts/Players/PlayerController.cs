@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     Rigidbody2D rb;
     [SerializeField] GameObject myCamera;
+    [SerializeField] Animator anim;
 
     [SerializeField] float moveSpeedRatio = 1;
     CorseChack.EAttribute road = CorseChack.EAttribute.None;
@@ -22,7 +23,8 @@ public class PlayerController : MonoBehaviour
     const float MOVE_POWER = 500;
 
     [SerializeField] float moveSpeed = 1;
-
+    [SerializeField] bool isMove = false;
+    
     //トラップの変数
     [Header("生成するトラップ")]
     public GameObject[] trapObj;
@@ -59,6 +61,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CameraTracking();
+        CheckIsMove();
     }
 
     private void FixedUpdate()
@@ -140,6 +143,25 @@ public class PlayerController : MonoBehaviour
             myCamera.transform.position.z);
         myCamera.transform.position = pos;
     }
+
+    /// <summary>
+    /// 動いているか時のアニメーション処理
+    /// </summary>
+    void CheckIsMove()
+    {
+        //速度がx,yいずれかが0.3以上だと「動いている」判定
+        isMove = Mathf.Abs(rb.velocity.x) > 0.3f || Mathf.Abs(rb.velocity.y) > 0.3f;
+        //動いているかをアニメーションに適応
+        if (isMove)
+        {
+            anim.SetBool("IsMove",true);
+        }
+        else
+        {
+            anim.SetBool("IsMove", false);
+        }
+    }
+
 
     #region #外部から使う関数
 
