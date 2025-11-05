@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4233993652740503967}
   - component: {fileID: -8421833154834335980}
   - component: {fileID: -4683925640232305526}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: TrapA
   m_TagString: Untagged
   m_Icon: {fileID: 0}

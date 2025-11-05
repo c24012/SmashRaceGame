@@ -71,6 +71,9 @@ public class PlayerController : MonoBehaviour
         //ó‘Ô‚É‚æ‚Á‚Ä–€C—Í‚ğ‘Œ¸
         if (road == CorseChack.EAttribute.Road) rb.drag = 3;
         else if (road == CorseChack.EAttribute.Dart) rb.drag = 4;
+        else if (road == CorseChack.EAttribute.Warning) rb.drag = 4;
+        else if (road == CorseChack.EAttribute.RoughRoad) rb.drag = 3.5f;
+        else if (road == CorseChack.EAttribute.Out) rb.drag = 100;
     }
 
     /// <summary>

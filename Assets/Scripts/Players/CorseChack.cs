@@ -7,9 +7,11 @@ public class CorseChack : MonoBehaviour
     public enum EAttribute
     {
         None,
-        Road,   //道
-        Dart,   //ダート
-        Out,    //場外
+        Road,       //道
+        RoughRoad,  //荒道
+        Dart,       //ダート
+        Warning,    //警告
+        Out,        //場外
     }
 
     [SerializeField] Texture2D attributeTexture;
@@ -28,12 +30,17 @@ public class CorseChack : MonoBehaviour
 
         //今いるピクセルの色を取得
         Color color = attributeTexture.GetPixel(pixelX, pixelY);
-        //今のピクセルのRGBが[0]なら道判定
-        if(color.r == 0)
-        {
-            return EAttribute.Road;
-        }
-        //それ以外はダート判定
-        return EAttribute.Dart;
+        //ダート
+        if (color.r == 0) return EAttribute.Dart;
+        //荒道
+        else if (color.r == 50 / 255f) return EAttribute.RoughRoad;
+        //警告
+        else if (color.r == 100 / 255f) return EAttribute.Warning;
+        //場外
+        else if (color.r == 150 / 255f) return EAttribute.Out;
+        //通常道
+        else if (color.r == 1) return EAttribute.Road;
+        Debug.LogError("指定外の道の属性です");
+        return EAttribute.None;
     }
 }
