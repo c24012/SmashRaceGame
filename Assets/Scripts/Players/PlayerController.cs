@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
 
     PlayerManager playerManager;
 
+    bool trapFlag = true;
+
     /// <summary>
     /// ‰Šú‰»
     /// </summary>
@@ -105,6 +107,15 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Trap()
     {
+        if (trapFlag)
+        {
+            trapFlag = false;
+            Invoke(new Action(() => { trapFlag = true; }).Method.Name, 3);
+        }
+        else
+        {
+            return;
+        }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, length, 1);
 
         //•Ç‚É“–‚½‚Á‚½‚©A“–‚½‚Á‚Ä‚È‚¢‚©
