@@ -3,24 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class TrapSc : MonoBehaviour
+public class TrapSc : TrapBase
 {
 
-    public int trapNum;
+    private float[] speeds = {0.1f,0.5f,1,2 };
 
-    private Collider2D col;
+    public float objTime = 10;
 
-    private SpriteRenderer sr;
-
-    private PlayerManager pm = null;
-
-    [Header("トラップの効果時間")]
-    public int effectTime;
-
-    private void Awake()
+    private void Start()
     {
-        col = GetComponent<Collider2D>();
-        sr = GetComponent<SpriteRenderer>();
+        Invoke(nameof(TimeUp), objTime);
+        rankingPower = trapNum;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,31 +21,34 @@ public class TrapSc : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             pm = collision.GetComponent<PlayerManager>();
-            if (trapNum == pm.playerNum)
-            {
-                //バフ
-                pm.playerController.SetMoveSpeedRatio(1.2f);
-                //Debug.Log("良いですね");
-            }
-            else
-            {
-                //デバフ
-                pm.playerController.SetMoveSpeedRatio(0.6f);
-                //Debug.Log("消え失せろ");
-                col.enabled = false;
-                sr.enabled = false;
-            }
+            //if (trapNum == pm.playerNum)
+            //{
+            //    //バフ
+            //    pm.playerController.SetMoveSpeedRatio(1.2f);
+            //    //Debug.Log("良いですね");
+            //}
+            //else
+            //{
+            //    //デバフ
+            //    pm.playerController.SetMoveSpeedRatio(0.8f);
+            //    //Debug.Log("消え失せろ");
+            //    col.enabled = false;
+            //    sr.enabled = false;
+            //}
+            pm.playerController.SetMoveSpeedRatio(speeds[rankingPower]);
             Invoke(nameof(EffectReset), effectTime);
         }
     }
 
     private void EffectReset()
     {
-        pm.playerController.SetMoveSpeedRatio();
-        //Debug.Log("おしめぇだ");
-        if (trapNum != pm.playerNum)
-        {
-            Destroy(gameObject);
-        }
+        pm.playerController.SetMoveSpeedRatio(-speeds[rankingPower]);
+    }
+
+    private void TimeUp()
+    {
+        col.enabled = false;
+        sr.enabled = false;
+        Destroy(gameObject, effectTime);
     }
 }
