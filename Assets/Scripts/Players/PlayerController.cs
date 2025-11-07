@@ -1,24 +1,20 @@
 using System;
-using System.Drawing;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
-    MoveGage moveGage;
+    PowerGage powerGage;
     [SerializeField] CorseChack corseChack;
 
     Rigidbody2D rb;
     [SerializeField] GameObject myCamera;
+    [SerializeField] Transform guisTf;
+    [SerializeField] Canvas canvas;
     [SerializeField] Animator anim;
 
     [SerializeField] float moveSpeedRatio = 1;
     CorseChack.EAttribute road = CorseChack.EAttribute.None;
-    [SerializeField] int cameraZoom = 0;
-    [SerializeField] int mapSizeWeight_test = 480;
-    [SerializeField] int mapSizeHeight_test = 270;
 
     const float MOVE_POWER = 500;
 
@@ -45,9 +41,11 @@ public class PlayerController : MonoBehaviour
     void Init()
     {
         rb = GetComponent<Rigidbody2D>();
-        moveGage = GetComponent<MoveGage>();
+        powerGage = GetComponent<PowerGage>();
 
         playerManager = GetComponent<PlayerManager>();
+        //パワーゲージ非表示
+        canvas.enabled = false;
     }
 
     private void Awake()
@@ -63,6 +61,7 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         CameraTracking();
+        GUIsTracking();
         CheckIsMove();
     }
 
@@ -137,25 +136,33 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void CameraTracking()
     {
-        Vector3 pos = transform.position;
-        Vector2 clampSize = Vector2.zero;
-        switch (cameraZoom)
-        {
-            case 1:
-                clampSize = new Vector2(mapSizeWeight_test * 4 - 1280, mapSizeHeight_test * 4 - 720);
-                break;
-            case 2:
-                clampSize = new Vector2(mapSizeWeight_test * 4 - 864, mapSizeHeight_test * 4 - 486);
-                break;
-            case 3:
-                clampSize = new Vector2(mapSizeWeight_test * 4 - 448, mapSizeHeight_test * 4 - 252);
-                break;
-        }
-        pos = new Vector3(
-            Mathf.Clamp(pos.x, -clampSize.x / 200, clampSize.x / 200),
-            Mathf.Clamp(pos.y, -clampSize.y / 200, clampSize.y / 200),
-            myCamera.transform.position.z);
-        myCamera.transform.position = pos;
+        //Vector3 pos = transform.position;
+        //Vector2 clampSize = Vector2.zero;
+        //switch (cameraZoom)
+        //{
+        //    case 1:
+        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 1280, mapSizeHeight_test * 4 - 720);
+        //        break;
+        //    case 2:
+        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 864, mapSizeHeight_test * 4 - 486);
+        //        break;
+        //    case 3:
+        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 448, mapSizeHeight_test * 4 - 252);
+        //        break;
+        //}
+        //pos = new Vector3(
+        //    Mathf.Clamp(pos.x, -clampSize.x / 200, clampSize.x / 200),
+        //    Mathf.Clamp(pos.y, -clampSize.y / 200, clampSize.y / 200),
+        //    myCamera.transform.position.z);
+        //myCamera.transform.position = pos;
+    }
+
+    /// <summary>
+    /// GUIキャンバスをプレイヤーに追尾
+    /// </summary>
+    void GUIsTracking()
+    {
+        guisTf.position = transform.position;
     }
 
     /// <summary>
@@ -183,9 +190,9 @@ public class PlayerController : MonoBehaviour
     /// 移動距離の倍率を指定
     /// </summary>
     /// <param name="speedRatio"></param>
-    public void SetMoveSpeedRatio(float speedRatio = 1)
+    public void SetMoveSpeedRatio(float speedFluctuation = 1)
     {
-        moveSpeedRatio = speedRatio;
+        moveSpeedRatio += speedFluctuation;
     }
 
 
@@ -199,8 +206,19 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        //ボタンが押されたときだけ移動
-        if(context.canceled) moveGage.StopBar();
+        //ボタンが押されたら力をチャージ
+        if (context.started)
+        {
+            powerGage.StartCharge();
+            canvas.enabled = true;
+        }
+            
+        //ボタンが離されたときに移動
+        if(context.canceled)
+        {
+            powerGage.StopCharge();
+            canvas.enabled = false;
+        }
     }
     
     /// <summary>
@@ -237,18 +255,18 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnZoom(InputAction.CallbackContext context)
     {
-        if (context.started)
-        {
-            float value = context.ReadValue<float>();
-            cameraZoom = Mathf.Clamp(cameraZoom + (int)value, 0, 3);
+        //if (context.started)
+        //{
+        //    float value = context.ReadValue<float>();
+        //    cameraZoom = Mathf.Clamp(cameraZoom + (int)value, 0, 3);
 
-            float size = 5.4f;
-            if (cameraZoom == 0) size = mapSizeHeight_test * 2 / 100f;
-            else if (cameraZoom == 1) size = 3.6f;
-            else if (cameraZoom == 2) size = 2.43f;
-            else if (cameraZoom == 3) size = 1.26f;
-            myCamera.GetComponent<Camera>().orthographicSize = size;
-        } 
+        //    float size = 5.4f;
+        //    if (cameraZoom == 0) size = mapSizeHeight_test * 2 / 100f;
+        //    else if (cameraZoom == 1) size = 3.6f;
+        //    else if (cameraZoom == 2) size = 2.43f;
+        //    else if (cameraZoom == 3) size = 1.26f;
+        //    myCamera.GetComponent<Camera>().orthographicSize = size;
+        //} 
     }
     #endregion
 }
