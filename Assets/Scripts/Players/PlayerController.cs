@@ -107,6 +107,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Trap()
     {
+        bool isUp = trapObj[trapNum].GetComponent<TrapSc>().trapType == TrapBase.ETrapType.Up;
         if (trapFlag)
         {
             trapFlag = false;
@@ -116,7 +117,7 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, length, 1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up * (isUp ? 1:-1), length, 1) ;
 
         //ï«Ç…ìñÇΩÇ¡ÇΩÇ©ÅAìñÇΩÇ¡ÇƒÇ»Ç¢Ç©
         if (hit.collider != null)
@@ -127,7 +128,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            Instantiate(trapObj[trapNum], transform.position + transform.up * length, Quaternion.identity).
+            Instantiate(trapObj[trapNum], transform.position + (transform.up * (isUp ? 1 : -1)) * length, Quaternion.identity).
                 GetComponent<TrapSc>().trapNum = playerManager.playerNum;
         }
     }
