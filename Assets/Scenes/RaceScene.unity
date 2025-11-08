@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 50333821}
   - component: {fileID: 50333820}
   - component: {fileID: 50333819}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -279,7 +279,7 @@ GameObject:
   - component: {fileID: 231598987}
   - component: {fileID: 231598986}
   - component: {fileID: 231598985}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: GoalPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1037,7 +1037,7 @@ MonoBehaviour:
   trapObj:
   - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
   moveSpeedRatio: 1
-  length: 2
+  length: 0.5
   trapNum: 0
   trapFlag: 1
   isMove: 0
@@ -1062,9 +1062,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 0}
+  corseCheck: {fileID: 642798678}
   playerController: {fileID: 535643614}
-  powerGage: {fileID: 0}
+  powerGage: {fileID: 535643613}
 --- !u!114 &535643616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   trapObj:
   - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
   moveSpeedRatio: 1
-  length: 2
+  length: 0.5
   trapNum: 0
   trapFlag: 1
   isMove: 0
@@ -1700,9 +1700,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 0}
+  corseCheck: {fileID: 642798678}
   playerController: {fileID: 745785047}
-  powerGage: {fileID: 0}
+  powerGage: {fileID: 745785046}
 --- !u!114 &745785049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1830,6 +1830,7 @@ MonoBehaviour:
   playerObjs:
   - {fileID: 680498454}
   - {fileID: 1263606014}
+  - {fileID: 969432239}
   playerDatas: []
   roadSpline: {fileID: 1500040034}
   resolution: 4
@@ -2497,7 +2498,7 @@ GameObject:
   - component: {fileID: 1543205245}
   - component: {fileID: 1543205244}
   - component: {fileID: 1543205248}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: CheckPoint_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3087,7 +3088,7 @@ MonoBehaviour:
   trapObj:
   - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
   moveSpeedRatio: 1
-  length: 2
+  length: 0.5
   trapNum: 0
   trapFlag: 1
   isMove: 0
@@ -3112,9 +3113,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 0}
+  corseCheck: {fileID: 642798678}
   playerController: {fileID: 1772527810}
-  powerGage: {fileID: 0}
+  powerGage: {fileID: 1772527809}
 --- !u!95 &1772527812
 Animator:
   serializedVersion: 5
@@ -3179,3 +3180,7 @@ SceneRoots:
   - {fileID: 969432240}
   - {fileID: 1059616525}
   - {fileID: 231598988}
+  - {fileID: 50333822}
+  - {fileID: 912265362}
+  - {fileID: 1500040035}
+  - {fileID: 1543205247}
