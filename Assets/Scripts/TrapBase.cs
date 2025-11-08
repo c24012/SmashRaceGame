@@ -18,7 +18,7 @@ public class TrapBase : MonoBehaviour
 
     protected SpriteRenderer sr;
 
-    protected PlayerManager pm = null;
+    public PlayerManager pm;
 
     [Header("ƒgƒ‰ƒbƒv‚ÌŒø‰ÊŽžŠÔ")]
     public int effectTime = 5;
@@ -29,5 +29,6 @@ public class TrapBase : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
+        trapNum = pm.playerNum;
     }
 }

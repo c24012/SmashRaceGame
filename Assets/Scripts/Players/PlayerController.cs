@@ -99,19 +99,21 @@ public class PlayerController : MonoBehaviour
             return;
         }
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up * (isUp ? 1:-1), length, 1) ;
-
+        TrapBase sampleBase = null;
         //ï«Ç…ìñÇΩÇ¡ÇΩÇ©ÅAìñÇΩÇ¡ÇƒÇ»Ç¢Ç©
         if (hit.collider != null)
         {
 
-            Instantiate(trapObj[trapNum], hit.point, Quaternion.identity).
-                GetComponent<TrapSc>().trapNum = pm.playerNum;
+            sampleBase = Instantiate(trapObj[trapNum], hit.point, Quaternion.identity).
+                GetComponent<TrapBase>();
         }
         else
         {
-            Instantiate(trapObj[trapNum], transform.position + (transform.up * (isUp ? 1 : -1)) * length, Quaternion.identity).
-                GetComponent<TrapSc>().trapNum = pm.playerNum;
+            sampleBase = Instantiate(trapObj[trapNum], 
+                transform.position + (transform.up * (isUp ? 1 : -1)) * length, Quaternion.identity).
+                GetComponent<TrapBase>();
         }
+        sampleBase.pm = pm;
     }
 
     /// <summary>
