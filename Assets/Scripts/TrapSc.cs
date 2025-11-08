@@ -37,14 +37,23 @@ public class TrapSc : TrapBase
             //    sr.enabled = false;
             //}
             pm.playerController.SetMoveSpeedRatio(speeds[rankingPower]);
-            Invoke(nameof(EffectReset), effectTime);
+            //Invoke(nameof(EffectReset), effectTime);
+            StartCoroutine(EffectReset(pm));
         }
     }
 
-    private void EffectReset()
+    IEnumerator EffectReset(PlayerManager pm)
     {
+
+        yield return new WaitForSeconds(effectTime);
+
         pm.playerController.SetMoveSpeedRatio(-speeds[rankingPower]);
     }
+
+    //private void EffectReset()
+    //{
+    //    pm.playerController.SetMoveSpeedRatio(-speeds[rankingPower]);
+    //}
 
     private void TimeUp()
     {
