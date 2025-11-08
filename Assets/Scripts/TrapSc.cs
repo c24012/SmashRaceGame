@@ -13,6 +13,7 @@ public class TrapSc : TrapBase
     private void Start()
     {
         Invoke(nameof(TimeUp), objTime);
+        trapNum = pm.playerNum;
         rankingPower = pm.playerData.ranking;
     }
 
