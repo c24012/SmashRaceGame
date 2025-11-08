@@ -65,7 +65,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (road == CorseCheck.EAttribute.RoughRoad)
         {
-            force *= 0.7f;
+            force *= 0.6f;
         }
         else if (road == CorseCheck.EAttribute.Warning)
         {
@@ -151,9 +151,9 @@ public class PlayerController : MonoBehaviour
         road = pm.corseCheck.GetAttribute(transform.position);
         //èÛë‘Ç…ÇÊÇ¡ÇƒñÄéCóÕÇëùå∏
         if (road == CorseCheck.EAttribute.Road) rb.drag = 3;
-        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 5;
-        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 5;
-        else if (road == CorseCheck.EAttribute.RoughRoad) rb.drag = 4f;
+        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 10;
+        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 10;
+        else if (road == CorseCheck.EAttribute.RoughRoad) rb.drag = 4.5f;
         else if (road == CorseCheck.EAttribute.Out) rb.drag = 100;
     }
 
