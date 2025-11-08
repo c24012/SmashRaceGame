@@ -88,7 +88,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Trap()
     {
-        bool isUp = trapObj[trapNum].GetComponent<TrapSc>().trapType == TrapBase.ETrapType.Up;
+        bool isUp = trapObj[trapNum].GetComponent<TrapBase>().trapType == TrapBase.ETrapType.Up;
         if (trapFlag)
         {
             trapFlag = false;

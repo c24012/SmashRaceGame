@@ -29,6 +29,5 @@ public class TrapBase : MonoBehaviour
     {
         col = GetComponent<Collider2D>();
         sr = GetComponent<SpriteRenderer>();
-        trapNum = pm.playerNum;
     }
 }
