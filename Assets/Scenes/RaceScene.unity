@@ -1062,9 +1062,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 642798678}
+  corseCheck: {fileID: 0}
   playerController: {fileID: 535643614}
-  powerGage: {fileID: 535643613}
+  powerGage: {fileID: 0}
 --- !u!114 &535643616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1142,7 +1142,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 535643614}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnZoom
+        m_MethodName: OnChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1700,9 +1700,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 642798678}
+  corseCheck: {fileID: 0}
   playerController: {fileID: 745785047}
-  powerGage: {fileID: 745785046}
+  powerGage: {fileID: 0}
 --- !u!114 &745785049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1780,7 +1780,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 745785047}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnZoom
+        m_MethodName: OnChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3002,7 +3002,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1772527810}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnZoom
+        m_MethodName: OnChange
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3112,9 +3112,9 @@ MonoBehaviour:
     nearestPos: {x: 0, y: 0, z: 0}
     percentagePos: 0
     progress: 0
-  corseCheck: {fileID: 642798678}
+  corseCheck: {fileID: 0}
   playerController: {fileID: 1772527810}
-  powerGage: {fileID: 1772527809}
+  powerGage: {fileID: 0}
 --- !u!95 &1772527812
 Animator:
   serializedVersion: 5

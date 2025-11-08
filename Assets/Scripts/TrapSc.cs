@@ -13,7 +13,7 @@ public class TrapSc : TrapBase
     private void Start()
     {
         Invoke(nameof(TimeUp), objTime);
-        rankingPower = trapNum;
+        rankingPower = pm.playerData.ranking;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

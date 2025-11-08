@@ -221,23 +221,27 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// カメラズーム入力
+    /// 罠変更の入力
     /// </summary>
     /// <param name="context"></param>
-    public void OnZoom(InputAction.CallbackContext context)
+    public void OnChange(InputAction.CallbackContext context)
     {
-        //if (context.started)
-        //{
-        //    float value = context.ReadValue<float>();
-        //    cameraZoom = Mathf.Clamp(cameraZoom + (int)value, 0, 3);
-
-        //    float size = 5.4f;
-        //    if (cameraZoom == 0) size = mapSizeHeight_test * 2 / 100f;
-        //    else if (cameraZoom == 1) size = 3.6f;
-        //    else if (cameraZoom == 2) size = 2.43f;
-        //    else if (cameraZoom == 3) size = 1.26f;
-        //    myCamera.GetComponent<Camera>().orthographicSize = size;
-        //} 
+        if (context.started)
+        {
+            float value = context.ReadValue<float>();
+            if (trapNum + value < 0)
+            {
+                trapNum = trapObj.Length;
+            }
+            else if (trapNum + value > trapObj.Length)
+            {
+                trapNum = 0;
+            }
+            else
+            {
+                trapNum += (int)value;
+            }
+        }
     }
     #endregion
 }

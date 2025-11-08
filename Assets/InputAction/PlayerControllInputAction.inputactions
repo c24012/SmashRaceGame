@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Zoom",
+                    "name": "Change",
                     "type": "Button",
                     "id": "a05e34df-ee15-401e-a440-a92d7c411a48",
                     "expectedControlType": "Button",
@@ -215,7 +215,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -226,7 +226,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyborad_Mouse",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -237,7 +237,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyborad_Mouse",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -248,7 +248,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -259,7 +259,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepads",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -270,7 +270,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepads",
-                    "action": "Zoom",
+                    "action": "Change",
                     "isComposite": false,
                     "isPartOfComposite": true
                 }
