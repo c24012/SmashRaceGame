@@ -25,8 +25,8 @@ public class CorseCheck : MonoBehaviour
     public EAttribute GetAttribute(Vector3 pos)
     {
         //今いる場所から地図のピクセル座標を取得
-        int pixelX = Mathf.Clamp((int)(attributeTexture.width / 2 + pos.x * pixcelParUnit),0, attributeTexture.width);
-        int pixelY = Mathf.Clamp((int)(attributeTexture.height / 2 + pos.y * pixcelParUnit),0, attributeTexture.height);
+        int pixelX = Mathf.Clamp((int)(attributeTexture.width / 2 + pos.x * pixcelParUnit), 0, attributeTexture.width);
+        int pixelY = Mathf.Clamp((int)(attributeTexture.height / 2 + pos.y * pixcelParUnit), 0, attributeTexture.height);
 
         //今いるピクセルの色を取得
         Color color = attributeTexture.GetPixel(pixelX, pixelY);
@@ -41,6 +41,7 @@ public class CorseCheck : MonoBehaviour
         //通常道
         else if (color.r == 1) return EAttribute.Road;
         Debug.LogError("指定外の道の属性です");
+        print($"{color.r} {pixelX}:{pixelY}");
         return EAttribute.None;
     }
 }

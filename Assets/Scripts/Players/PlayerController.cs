@@ -243,6 +243,7 @@ public class PlayerController : MonoBehaviour
             {
                 trapNum += (int)value;
             }
+            Debug.Log(trapNum);
         }
     }
     #endregion
