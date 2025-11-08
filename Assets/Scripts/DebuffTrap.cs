@@ -19,14 +19,14 @@ public class DebuffTrap : TrapBase
             pm = collision.GetComponent<PlayerManager>();
             col.enabled = false;
             sr.enabled = false;
-            pm.playerController.SetMoveSpeedRatio(downSpeed);
+            pm.playerController.SetMoveSpeedRatio(-downSpeed);
             Invoke(nameof(EffectReset), effectTime);
         }
     }
 
     private void EffectReset()
     {
-        pm.playerController.SetMoveSpeedRatio(-downSpeed);
+        pm.playerController.SetMoveSpeedRatio(downSpeed);
         Destroy(gameObject);
     }
 }
