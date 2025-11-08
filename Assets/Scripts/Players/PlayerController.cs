@@ -221,7 +221,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// カメラズーム入力
+    /// 罠変更の入力
     /// </summary>
     /// <param name="context"></param>
     public void OnChange(InputAction.CallbackContext context)
