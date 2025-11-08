@@ -235,7 +235,7 @@ public class PlayerController : MonoBehaviour
             {
                 trapNum = trapObj.Length;
             }
-            else if (trapNum + value > trapObj.Length)
+            else if (trapNum + value >= trapObj.Length)
             {
                 trapNum = 0;
             }
