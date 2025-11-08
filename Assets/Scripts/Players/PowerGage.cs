@@ -42,7 +42,7 @@ public class PowerGage : MonoBehaviour
     void ChargePower()
     {
         //少しずつ溜まる速度を上昇
-        power += power * Time.deltaTime * 3.5f + Time.deltaTime / 5;
+        power += power * Time.deltaTime * 3.5f + Time.deltaTime / 5 * chargeSpeed;
         //上限の「1」を超えないようにする
         if (power > 1) power = 1;
         //PlayerのUIにも適応

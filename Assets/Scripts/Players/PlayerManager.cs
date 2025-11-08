@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class PlayerManager : MonoBehaviour
 {
-    public PlayerController playerController;
-
     public int playerNum;
+    public PlayerData playerData;
+
+    [Header("他オブジェスクリプト")] 
+    public CorseCheck corseCheck;
+    [Header("Playerスクリプト")]
+    public PlayerController playerController;
+    public PowerGage powerGage;
 }

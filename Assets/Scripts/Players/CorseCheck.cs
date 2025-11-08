@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CorseChack : MonoBehaviour
+public class CorseCheck : MonoBehaviour
 {
     public enum EAttribute
     {

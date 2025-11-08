@@ -4,46 +4,33 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
-    PowerGage powerGage;
-    [SerializeField] CorseChack corseChack;
+    PlayerManager pm;
 
     Rigidbody2D rb;
-    [SerializeField] GameObject myCamera;
     [SerializeField] Transform guisTf;
     [SerializeField] Canvas canvas;
-    [SerializeField] Animator anim;
+    Animator anim;
+    [SerializeField, Tooltip("生成するトラップ")] GameObject[] trapObj;
 
-    [SerializeField] float moveSpeedRatio = 1;
-    CorseChack.EAttribute road = CorseChack.EAttribute.None;
+    [SerializeField, Tooltip("速度の倍率")] float moveSpeedRatio = 1;
+    [SerializeField, Tooltip("Rayの長さ")] float length;
+    [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
 
     const float MOVE_POWER = 500;
+    CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
 
-    [SerializeField] float moveSpeed = 1;
+    [SerializeField,Header("フラグ確認用")] bool trapFlag = true;
     [SerializeField] bool isMove = false;
-    
-    //トラップの変数
-    [Header("生成するトラップ")]
-    public GameObject[] trapObj;
-
-    [Header("置くトラップの種類の番号")]
-    public int trapNum = 0;
-
-    [Header("Rayの長さ")]
-    public float length;
-
-    PlayerManager playerManager;
-
-    bool trapFlag = true;
 
     /// <summary>
     /// 初期化
     /// </summary>
     void Init()
     {
+        //プレイヤーマネージャー取得
+        pm = GetComponent<PlayerManager>();
         rb = GetComponent<Rigidbody2D>();
-        powerGage = GetComponent<PowerGage>();
-
-        playerManager = GetComponent<PlayerManager>();
+        anim = GetComponent<Animator>();
         //パワーゲージ非表示
         canvas.enabled = false;
     }
@@ -53,28 +40,15 @@ public class PlayerController : MonoBehaviour
         Init();
     }
 
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        CameraTracking();
         GUIsTracking();
         CheckIsMove();
     }
 
     private void FixedUpdate()
     {
-        //現在の道の状態を確認＆取得
-        road = corseChack.GetAttribute(transform.position);
-        //状態によって摩擦力を増減
-        if (road == CorseChack.EAttribute.Road) rb.drag = 3;
-        else if (road == CorseChack.EAttribute.Dart) rb.drag = 4;
-        else if (road == CorseChack.EAttribute.Warning) rb.drag = 4;
-        else if (road == CorseChack.EAttribute.RoughRoad) rb.drag = 3.5f;
-        else if (road == CorseChack.EAttribute.Out) rb.drag = 100;
+        ChangeRigidBodyDrag();
     }
 
     /// <summary>
@@ -85,9 +59,17 @@ public class PlayerController : MonoBehaviour
         //進む力を計算
         float force = power * moveSpeedRatio * MOVE_POWER;
         //ダート判定の時は減速
-        if(road == CorseChack.EAttribute.Dart)
+        if(road == CorseCheck.EAttribute.Dart)
         {
-            force *= 0.5f;
+            force *= 0.3f;
+        }
+        else if (road == CorseCheck.EAttribute.RoughRoad)
+        {
+            force *= 0.7f;
+        }
+        else if (road == CorseCheck.EAttribute.Warning)
+        {
+            force *= 0.3f;
         }
         //前方に加速
         rb.AddForce(force * transform.up);
@@ -123,39 +105,13 @@ public class PlayerController : MonoBehaviour
         {
 
             Instantiate(trapObj[trapNum], hit.point, Quaternion.identity).
-                GetComponent<TrapSc>().trapNum = playerManager.playerNum;
+                GetComponent<TrapSc>().trapNum = pm.playerNum;
         }
         else
         {
             Instantiate(trapObj[trapNum], transform.position + (transform.up * (isUp ? 1 : -1)) * length, Quaternion.identity).
-                GetComponent<TrapSc>().trapNum = playerManager.playerNum;
+                GetComponent<TrapSc>().trapNum = pm.playerNum;
         }
-    }
-
-    /// <summary>
-    /// カメラがプレイヤーを追尾
-    /// </summary>
-    void CameraTracking()
-    {
-        //Vector3 pos = transform.position;
-        //Vector2 clampSize = Vector2.zero;
-        //switch (cameraZoom)
-        //{
-        //    case 1:
-        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 1280, mapSizeHeight_test * 4 - 720);
-        //        break;
-        //    case 2:
-        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 864, mapSizeHeight_test * 4 - 486);
-        //        break;
-        //    case 3:
-        //        clampSize = new Vector2(mapSizeWeight_test * 4 - 448, mapSizeHeight_test * 4 - 252);
-        //        break;
-        //}
-        //pos = new Vector3(
-        //    Mathf.Clamp(pos.x, -clampSize.x / 200, clampSize.x / 200),
-        //    Mathf.Clamp(pos.y, -clampSize.y / 200, clampSize.y / 200),
-        //    myCamera.transform.position.z);
-        //myCamera.transform.position = pos;
     }
 
     /// <summary>
@@ -184,6 +140,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 道の状態を取得＆摩擦力を増減
+    /// </summary>
+    void ChangeRigidBodyDrag()
+    {
+        //現在の道の状態を確認＆取得
+        road = pm.corseCheck.GetAttribute(transform.position);
+        //状態によって摩擦力を増減
+        if (road == CorseCheck.EAttribute.Road) rb.drag = 3;
+        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 5;
+        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 5;
+        else if (road == CorseCheck.EAttribute.RoughRoad) rb.drag = 4f;
+        else if (road == CorseCheck.EAttribute.Out) rb.drag = 100;
+    }
 
     #region #外部から使う関数
 
@@ -210,14 +180,14 @@ public class PlayerController : MonoBehaviour
         //ボタンが押されたら力をチャージ
         if (context.started)
         {
-            powerGage.StartCharge();
+            pm.powerGage.StartCharge();
             canvas.enabled = true;
         }
             
         //ボタンが離されたときに移動
         if(context.canceled)
         {
-            powerGage.StopCharge();
+            pm.powerGage.StopCharge();
             canvas.enabled = false;
         }
     }
