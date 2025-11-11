@@ -12,4 +12,5 @@ public class PlayerManager : MonoBehaviour
     [Header("Playerスクリプト")]
     public PlayerController playerController;
     public PowerGage powerGage;
+    public IconManager iconManager;
 }

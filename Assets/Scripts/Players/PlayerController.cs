@@ -92,7 +92,7 @@ public class PlayerController : MonoBehaviour
         if (trapFlag)
         {
             trapFlag = false;
-            Invoke(new Action(() => { trapFlag = true; }).Method.Name, 3);
+            Invoke(new Action(() => { trapFlag = true; pm.iconManager.BanCheck(!trapFlag);}).Method.Name, 3);
         }
         else
         {
@@ -114,6 +114,7 @@ public class PlayerController : MonoBehaviour
                 GetComponent<TrapBase>();
         }
         sampleBase.pm = pm;
+        pm.iconManager.BanCheck(!trapFlag);
     }
 
     /// <summary>
@@ -233,7 +234,7 @@ public class PlayerController : MonoBehaviour
             float value = context.ReadValue<float>();
             if (trapNum + value < 0)
             {
-                trapNum = trapObj.Length;
+                trapNum = trapObj.Length -1;
             }
             else if (trapNum + value >= trapObj.Length)
             {
@@ -243,7 +244,8 @@ public class PlayerController : MonoBehaviour
             {
                 trapNum += (int)value;
             }
-            Debug.Log(trapNum);
+            pm.iconManager.IconChange(trapNum);
+            pm.iconManager.BanCheck(!trapFlag);
         }
     }
     #endregion
