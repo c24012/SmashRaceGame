@@ -61,15 +61,15 @@ public class PlayerController : MonoBehaviour
         //ダート判定の時は減速
         if(road == CorseCheck.EAttribute.Dart)
         {
-            force *= 0.3f;
+            force *= 0.4f;
         }
         else if (road == CorseCheck.EAttribute.RoughRoad)
         {
-            force *= 0.6f;
+            force *= 0.7f;
         }
         else if (road == CorseCheck.EAttribute.Warning)
         {
-            force *= 0.3f;
+            force *= 0.4f;
         }
         //前方に加速
         rb.AddForce(force * transform.up);
@@ -151,8 +151,8 @@ public class PlayerController : MonoBehaviour
         road = pm.corseCheck.GetAttribute(transform.position);
         //状態によって摩擦力を増減
         if (road == CorseCheck.EAttribute.Road) rb.drag = 3;
-        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 10;
-        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 10;
+        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 8;
+        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 8;
         else if (road == CorseCheck.EAttribute.RoughRoad) rb.drag = 4.5f;
         else if (road == CorseCheck.EAttribute.Out) rb.drag = 100;
     }
@@ -166,6 +166,7 @@ public class PlayerController : MonoBehaviour
     public void SetMoveSpeedRatio(float speedFluctuation = 1)
     {
         moveSpeedRatio += speedFluctuation;
+
     }
 
 
