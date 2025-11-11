@@ -14,7 +14,7 @@ public class TrapSc : TrapBase
     {
         Invoke(nameof(TimeUp), objTime);
         trapNum = pm.playerNum;
-        rankingPower = pm.playerData.ranking;
+        
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -36,7 +36,7 @@ public class TrapSc : TrapBase
             //    col.enabled = false;
             //    sr.enabled = false;
             //}
-            pm.playerController.SetMoveSpeedRatio(speeds[rankingPower]);
+            
             //Invoke(nameof(EffectReset), effectTime);
             StartCoroutine(EffectReset(pm));
         }
@@ -44,6 +44,9 @@ public class TrapSc : TrapBase
 
     IEnumerator EffectReset(PlayerManager pm)
     {
+        rankingPower = pm.playerData.ranking;
+
+        pm.playerController.SetMoveSpeedRatio(speeds[rankingPower]);
 
         yield return new WaitForSeconds(effectTime);
 

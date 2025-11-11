@@ -135,5 +135,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   trapType: 0
   trapNum: 0
+  pm: {fileID: 0}
   effectTime: 10
   objTime: 10
