@@ -25,7 +25,7 @@ public class WallSc : MonoBehaviour
             {
                 strength -= collision.relativeVelocity.magnitude;
             }
-            
+            print(collision.relativeVelocity.magnitude);
         }
     }
 

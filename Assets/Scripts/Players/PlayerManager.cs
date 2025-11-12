@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     public int playerNum;
     public PlayerData playerData;
 
-    [Header("他オブジェスクリプト")] 
+    [Header("他オブジェスクリプト")]
     public CorseCheck corseCheck;
     [Header("Playerスクリプト")]
     public PlayerController playerController;

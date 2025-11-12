@@ -35,10 +35,20 @@ public class PlayerData
 
 public class RaceManager : MonoBehaviour
 {
+    //ゲームの情報取得用
+    [SerializeField] GameData gameData;
+    //プレイヤー人数
     [SerializeField] int playerCount;
+    //生成用プレイヤープレハブ
+    [SerializeField] GameObject[] playerPrefabs = new GameObject[4];
+    //各プレイヤーオブジェクト
     [SerializeField] List<GameObject> playerObjs = new();
+    //プレイヤーの情報
     public List<PlayerData> playerDatas;
+    //道のスプライン
     [SerializeField] SplineContainer roadSpline;
+    //道の情報
+    [SerializeField] CorseCheck corseCheck;
 
     // 解像度
     [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
@@ -50,6 +60,17 @@ public class RaceManager : MonoBehaviour
 
     private void Awake()
     {
+        //ゲームデータから情報を取得
+        playerCount = gameData.playerCount;
+
+        //人数分プレイヤーオブジェクトを生成
+        for (int i = 0;i < playerCount; i++)
+        {
+            PlayerManager pm = Instantiate(playerPrefabs[i]).transform.GetChild(0).GetComponent<PlayerManager>();
+            //外部スクリプトを渡す
+            pm.corseCheck = corseCheck; //コースの情報
+        }
+        //プレイヤー全員のデータを生成
         for(int i = 0; i < playerObjs.Count; i++)
         {
             Transform charactor = playerObjs[i].transform.GetChild(0);
