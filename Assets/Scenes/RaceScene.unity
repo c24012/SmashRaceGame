@@ -1300,6 +1300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   strengthMax: 7
+  resetTime: 10
 --- !u!212 &1384800132
 SpriteRenderer:
   m_ObjectHideFlags: 0

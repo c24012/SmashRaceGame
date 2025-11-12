@@ -5,8 +5,10 @@ using UnityEngine;
 public class WallSc : MonoBehaviour
 {
 
-    [SerializeField] float strengthMax;
+    [SerializeField,Header("耐久度")] float strengthMax;
     float strength;
+
+    [SerializeField, Header("再構築のクールタイム")] float resetTime;
 
     private void Start()
     {
@@ -20,6 +22,7 @@ public class WallSc : MonoBehaviour
             if(strength - collision.relativeVelocity.magnitude <= 0)
             {
                 gameObject.SetActive(false);
+                Invoke(nameof(WallReset), resetTime);
             }
             else
             {
