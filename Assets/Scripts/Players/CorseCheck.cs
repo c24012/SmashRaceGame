@@ -25,8 +25,11 @@ public class CorseCheck : MonoBehaviour
     public EAttribute GetAttribute(Vector3 pos)
     {
         //今いる場所から地図のピクセル座標を取得
-        int pixelX = Mathf.Clamp((int)(attributeTexture.width / 2 + pos.x * pixcelParUnit), 0, attributeTexture.width);
-        int pixelY = Mathf.Clamp((int)(attributeTexture.height / 2 + pos.y * pixcelParUnit), 0, attributeTexture.height);
+        int pixelX = (int)(attributeTexture.width / 2 + pos.x * pixcelParUnit);
+        int pixelY = (int)(attributeTexture.height / 2 + pos.y * pixcelParUnit);
+
+        if (pixelX < 0 || attributeTexture.width < pixelX) return EAttribute.Out;
+        if (pixelY < 0 || attributeTexture.height < pixelY) return EAttribute.Out;
 
         //今いるピクセルの色を取得
         Color color = attributeTexture.GetPixel(pixelX, pixelY);

@@ -66,7 +66,10 @@ public class RaceManager : MonoBehaviour
         //人数分プレイヤーオブジェクトを生成
         for (int i = 0;i < playerCount; i++)
         {
-            PlayerManager pm = Instantiate(playerPrefabs[i]).transform.GetChild(0).GetComponent<PlayerManager>();
+            GameObject playerObj = Instantiate(playerPrefabs[i]);
+            //オブジェクトの登録
+            playerObjs.Add(playerObj);
+            PlayerManager pm = playerObj.transform.GetChild(0).GetComponent<PlayerManager>();
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
         }
@@ -100,7 +103,7 @@ public class RaceManager : MonoBehaviour
             );
 
             //最も近いルートを取得
-            playerDatas[i].nearestPos = nearest;
+            playerDatas[i].nearestPos = new Vector2(nearest.x,nearest.y);
             //今何週目のどこにいるかを取得
             playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
             //2割以下の進行は進行度を進ませる
@@ -121,16 +124,4 @@ public class RaceManager : MonoBehaviour
         }
 
     }
-
-    //[ContextMenu("Sort")]
-    //void Sort_test()
-    //{
-    //    playerDatas.Sort((x, y) => (int)(x.percentagePos - y.percentagePos));
-    //    print("あ");
-    //}
-    //[ContextMenu("OrderBy")]
-    //void OrderBy_test()
-    //{
-    //    playerDatas.OrderBy((x) => x.percentagePos);
-    //}
 }

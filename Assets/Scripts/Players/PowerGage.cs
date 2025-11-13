@@ -67,4 +67,14 @@ public class PowerGage : MonoBehaviour
         //ゲージをリセット
         Init();
     }
+
+    /// <summary>
+    /// パワーゲージをリセット
+    /// </summary>
+    public void ResetCharge()
+    {
+        isCharge = false;
+        power = 0;
+        gageImage.fillAmount = 0;
+    }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] Transform guisTf;
     [SerializeField] Canvas canvas;
     Animator anim;
+    SpriteRenderer sr;
     [SerializeField, Tooltip("生成するトラップ")] GameObject[] trapObj;
 
     [SerializeField, Tooltip("速度の倍率")] float moveSpeedRatio = 1;
@@ -21,22 +23,28 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField,Header("フラグ確認用")] bool trapFlag = true;
     [SerializeField] bool isMove = false;
+    [SerializeField] bool isStop = false;
 
     /// <summary>
     /// 初期化
     /// </summary>
     void Init()
     {
-        //プレイヤーマネージャー取得
-        pm = GetComponent<PlayerManager>();
-        rb = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
         //パワーゲージ非表示
         canvas.enabled = false;
+        //パワーゲージのリセット
+        pm.powerGage.ResetCharge();
+        //加速度リセット
+        rb.velocity = Vector2.zero;
     }
 
     private void Awake()
     {
+        //プレイヤーマネージャー取得
+        pm = GetComponent<PlayerManager>();
+        rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
+        sr = GetComponent<SpriteRenderer>();
         Init();
     }
 
@@ -61,7 +69,7 @@ public class PlayerController : MonoBehaviour
         //ダート判定の時は減速
         if(road == CorseCheck.EAttribute.Dart)
         {
-            force *= 0.4f;
+            force *= 0.5f;
         }
         else if (road == CorseCheck.EAttribute.RoughRoad)
         {
@@ -69,7 +77,7 @@ public class PlayerController : MonoBehaviour
         }
         else if (road == CorseCheck.EAttribute.Warning)
         {
-            force *= 0.4f;
+            force *= 0.5f;
         }
         //前方に加速
         rb.AddForce(force * transform.up);
@@ -148,14 +156,49 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void ChangeRigidBodyDrag()
     {
+        //行動不能時は返却
+        if (isStop) return;
         //現在の道の状態を確認＆取得
         road = pm.corseCheck.GetAttribute(transform.position);
         //状態によって摩擦力を増減
         if (road == CorseCheck.EAttribute.Road) rb.drag = 3;
-        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 8;
-        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 8;
+        else if (road == CorseCheck.EAttribute.Dart) rb.drag = 6;
+        else if (road == CorseCheck.EAttribute.Warning) rb.drag = 6;
         else if (road == CorseCheck.EAttribute.RoughRoad) rb.drag = 4.5f;
-        else if (road == CorseCheck.EAttribute.Out) rb.drag = 100;
+        else if (road == CorseCheck.EAttribute.Out)
+        {
+            rb.drag = 100;
+            StartCoroutine(CorseOut());
+        }
+    }
+
+    IEnumerator CorseOut()
+    {
+        //一旦行動不能に
+        isStop = true;
+        //初期化
+        Init();
+        //当たり判定をオフに
+        rb.isKinematic = true;
+        //落下アニメーション待機
+        yield return new WaitForSeconds(0.5f);
+        //落下中は見た目を非表示
+        sr.enabled = false;
+        //落下ペナルティタイム
+        yield return new WaitForSeconds(1);
+        //一番近くのルートへ移動
+        transform.position = pm.playerData.nearestPos;
+        //点滅表示
+        WaitForSeconds wait = new(0.05f);
+        for(int i = 0; i < 20; i++)
+        {
+            sr.enabled = !sr.enabled;
+            yield return wait;
+        }
+        //全部元に戻す
+        rb.isKinematic = false;
+        sr.enabled = true;
+        isStop = false;
     }
 
     #region #外部から使う関数
@@ -180,6 +223,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
+        //行動不能時は返却
+        if (isStop) return;
         //ボタンが押されたら力をチャージ
         if (context.started)
         {
@@ -201,6 +246,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnTrap(InputAction.CallbackContext context)
     {
+        //行動不能時は返却
+        if (isStop) return;
         ////ボタンが押されたとき
         if (context.canceled)
         {
@@ -215,6 +262,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnDirection(InputAction.CallbackContext context)
     {
+        //行動不能時は返却
+        if (isStop) return;
         //入力中なら自身の向きを入力方向に変更
         if (context.performed)
         {
@@ -229,6 +278,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnChange(InputAction.CallbackContext context)
     {
+        //行動不能時は返却
+        if (isStop) return;
         if (context.started)
         {
             float value = context.ReadValue<float>();
