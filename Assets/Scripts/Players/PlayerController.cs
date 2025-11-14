@@ -1,5 +1,7 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +19,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("速度の倍率")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("Rayの長さ")] float length;
     [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
+    [SerializeField, Tooltip("バフリスト")] List<string> buffNameList = new();
+    [SerializeField, Tooltip("最低速度")] float minSpeed = 0.1f; 
 
     const float MOVE_POWER = 500;
     CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
@@ -225,11 +229,28 @@ public class PlayerController : MonoBehaviour
     /// 移動距離の倍率を指定
     /// </summary>
     /// <param name="speedRatio"></param>
-    public void SetMoveSpeedRatio(float speedFluctuation = 1)
+    public void AddMoveSpeedRatio(float speedFluctuation, string trapName)
     {
+        //もうすでに存在している効果かどうかを取得
+        bool isContain = buffNameList.Contains(trapName);
+        //効果名を登録
+        buffNameList.Add(trapName);
+        //もとから存在していた場合返却
+        if (isContain) return;
+        //初めての効果の場合付与
         moveSpeedRatio += speedFluctuation;
     }
 
+
+    public void RemoveMoveSpeedRaito(float speedFluctuation, string trapName)
+    {
+        //一つ登録から消す
+        buffNameList.Remove(trapName);
+        //消してもなお残っている場合返却
+        if (buffNameList.Contains(trapName)) return;
+        //もう残っていない効果の場合戻す
+        else moveSpeedRatio += speedFluctuation;
+    }
 
     #endregion
 
