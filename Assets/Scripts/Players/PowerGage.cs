@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class PowerGage : MonoBehaviour
 {
-    [SerializeField] PlayerManager playerManager;
+    PlayerManager pm;
 
     [SerializeField] Image gageImage;
 
@@ -17,6 +17,9 @@ public class PowerGage : MonoBehaviour
 
     private void Awake()
     {
+        //PlayerManagerを取得
+        pm = transform.transform.parent.GetComponent<PlayerManager>();
+
         Init();
     }
 
@@ -63,7 +66,7 @@ public class PowerGage : MonoBehaviour
     public void StopCharge()
     {
         //溜めたpowerをコントローラーに送る
-        playerManager.playerController.Move(power);
+        pm.playerController.Move(power);
         //ゲージをリセット
         Init();
     }

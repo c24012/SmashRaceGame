@@ -24,6 +24,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField,Header("フラグ確認用")] bool trapFlag = true;
     [SerializeField] bool isMove = false;
     [SerializeField] bool isStop = false;
+    [SerializeField] bool isStart = false;
 
     /// <summary>
     /// 初期化
@@ -40,8 +41,12 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        //レース開始まで待機状態
+        isStart = false;
+
         //プレイヤーマネージャー取得
-        pm = GetComponent<PlayerManager>();
+        pm = transform.transform.parent.GetComponent<PlayerManager>();
+        //その他のコンポーネントを取得
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
@@ -64,6 +69,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     public void Move(float power)
     {
+        //レース開始前は返却
+        if (!isStart) return;
         //進む力を計算
         float force = power * moveSpeedRatio * MOVE_POWER;
         //ダート判定の時は減速
@@ -81,6 +88,14 @@ public class PlayerController : MonoBehaviour
         }
         //前方に加速
         rb.AddForce(force * transform.up);
+    }
+
+    /// <summary>
+    /// レース開始
+    /// </summary>
+    public void StartRace()
+    {
+        isStart = true;
     }
 
     /// <summary>
@@ -172,6 +187,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// コース外に出たときのコース復帰
+    /// </summary>
     IEnumerator CorseOut()
     {
         //一旦行動不能に
@@ -246,6 +264,8 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnTrap(InputAction.CallbackContext context)
     {
+        //レース開始前は返却
+        if (!isStart) return;
         //行動不能時は返却
         if (isStop) return;
         ////ボタンが押されたとき

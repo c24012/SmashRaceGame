@@ -21,7 +21,7 @@ public class TrapSc : TrapBase
     {
         if (collision.gameObject.tag == "Player")
         {
-            pm = collision.GetComponent<PlayerManager>();
+            pm = collision.transform.parent.GetComponent<PlayerManager>();
             //if (trapNum == pm.playerNum)
             //{
             //    //ƒoƒt

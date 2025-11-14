@@ -569,6 +569,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3266023813882111046}
+  - component: {fileID: 8641560390756901}
   m_Layer: 3
   m_Name: Player_Base
   m_TagString: Untagged
@@ -593,6 +594,31 @@ Transform:
   - {fileID: 3358448367102029347}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8641560390756901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6786003523531567290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b810b4f826bed140bc85771a359a41d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNum: 1
+  playerData:
+    playerNum: 0
+    newTf: {fileID: 0}
+    lapCount: 0
+    ranking: 0
+    nearestPos: {x: 0, y: 0, z: 0}
+    percentagePos: 0
+    progress: 0
+  corseCheck: {fileID: 0}
+  playerController: {fileID: 8618556625193094002}
+  powerGage: {fileID: 604501647485577127}
+  iconManager: {fileID: 2784544586725671883}
 --- !u!1 &6910318736883191274
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,9 +661,9 @@ GameObject:
   m_Component:
   - component: {fileID: 6775662033213618666}
   - component: {fileID: 5706813150048666173}
-  - component: {fileID: 1237929954806671962}
   - component: {fileID: 8618556625193094002}
   - component: {fileID: 604501647485577127}
+  - component: {fileID: 7550207555693170296}
   - component: {fileID: 85082761554030558}
   - component: {fileID: 3918333228885481275}
   - component: {fileID: 5241005607912688899}
@@ -759,31 +785,6 @@ MonoBehaviour:
   m_DefaultActionMap: MainScene
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &1237929954806671962
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9020068425943922510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b810b4f826bed140bc85771a359a41d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerNum: 1
-  playerData:
-    playerNum: 0
-    newTf: {fileID: 0}
-    lapCount: 0
-    ranking: 0
-    nearestPos: {x: 0, y: 0, z: 0}
-    percentagePos: 0
-    progress: 0
-  corseCheck: {fileID: 0}
-  playerController: {fileID: 8618556625193094002}
-  powerGage: {fileID: 604501647485577127}
-  iconManager: {fileID: 2784544586725671883}
 --- !u!114 &8618556625193094002
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -807,6 +808,7 @@ MonoBehaviour:
   trapFlag: 1
   isMove: 0
   isStop: 0
+  isStart: 0
 --- !u!114 &604501647485577127
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -819,10 +821,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 410a70f3dbf9e164cabb89ab6bb7b3e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerManager: {fileID: 1237929954806671962}
   gageImage: {fileID: 6347062072953684524}
   chargeSpeed: 1.5
   power: 0
+--- !u!114 &7550207555693170296
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020068425943922510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1b91949fcc064a43b2d01526f117d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  before: 0
 --- !u!212 &85082761554030558
 SpriteRenderer:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ public class DebuffTrap : TrapBase
     {
         if (collision.gameObject.tag == "Player")
         {
-            pm = collision.GetComponent<PlayerManager>();
+            pm = collision.transform.parent.GetComponent<PlayerManager>();
             col.enabled = false;
             sr.enabled = false;
             pm.playerController.SetMoveSpeedRatio(-downSpeed);

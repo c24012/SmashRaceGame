@@ -20,7 +20,6 @@ public class PlayerData
     public float percentagePos; //現在地の割合
     public int progress;        //進行度
    
-
     public PlayerData(int playerNum, Transform newTf)
     {
         this.playerNum = playerNum;
@@ -39,6 +38,8 @@ public class RaceManager : MonoBehaviour
     [SerializeField] GameData gameData;
     //プレイヤー人数
     [SerializeField] int playerCount;
+    //必要周回回数
+    public int lapCount;
     //生成用プレイヤープレハブ
     [SerializeField] GameObject[] playerPrefabs = new GameObject[4];
     //各プレイヤーオブジェクト
@@ -69,7 +70,7 @@ public class RaceManager : MonoBehaviour
             GameObject playerObj = Instantiate(playerPrefabs[i]);
             //オブジェクトの登録
             playerObjs.Add(playerObj);
-            PlayerManager pm = playerObj.transform.GetChild(0).GetComponent<PlayerManager>();
+            PlayerManager pm = playerObj.GetComponent<PlayerManager>();
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
         }
@@ -77,13 +78,22 @@ public class RaceManager : MonoBehaviour
         for(int i = 0; i < playerObjs.Count; i++)
         {
             Transform charactor = playerObjs[i].transform.GetChild(0);
-            PlayerManager pm = charactor.GetComponent<PlayerManager>();
+            PlayerManager pm = playerObjs[i].GetComponent<PlayerManager>();
             pm.playerData = new PlayerData(pm.playerNum, charactor);
             playerDatas.Add(pm.playerData);
         }
     }
 
     private void Update()
+    {
+        //プレイヤーデータ収集
+        GetPlayerDatas();
+    }
+
+    /// <summary>
+    /// 各プレイヤーの順位や周回を調べてデータに代入
+    /// </summary>
+    void GetPlayerDatas()
     {
         // ワールド空間におけるスプラインを取得
         // スプラインはローカル空間なので、ローカル→ワールド変換行列を掛ける
@@ -103,25 +113,36 @@ public class RaceManager : MonoBehaviour
             );
 
             //最も近いルートを取得
-            playerDatas[i].nearestPos = new Vector2(nearest.x,nearest.y);
-            //今何週目のどこにいるかを取得
-            playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
+            playerDatas[i].nearestPos = new Vector2(nearest.x, nearest.y);
             //2割以下の進行は進行度を進ませる
-            if(playerDatas[i].progress < (int)(t * 10))
+            if (playerDatas[i].progress < (int)(t * 10))
             {
-                if((int)(t * 10) - playerDatas[i].progress <= 2)
+                if ((int)(t * 10) - playerDatas[i].progress <= 2)
                 {
                     playerDatas[i].progress = (int)(t * 10);
                 }
             }
+            //今何週目のどこにいるかを取得
+            playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
         }
-
+        //リストをランキング順に並び替え
         playerDatas = playerDatas.OrderByDescending((x) => x.percentagePos).ToList();
-
+        //各プレイヤーデータに現在のランキングを入力
         for (int i = 0; i < playerDatas.Count; i++)
         {
             playerDatas[i].ranking = i;
         }
+    }
 
+    /// <summary>
+    /// レース開始
+    /// </summary>
+    public void StartRace()
+    {
+        //登録されているプレイヤーオブジェクトのレース開始関数を起動
+        for(int i = 0;i< playerObjs.Count; i++)
+        {
+            playerObjs[i].GetComponent<PlayerManager>().playerController.StartRace();
+        }
     }
 }

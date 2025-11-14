@@ -10,7 +10,7 @@ public class CheckPoint : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerData playerData = collision.GetComponent<PlayerManager>().playerData;
+            PlayerData playerData = collision.transform.parent.GetComponent<PlayerManager>().playerData;
             playerData.progress = Mathf.Min(playerData.progress, setNum);
         }
     }
