@@ -6,7 +6,7 @@ using System;
 public class TrapSc : TrapBase
 {
 
-    private float[] speeds = {0.1f,0.5f,1,2 };
+    [SerializeField,Header("スピードの加算")] float speeds = 0.5f;
 
     public float objTime = 10;
 
@@ -46,11 +46,11 @@ public class TrapSc : TrapBase
     {
         rankingPower = pm.playerData.ranking;
 
-        pm.playerController.SetMoveSpeedRatio(speeds[rankingPower]);
+        pm.playerController.SetMoveSpeedRatio(speeds);
 
-        yield return new WaitForSeconds(effectTime);
+        yield return new WaitForSeconds(effectTime[rankingPower]);
 
-        pm.playerController.SetMoveSpeedRatio(-speeds[rankingPower]);
+        pm.playerController.SetMoveSpeedRatio(-speeds);
     }
 
     //private void EffectReset()
@@ -62,6 +62,6 @@ public class TrapSc : TrapBase
     {
         col.enabled = false;
         sr.enabled = false;
-        Destroy(gameObject, effectTime);
+        Destroy(gameObject, effectTime[effectTime.Length - 1]);
     }
 }

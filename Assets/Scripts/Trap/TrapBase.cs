@@ -21,7 +21,7 @@ public class TrapBase : MonoBehaviour
     public PlayerManager pm;
 
     [Header("ƒgƒ‰ƒbƒv‚ÌŒø‰ÊŽžŠÔ")]
-    public int effectTime = 5;
+    public int[] effectTime = {1,2,4,8 };
 
     protected int rankingPower;
 

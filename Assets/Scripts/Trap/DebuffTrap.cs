@@ -27,7 +27,7 @@ public class DebuffTrap : TrapBase
 
     IEnumerator EffectReset(PlayerManager pm)
     {
-        yield return new WaitForSeconds(effectTime);
+        yield return new WaitForSeconds(effectTime[effectTime.Length - 1]);
         pm.playerController.SetMoveSpeedRatio(downSpeed);
         Destroy(gameObject);
     }
