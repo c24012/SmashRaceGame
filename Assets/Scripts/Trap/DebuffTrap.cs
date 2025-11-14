@@ -5,7 +5,7 @@ using UnityEngine;
 public class DebuffTrap : TrapBase
 {
     [Header("ã©‚É‚æ‚éŒ¸‘¬—¦")]
-    public float downSpeed = 0.8f;
+    public float downSpeed = -0.8f;
 
     //private void Start()
     //{
@@ -19,7 +19,7 @@ public class DebuffTrap : TrapBase
             pm = collision.transform.parent.GetComponent<PlayerManager>();
             col.enabled = false;
             sr.enabled = false;
-            pm.playerController.SetMoveSpeedRatio(-downSpeed);
+            pm.playerController.AddMoveSpeedRatio(downSpeed,gameObject.name);
             //Invoke(nameof(EffectReset), effectTime);
             StartCoroutine(EffectReset(pm));
         }
@@ -28,7 +28,7 @@ public class DebuffTrap : TrapBase
     IEnumerator EffectReset(PlayerManager pm)
     {
         yield return new WaitForSeconds(effectTime[effectTime.Length - 1]);
-        pm.playerController.SetMoveSpeedRatio(downSpeed);
+        pm.playerController.RemoveMoveSpeedRaito(downSpeed, gameObject.name);
         Destroy(gameObject);
     }
 }

@@ -249,7 +249,7 @@ public class PlayerController : MonoBehaviour
         //Á‚µ‚Ä‚à‚È‚¨c‚Á‚Ä‚¢‚éê‡•Ô‹p
         if (buffNameList.Contains(trapName)) return;
         //‚à‚¤c‚Á‚Ä‚¢‚È‚¢Œø‰Ê‚Ìê‡–ß‚·
-        else moveSpeedRatio += speedFluctuation;
+        else moveSpeedRatio -= speedFluctuation;
     }
 
     #endregion

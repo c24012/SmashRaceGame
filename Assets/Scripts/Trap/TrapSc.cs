@@ -46,11 +46,11 @@ public class TrapSc : TrapBase
     {
         rankingPower = pm.playerData.ranking;
 
-        pm.playerController.SetMoveSpeedRatio(speeds);
+        pm.playerController.AddMoveSpeedRatio(speeds, gameObject.name);
 
         yield return new WaitForSeconds(effectTime[rankingPower]);
 
-        pm.playerController.SetMoveSpeedRatio(-speeds);
+        pm.playerController.RemoveMoveSpeedRaito(speeds, gameObject.name);
     }
 
     //private void EffectReset()
