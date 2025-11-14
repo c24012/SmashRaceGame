@@ -1281,7 +1281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameData: {fileID: 2370985440151811585, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
   playerCount: 2
-  lapCount: 0
+  lapCount: 3
   playerPrefabs:
   - {fileID: 1808971032800050955, guid: b890ffcce689b2743985b63aaa76ecd7, type: 3}
   - {fileID: 1808971032800050955, guid: b9fe9b6d66078fa41871c03ed8b01c82, type: 3}

@@ -5,6 +5,7 @@ using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.SceneManagement;
 
 [Serializable]
 /// <summary>
@@ -144,5 +145,18 @@ public class RaceManager : MonoBehaviour
         {
             playerObjs[i].GetComponent<PlayerManager>().playerController.StartRace();
         }
+    }
+
+    /// <summary>
+    /// レース終了
+    /// </summary>
+    public void FinishRace()
+    {
+        //各プレイヤーデータのランキングをゲームデータのランキングに入力
+        for (int i = 0; i < playerDatas.Count; i++)
+        {
+            gameData.ranking[i] = playerDatas[i].playerNum;
+        }
+        SceneManager.LoadScene("ResultScene");
     }
 }
