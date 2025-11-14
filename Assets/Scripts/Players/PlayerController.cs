@@ -20,7 +20,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("Rayの長さ")] float length;
     [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
     [SerializeField, Tooltip("バフリスト")] List<string> buffNameList = new();
-    [SerializeField, Tooltip("最低速度")] float minSpeed = 0.1f; 
 
     const float MOVE_POWER = 500;
     CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
