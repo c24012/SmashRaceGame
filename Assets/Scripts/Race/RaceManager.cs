@@ -6,6 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
 
 [Serializable]
 /// <summary>
@@ -51,6 +52,8 @@ public class RaceManager : MonoBehaviour
     [SerializeField] SplineContainer roadSpline;
     //道の情報
     [SerializeField] CorseCheck corseCheck;
+    //TimeLineの管理
+    [SerializeField] TimeLineManager timeLine;
 
     // 解像度
     [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
@@ -59,19 +62,44 @@ public class RaceManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int iterations = 2;
 
+    [SerializeField,Header("デバッグモード")] bool debugMode;
+
 
     private void Awake()
     {
         //ゲームデータから情報を取得
         playerCount = gameData.playerCount;
 
+        List<PlayerInfo> playerInfo = gameData.playerInfoList;
+        foreach(PlayerInfo info in playerInfo)
+        {
+            print(info);
+        }
+
         //人数分プレイヤーオブジェクトを生成
         for (int i = 0;i < playerCount; i++)
         {
-            GameObject playerObj = Instantiate(playerPrefabs[i]);
-            //オブジェクトの登録
-            playerObjs.Add(playerObj);
-            PlayerManager pm = playerObj.GetComponent<PlayerManager>();
+            PlayerManager pm = null;
+            //デバックモード
+            if (debugMode) 
+            {
+                GameObject playerObj = Instantiate(playerPrefabs[i]);
+                //オブジェクトの登録
+                playerObjs.Add(playerObj);
+                pm = playerObj.GetComponent<PlayerManager>();
+            }
+            else
+            {
+                //コントローラーを付与して生成
+                PlayerInput player = PlayerInput.Instantiate(
+                    prefab: playerPrefabs[playerInfo[i].charactorNum],
+                    playerIndex: playerInfo[i].playerIndex,
+                    pairWithDevice: playerInfo[i].device
+                );
+                //オブジェクトの登録
+                playerObjs.Add(player.transform.parent.gameObject);
+                pm = player.transform.parent.GetComponent<PlayerManager>();
+            }
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
         }
@@ -83,6 +111,19 @@ public class RaceManager : MonoBehaviour
             pm.playerData = new PlayerData(pm.playerNum, charactor);
             playerDatas.Add(pm.playerData);
         }
+    }
+
+    private void Start()
+    {
+        //デバックモード
+        if (debugMode)
+        {
+            //さっさとレース開始
+            StartRace();
+            return;
+        }
+        //スタートカウントダウンを開始
+        timeLine.Play_StartCountDonw();
     }
 
     private void Update()
