@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("他オブジェスクリプト")]
     public CorseCheck corseCheck;
+
     [Header("Playerスクリプト")]
     public PlayerController playerController;
     public PowerGage powerGage;

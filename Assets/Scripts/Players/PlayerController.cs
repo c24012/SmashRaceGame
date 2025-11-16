@@ -10,13 +10,14 @@ public class PlayerController : MonoBehaviour
     PlayerManager pm;
 
     Rigidbody2D rb;
-    [SerializeField] Transform guisTf;
-    [SerializeField] Canvas canvas;
     Animator anim;
     SpriteRenderer sr;
+
+    [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
+    [SerializeField, Tooltip("パワーゲージキャンバス")] Canvas powerGageCanvas;
     [SerializeField, Tooltip("生成するトラップ")] GameObject[] trapObj;
 
-    [SerializeField, Tooltip("速度の倍率")] float moveSpeedRatio = 1;
+    [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("Rayの長さ")] float length;
     [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
     [SerializeField, Tooltip("バフリスト")] List<string> buffNameList = new();
@@ -35,7 +36,7 @@ public class PlayerController : MonoBehaviour
     void Init()
     {
         //パワーゲージ非表示
-        canvas.enabled = false;
+        powerGageCanvas.enabled = false;
         //パワーゲージのリセット
         pm.powerGage.ResetCharge();
         //加速度リセット
@@ -53,17 +54,21 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        //初期化
         Init();
     }
 
     void Update()
     {
+        //UIをプレイヤーに追尾
         GUIsTracking();
+        //動いているとアニメーションを変化
         CheckIsMove();
     }
 
     private void FixedUpdate()
     {
+        //地面によって摩擦を変化
         ChangeRigidBodyDrag();
     }
 
@@ -225,9 +230,10 @@ public class PlayerController : MonoBehaviour
     #region #外部から使う関数
 
     /// <summary>
-    /// 移動距離の倍率を指定
+    /// 移動力の倍率を指定
     /// </summary>
-    /// <param name="speedRatio"></param>
+    /// <param name="speedFluctuation">増減させる値</param>
+    /// <param name="trapName">トラップの名前</param>
     public void AddMoveSpeedRatio(float speedFluctuation, string trapName)
     {
         //もうすでに存在している効果かどうかを取得
@@ -240,7 +246,11 @@ public class PlayerController : MonoBehaviour
         moveSpeedRatio += speedFluctuation;
     }
 
-
+    /// <summary>
+    /// 移動力倍率を戻す
+    /// </summary>
+    /// <param name="speedFluctuation">増減させた値</param>
+    /// <param name="trapName">トラップの名前</param>
     public void RemoveMoveSpeedRaito(float speedFluctuation, string trapName)
     {
         //一つ登録から消す
@@ -267,14 +277,14 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             pm.powerGage.StartCharge();
-            canvas.enabled = true;
+            powerGageCanvas.enabled = true;
         }
             
         //ボタンが離されたときに移動
         if(context.canceled)
         {
             pm.powerGage.StopCharge();
-            canvas.enabled = false;
+            powerGageCanvas.enabled = false;
         }
     }
     
@@ -288,12 +298,11 @@ public class PlayerController : MonoBehaviour
         if (!isStart) return;
         //行動不能時は返却
         if (isStop) return;
-        ////ボタンが押されたとき
+        ////ボタンが離されたとき
         if (context.canceled)
         {
             Trap();
         }
-        //context.canceled
     }
 
     /// <summary>
@@ -323,18 +332,9 @@ public class PlayerController : MonoBehaviour
         if (context.started)
         {
             float value = context.ReadValue<float>();
-            if (trapNum + value < 0)
-            {
-                trapNum = trapObj.Length -1;
-            }
-            else if (trapNum + value >= trapObj.Length)
-            {
-                trapNum = 0;
-            }
-            else
-            {
-                trapNum += (int)value;
-            }
+            //0～最大値までのループ計算
+            trapNum = (trapNum + (int)value + trapObj.Length) % trapObj.Length;
+            //トラップとアイコンを変更
             pm.iconManager.IconChange(trapNum);
             pm.iconManager.BanCheck(!trapFlag);
         }

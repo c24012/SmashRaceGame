@@ -17,15 +17,17 @@ public class TitleManager : MonoBehaviour
     [SerializeField,Header("変数")] int playerCount;
     int[] playerCharactor = new int[4];
     bool[] playerIsLady = new bool[4];
-    bool isTitle = true;
-    bool isChara = false;
-    bool isTrap = false;
+
+    [SerializeField,Header("確認用フラグ")] bool isTitle = true;
+    [SerializeField] bool isChara = false;
+    //[SerializeField] bool isTrap = false;
 
     private void Awake()
     {
+        //初期はタイトルパネル以外非表示
         isTitle = true;
         isChara = false;
-        isTrap = false;
+        //isTrap = false;
         for (int i = 0;i < 4; i ++)
         {
             playerPanels[i].SetActive(false);
@@ -33,13 +35,16 @@ public class TitleManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 全員が準備できたかの確認
+    /// </summary>
+    /// <returns>できたかどうか</returns>
     bool CheckAllReady()
     {
         int count = 0;
-        foreach(bool ready in playerIsLady)
-        {
-            if (ready) count++;
-        }
+        //準備出来た人数をカウント
+        foreach(bool ready in playerIsLady) if (ready) count++;
+        //今いるプレイヤー全員と一致するかを返却
         return count >= playerCount;
     }
 
@@ -87,7 +92,12 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-       joinPlayerManager.SetGameData();
+        //プレイヤーの情報を共有用データに保存
+        joinPlayerManager.SetGameData();
+        
+        //--ここで画面の暗転アニメーションが入る(まだ)
+
+        //レースシーンへ
         SceneManager.LoadScene("RaceScene");
     }
 
@@ -96,6 +106,7 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
+        //アプリケーションを終了
         Application.Quit();
     }
 
@@ -106,15 +117,20 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void Decision(int playerId)
     {
+        //タイトル
         if (isTitle)
         {
             CharactorSelectView();
         }
+        //キャラ選択画面
         else if (isChara)
         {
+            //準備OK状態にする
             playerIsLady[playerId] = true;
             charactorReadyPanel[playerId].SetActive(true);
+            //プレイヤーのキャラをデータ型に代入
             joinPlayerManager.SetCharactorPlayerInfo(playerId, playerCharactor[playerId]);
+            //他のプレイヤーも準備ができたらゲームスタート
             if (CheckAllReady())
             {
                 StartGame();
@@ -127,8 +143,10 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void Cancel(int playerId)
     {
+        //キャラ選択画面
         if (isChara)
         {
+            //準備をキャンセル
             playerIsLady[playerId] = false; 
             charactorReadyPanel[playerId].SetActive(false);
         }
@@ -141,8 +159,12 @@ public class TitleManager : MonoBehaviour
     /// <param name="next"></param>
     public void ChangeCharactor(int playerId,bool next)
     {
+        //キャラ選択画面以外は返却
         if (!isChara) return;
+        //すでに準備できている状態は返却
         if (playerIsLady[playerId]) return;
+
+        //順番にキャラを表示
         playerCharactor[playerId] = (playerCharactor[playerId] + (next ? 1 : -1) + 4) % 4;
         charactorImages[playerId].sprite = charactorSprites[playerCharactor[playerId]];
     }

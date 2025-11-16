@@ -10,7 +10,7 @@ using UnityEngine.InputSystem;
 
 [Serializable]
 /// <summary>
-/// プレイヤーの情報クラス
+/// プレイヤーのレース情報データ
 /// </summary>
 public class PlayerData
 {
@@ -36,8 +36,10 @@ public class PlayerData
 
 public class RaceManager : MonoBehaviour
 {
+    [SerializeField,Header("デバッグモード")] bool debugMode;
+    [SerializeField] int bebug_playerCount;
     //ゲームの情報取得用
-    [SerializeField] GameData gameData;
+    [SerializeField,Header("")] GameData gameData;
     //プレイヤー人数
     [SerializeField] int playerCount;
     //必要周回回数
@@ -62,7 +64,6 @@ public class RaceManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int iterations = 2;
 
-    [SerializeField,Header("デバッグモード")] bool debugMode;
 
 
     private void Awake()
@@ -71,10 +72,6 @@ public class RaceManager : MonoBehaviour
         playerCount = gameData.playerCount;
 
         List<PlayerInfo> playerInfo = gameData.playerInfoList;
-        foreach(PlayerInfo info in playerInfo)
-        {
-            print(info);
-        }
 
         //人数分プレイヤーオブジェクトを生成
         for (int i = 0;i < playerCount; i++)
@@ -83,6 +80,7 @@ public class RaceManager : MonoBehaviour
             //デバックモード
             if (debugMode) 
             {
+                if (i >= bebug_playerCount) break;
                 GameObject playerObj = Instantiate(playerPrefabs[i]);
                 //オブジェクトの登録
                 playerObjs.Add(playerObj);

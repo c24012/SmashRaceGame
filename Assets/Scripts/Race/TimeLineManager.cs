@@ -7,6 +7,9 @@ public class TimeLineManager : MonoBehaviour
 {
     [SerializeField] PlayableDirector startCountDonw;
 
+    /// <summary>
+    /// スタートカウントダウンを再生
+    /// </summary>
     public void Play_StartCountDonw()
     {
         startCountDonw.Play();
