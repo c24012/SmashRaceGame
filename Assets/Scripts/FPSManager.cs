@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class FPSManager : MonoBehaviour
 {
     private void Awake()
     {

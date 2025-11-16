@@ -147,4 +147,4 @@ MonoBehaviour:
   trapNum: 0
   pm: {fileID: 0}
   effectTime: 04000000030000000200000001000000
-  downSpeed: 0.8
+  downSpeed: -0.8

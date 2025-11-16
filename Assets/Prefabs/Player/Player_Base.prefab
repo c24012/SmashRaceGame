@@ -780,9 +780,29 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: a05e34df-ee15-401e-a440-a92d7c411a48
     m_ActionName: MainScene/Zoom[/Keyboard/q,/Keyboard/e]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 4fa4b8ab-24de-4eeb-8238-2009cf08dbd2
+    m_ActionName: TitleScene/Start[/DualShock4GamepadHID/buttonEast,/Keyboard/enter,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 27a096a5-a3b1-450d-8042-e965347fdbf0
+    m_ActionName: TitleScene/Cancel[/DualShock4GamepadHID/buttonSouth,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: e5279906-51d8-4f6f-b3dc-6de61b25f791
+    m_ActionName: TitleScene/Move[/DualShock4GamepadHID/leftStick,/DualShock4GamepadHID/dpad/up,/DualShock4GamepadHID/dpad/down,/DualShock4GamepadHID/dpad/left,/DualShock4GamepadHID/dpad/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 8c9aba2b-df84-4951-8368-ee84d28a9393
+    m_ActionName: TitleScene/Color[/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder,/Keyboard/q,/Keyboard/e,/Keyboard/x,/Keyboard/c]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: c9514640-717c-4527-8f52-e77c2d4a40b3
+    m_ActionName: TitleScene/Info[/DualShock4GamepadHID/buttonNorth,/Keyboard/ctrl,/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepads
-  m_DefaultActionMap: MainScene
+  m_DefaultActionMap: RaceScene
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!114 &8618556625193094002
@@ -805,6 +825,7 @@ MonoBehaviour:
   moveSpeedRatio: 1
   length: 0.7
   trapNum: 0
+  buffNameList: []
   trapFlag: 1
   isMove: 0
   isStop: 0
