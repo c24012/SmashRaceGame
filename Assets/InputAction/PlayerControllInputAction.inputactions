@@ -336,7 +336,7 @@
             "id": "234b018f-8ac6-4655-a7cd-52f4514b5275",
             "actions": [
                 {
-                    "name": "Start",
+                    "name": "Decision",
                     "type": "Button",
                     "id": "4fa4b8ab-24de-4eeb-8238-2009cf08dbd2",
                     "expectedControlType": "Button",
@@ -363,15 +363,6 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Color",
-                    "type": "Value",
-                    "id": "8c9aba2b-df84-4951-8368-ee84d28a9393",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Info",
                     "type": "Button",
                     "id": "c9514640-717c-4527-8f52-e77c2d4a40b3",
@@ -389,7 +380,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepads",
-                    "action": "Start",
+                    "action": "Decision",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -400,7 +391,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyborad",
-                    "action": "Start",
+                    "action": "Decision",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -411,7 +402,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyborad",
-                    "action": "Start",
+                    "action": "Decision",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -588,171 +579,6 @@
                     "processors": "",
                     "groups": "Keyborad",
                     "action": "Move",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "ef77fc2d-86e0-4219-8c8b-82ef45339912",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "91af99f9-a8e3-4527-aeae-7961d6cec938",
-                    "path": "<Gamepad>/leftStick/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "a49ea79a-0266-4967-b6d3-213a846a3216",
-                    "path": "<Gamepad>/leftStick/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "68c5d819-d546-4ba5-8d6f-1945b9059ca1",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "ca7bbf6e-16d3-410b-83b3-f89320a58602",
-                    "path": "<Gamepad>/dpad/left",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "83cd63b0-1b6d-4c3e-bff5-f02e723f9d76",
-                    "path": "<Gamepad>/dpad/right",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "076f39bd-0730-4f5b-9c20-f11114e5d970",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "80598cec-51c6-4381-8e22-f66d7255fd8d",
-                    "path": "<Gamepad>/rightShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "0ccf0048-8f9a-4936-85de-d565bb93aec6",
-                    "path": "<Gamepad>/leftShoulder",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepads",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "f58b97f8-f415-43ed-9de1-194eaa006578",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "20db9cc9-549c-42dd-81db-4be9fb811db3",
-                    "path": "<Keyboard>/a",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyborad",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "030805a7-c077-41e3-ae0f-d01b397ab2a8",
-                    "path": "<Keyboard>/d",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyborad",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "fa2af286-2891-42f2-bf14-e45e3d593a20",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Color",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "cba47260-f7fa-4808-b84d-8c6a157313e4",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyborad",
-                    "action": "Color",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "7be51589-5d6a-4578-b4a8-9b5f811c20c5",
-                    "path": "<Keyboard>/rightArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyborad",
-                    "action": "Color",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
