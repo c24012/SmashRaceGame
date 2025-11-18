@@ -13,9 +13,21 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2057476438, guid: 0f87d491a7f184941bd433bafd599d63, type: 3}
+      objectReference: {fileID: -1152606858, guid: 0f87d491a7f184941bd433bafd599d63, type: 3}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1237929954806671962, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: playerNum
       value: 4
