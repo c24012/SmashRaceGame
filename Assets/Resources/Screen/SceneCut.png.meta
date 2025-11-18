@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d2abb8afb8e25e947aa000df2f2c4f5b
+guid: d4a368acf0c02004e8abe440a73694ec
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 8192
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ResultChara_two_0
+      name: SceneCut_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 256
-        height: 288
+        y: 2160
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ac86e8ac836e47469ffd7318730a18d
-      internalID: -978980988
+      spriteID: 7eb2e390b83ce404f839357a85995bc3
+      internalID: -2136210261
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ResultChara_two_1
+      name: SceneCut_1
       rect:
         serializedVersion: 2
-        x: 256
-        y: 288
-        width: 256
-        height: 288
+        x: 1920
+        y: 2160
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,20 +158,104 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ae02373a52fce7458dcc417067be1ee
-      internalID: 817910391
+      spriteID: cc151657bf634174cb456503d5fa13af
+      internalID: 609715270
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ResultChara_two_2
+      name: SceneCut_2
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 2160
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0832524561db2fb42a7fbc03dba3455a
+      internalID: 1911913137
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneCut_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1080
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a23f34b4081b7584a80c6ac35c67b7e8
+      internalID: 1675417141
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneCut_4
+      rect:
+        serializedVersion: 2
+        x: 1920
+        y: 1080
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e5386300de678d34fb6fbbd3703b7e8e
+      internalID: 1288945111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneCut_5
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 1080
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f23e31c2850cae641b35dd47ef87a36e
+      internalID: -578536696
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneCut_6
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 256
-        height: 288
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,20 +263,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6653f3545fec6d947a0a19215bad4c0e
-      internalID: 590302317
+      spriteID: d920f926f99068046b3cf1171809d1b7
+      internalID: 89248953
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ResultChara_two_3
+      name: SceneCut_7
       rect:
         serializedVersion: 2
-        x: 256
+        x: 1920
         y: 0
-        width: 256
-        height: 288
+        width: 1920
+        height: 1080
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -200,8 +284,29 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 41e02a7f49b96134eaa8ea320f88badd
-      internalID: 378491926
+      spriteID: e23914edd3a933e4a825732c8df7b0b9
+      internalID: 1046983801
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneCut_8
+      rect:
+        serializedVersion: 2
+        x: 3840
+        y: 0
+        width: 1920
+        height: 1080
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 856f11492b4f25143bdb429c8d24e0fd
+      internalID: 1025038693
       vertices: []
       indices: 
       edges: []
@@ -217,10 +322,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ResultChara_two_0: -978980988
-      ResultChara_two_1: 817910391
-      ResultChara_two_2: 590302317
-      ResultChara_two_3: 378491926
+      SceneCut_0: -2136210261
+      SceneCut_1: 609715270
+      SceneCut_2: 1911913137
+      SceneCut_3: 1675417141
+      SceneCut_4: 1288945111
+      SceneCut_5: -578536696
+      SceneCut_6: 89248953
+      SceneCut_7: 1046983801
+      SceneCut_8: 1025038693
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
