@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1f26f636fd02cc847aebaaa80a21d07e
+guid: f7163b84c920fe541b4398940b96d485
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 256
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -123,43 +123,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: UI_Character_A_0
+      name: SceneSmoke_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 88
-        width: 256
-        height: 88
+        y: 536
+        width: 848
+        height: 536
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 170, y: 0, z: 70, w: 0}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 45990bddc8cd19146ae8d7aaceea7182
-      internalID: 154441178
+      spriteID: 81f8f9464c2c15045ab5fc2a85dcd0fb
+      internalID: 647279757
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: UI_Character_A_1
+      name: SceneSmoke_1
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 256
-        height: 88
+        x: 848
+        y: 536
+        width: 848
+        height: 536
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 170, y: 0, z: 70, w: 0}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a6ef8f27678b766418a776c030c0ae56
-      internalID: 1211566402
+      spriteID: 006c510034cd59548b4904d4a2cf8762
+      internalID: -152229767
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneSmoke_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 848
+        height: 536
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2fd6ac797cb50aa4c92bbb759876dadd
+      internalID: 2003257016
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SceneSmoke_3
+      rect:
+        serializedVersion: 2
+        x: 848
+        y: 0
+        width: 848
+        height: 536
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7f4f5e10385fa664c9e4989941a58c29
+      internalID: -814480400
       vertices: []
       indices: 
       edges: []
@@ -175,8 +217,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      UI_Character_A_0: 154441178
-      UI_Character_A_1: 1211566402
+      SceneSmoke_0: 647279757
+      SceneSmoke_1: -152229767
+      SceneSmoke_2: 2003257016
+      SceneSmoke_3: -814480400
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
