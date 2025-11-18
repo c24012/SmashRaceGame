@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
     [SerializeField, Tooltip("パワーゲージキャンバス")] Canvas powerGageCanvas;
-    [SerializeField, Tooltip("生成するトラップ")] GameObject[] trapObj;
+    [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("Rayの長さ")] float length;

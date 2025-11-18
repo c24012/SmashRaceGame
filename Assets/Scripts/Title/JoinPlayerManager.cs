@@ -60,12 +60,16 @@ public class JoinPlayerManager : MonoBehaviour
     /// <param name="input"></param>
     private void OnLeaveManager(PlayerInput input)
     {
+        //プレイヤー詳細データから削除
+        title_m.playerInfoList.Remove(title_m.playerInfoList.Find((x) => x.playerInput == input));
         //デバイスリストから破壊されたプレイヤーのデバイスを削除
         inputDeviceList.Remove(input.devices[0]);
         //現在の参加者を減らす
         title_m.currentPlayerCount--;
         //GUI表示を更新
         gui_m.SetPlayerPanel(title_m.currentPlayerCount);
+        //プレイヤー詳細データを更新
+        title_m.PlayerInfoDataUpdate();
     }
 
     /// <summary>

@@ -1295,6 +1295,7 @@ MonoBehaviour:
   roadSpline: {fileID: 602581464}
   corseCheck: {fileID: 642798678}
   timeLine: {fileID: 912265365}
+  trapStore: {fileID: 1406684144879853369, guid: 57e55d6597ec69c4a8796728b8257d09, type: 3}
   resolution: 4
   iterations: 2
 --- !u!4 &912265362
