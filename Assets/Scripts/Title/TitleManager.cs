@@ -15,22 +15,35 @@ using UnityEngine.UI;
 /// </summary>
 public class PlayerInfo
 {
-    public PlayerInput playerInput; //PlayerInputコンポーネント
-    public int playerIndex;         //PlayerInputの登録番号
-    public InputDevice device;      //使っているデバイス
-    public int charactorNum;        //プレイヤーの選んだキャラ
+    public PlayerInput playerInput;     //PlayerInputコンポーネント
+    public int playerIndex;             //PlayerInputの登録番号
+    public InputDevice device;          //使っているデバイス
+    public int charactorNum = 0;        //プレイヤーの選んだキャラ
+    public int[] trapNum = new int[4];  //プレイヤーの選んだ罠
 
-    public PlayerInfo(int playerIndex, PlayerInput playerInput, InputDevice device, int selectCharactor = 0)
+    public PlayerInfo(int playerIndex, PlayerInput playerInput, InputDevice device)
     {
         this.playerInput = playerInput;
         this.playerIndex = playerIndex;
         this.device = device;
-        charactorNum = selectCharactor;
+    }
+
+    public void SetPlayerIndex()
+    {
+        this.playerIndex = this.playerInput.playerIndex;
     }
 
     public void SetCharactor(int selectCharactor)
     {
         charactorNum = selectCharactor;
+    }
+
+    public void SetTrap(int[,] selectTraps)
+    {
+        for(int i = 0; i < 4; i++)
+        {
+            trapNum[i] = selectTraps[this.playerIndex,i];
+        }
     }
 }
 
@@ -46,10 +59,10 @@ public class TitleManager : MonoBehaviour
     [SerializeField] int trapHighCount = 2;
 
     int[] playerCharactor = new int[4];             //各プレイヤーのキャラクターId
-    int[,] playerSelectedTraps = new int[4,4];      //各プレイヤーのトラップId
+    int[,] playerSelectedTraps = new int[4, 4];     //各プレイヤーのトラップId
     int[] playerSelectingTrap_store = new int[4];   //トラップ選択画面のカーソルの場所(トラップ一覧)
     int[] playerSelectingTrap_mine = new int[4];    //トラップ選択画面のカーソルの場所(自分のトラップ)
-    bool[] isStoreTrapTable = new bool[4];           //自分のテーブルを選択中か一覧のテーブルを選択中か
+    bool[] isStoreTrapTable = new bool[4];          //自分のテーブルを選択中か一覧のテーブルを選択中か
     bool[] playerIsLady = new bool[4];              //プレイヤーの準備状態
 
     public enum NowPhase
@@ -60,6 +73,14 @@ public class TitleManager : MonoBehaviour
     }
     public NowPhase nowPhase = NowPhase.Title;      //現在のフェーズ
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            StartGame();
+        }
+    }
+
     /// <summary>
     /// 全員が準備できたかの確認
     /// </summary>
@@ -68,7 +89,7 @@ public class TitleManager : MonoBehaviour
     {
         int count = 0;
         //準備出来た人数をカウント
-        foreach(bool ready in playerIsLady) if (ready) count++;
+        foreach (bool ready in playerIsLady) if (ready) count++;
         //今いるプレイヤー全員と一致するかを返却
         return count >= currentPlayerCount;
     }
@@ -104,13 +125,45 @@ public class TitleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// プレイヤーのキャラクターを指定
+    /// PlayerInfoのPlayerIndex更新
+    /// </summary>
+    public void PlayerInfoDataUpdate()
+    {
+        if(nowPhase == NowPhase.TrapSelect)
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+
+        for(int i = 0;i< playerInfoList.Count; i++)
+        {
+            playerInfoList[i].SetPlayerIndex();
+        }
+        for (int i = 0; i < 4; i++) 
+        {
+            //準備OK状態を解除する
+            playerIsLady[i] = false;
+            gui_m.ViewCharactorImage(i, false);
+        }
+    }
+
+    /// <summary>
+    /// プレイヤーのキャラクターを保存
     /// </summary>
     /// <param name="playerIndex"></param>
     /// <param name="charaNum"></param>
     void SetCharactorPlayerInfo(int playerIndex, int charaNum)
     {
         playerInfoList.Find((x) => x.playerIndex == playerIndex).SetCharactor(charaNum);
+    }
+
+    /// <summary>
+    /// プレイヤーのトラップを保存
+    /// </summary>
+    /// <param name="playerIndex"></param>
+    /// <param name="charaNum"></param>
+    void SetTrapsPlayerInfo(int playerIndex, int[,] trapsNum)
+    {
+        playerInfoList.Find((x) => x.playerIndex == playerIndex).SetTrap(trapsNum);
     }
 
     /// <summary>
@@ -131,7 +184,7 @@ public class TitleManager : MonoBehaviour
     {
         //プレイヤーの情報を共有用データに保存
         SetGameData();
-        
+
         //--ここで画面の暗転アニメーションが入る(まだ)
 
         //レースシーンへ
@@ -154,7 +207,6 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void Decision(int playerId)
     {
-        print("A!");
         //タイトル
         if (nowPhase == NowPhase.Title)
         {
@@ -165,7 +217,7 @@ public class TitleManager : MonoBehaviour
         {
             //準備OK状態にする
             playerIsLady[playerId] = true;
-            gui_m.ViewCharactorImage(playerId,true);
+            gui_m.ViewCharactorImage(playerId, true);
             //プレイヤーのキャラをデータ型に代入
             SetCharactorPlayerInfo(playerId, playerCharactor[playerId]);
             //他のプレイヤーも準備ができたらトラップ選択画へ
@@ -177,7 +229,7 @@ public class TitleManager : MonoBehaviour
                 //トラップ選択画面へ
                 ChengedToTrapPanel();
                 //準備フラグを全員リセット
-                for(int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++)
                 {
                     playerIsLady[i] = false;
                 }
@@ -186,7 +238,35 @@ public class TitleManager : MonoBehaviour
         //トラップ画面
         else if (nowPhase == NowPhase.TrapSelect)
         {
-            
+            //一覧選択中ならトラップ決定
+            if (isStoreTrapTable[playerId])
+            {
+                //選んでいる自分のトラップ枠に今選んだトラップIdを指定
+                playerSelectedTraps[playerId, playerSelectingTrap_mine[playerId]] = playerSelectingTrap_store[playerId];
+                SetTrapsPlayerInfo(playerId, playerSelectedTraps);
+                //--UIも更新
+                gui_m.SetTrapIconSprite(playerId, playerSelectingTrap_store[playerId], playerSelectingTrap_mine[playerId]);
+
+                isStoreTrapTable[playerId] = false;
+                //UIを更新
+                gui_m.SetTrapSelectCursor(
+                    playerId,
+                    playerSelectingTrap_mine[playerId],
+                    isStoreTrapTable[playerId]
+                    );
+            }
+            //自分のトラップ選択中なら一覧に移動
+            else
+            {
+                isStoreTrapTable[playerId] = true;
+                //UIを更新
+                gui_m.SetTrapSelectCursor(
+                    playerId,
+                    playerSelectingTrap_store[playerId],
+                    isStoreTrapTable[playerId]
+                    );
+            }
+
         }
     }
 
@@ -200,35 +280,47 @@ public class TitleManager : MonoBehaviour
         if (nowPhase == NowPhase.Title)
         {
             //--長押ししたらゲーム終了(まだ)
+            
         }
         //キャラ選択画面
-        if(nowPhase == NowPhase.CharaSelect)
+        if (nowPhase == NowPhase.CharaSelect)
         {
-
+            //押したプレイヤーのオブジェクトを破壊(コントローラー切断の為)
+            Destroy(playerInfoList.Find((x) => x.playerIndex == playerId).playerInput.gameObject);
         }
         //トラップ選択画面
         if (nowPhase == NowPhase.TrapSelect)
         {
-            //準備をキャンセル
-            playerIsLady[playerId] = false; 
+            //一覧選択中なら自分のトラップ選択へ
+            if (isStoreTrapTable[playerId])
+            {
+                isStoreTrapTable[playerId] = false;
+                //UIを更新
+                gui_m.SetTrapSelectCursor(
+                    playerId,
+                    playerSelectingTrap_mine[playerId],
+                    isStoreTrapTable[playerId]
+                    );
+            }
+            ////準備をキャンセル
+            //playerIsLady[playerId] = false;
         }
     }
 
     /// <summary>
-    /// キャラを変更
+    /// カーソルを移動
     /// </summary>
     /// <param name="playerId"></param>
     /// <param name="next"></param>
-    public void OnMove(int playerId,Vector2 vec)
+    public void OnMove(int playerId, Vector2 vec)
     {
-        print("十字入力");
         //タイトル画面
         if (nowPhase == NowPhase.Title)
         {
             //特になし
         }
         //キャラ選択画面
-        if (nowPhase == NowPhase.CharaSelect)
+        else if (nowPhase == NowPhase.CharaSelect)
         {
             //すでに準備できている状態は返却
             if (playerIsLady[playerId]) return;
@@ -238,7 +330,7 @@ public class TitleManager : MonoBehaviour
             gui_m.ChangePlayingCharactorsImage(playerId, playerCharactor[playerId]);
         }
         //トラップ選択画面
-        if (nowPhase == NowPhase.TrapSelect)
+        else if (nowPhase == NowPhase.TrapSelect)
         {
             //一覧選択中
             if (isStoreTrapTable[playerId])
@@ -248,28 +340,99 @@ public class TitleManager : MonoBehaviour
                 {
                     //一つ右に移動
                     playerSelectingTrap_store[playerId]++;
-                    //右に移動できないと左に戻す
-                    for(int i = 1;i <= trapHighCount; i++)
+                    //右に移動できないと左端にループ
+                    for (int i = 1; i <= trapHighCount; i++)
                     {
                         if (playerSelectingTrap_store[playerId] == trapWidthCount * i)
                         {
-                            playerSelectingTrap_store[playerId]--;
+                            playerSelectingTrap_store[playerId] = trapWidthCount * i - 4;
+                            break;
                         }
                     }
-                    //UIを更新
-                    gui_m.SetTrapSelectCursor(
-                        playerId,
-                        playerSelectingTrap_store[playerId],
-                        isStoreTrapTable[playerId]
-                        );
                 }
                 else if (vec.x < 0)
                 {
-
+                    //一つ左に移動
+                    playerSelectingTrap_store[playerId]--;
+                    //左に移動できないと右端にループ
+                    for (int i = 0; i < trapHighCount; i++)
+                    {
+                        if (playerSelectingTrap_store[playerId] == trapWidthCount * i - 1)
+                        {
+                            playerSelectingTrap_store[playerId] = trapWidthCount * (i + 1) - 1;
+                            break;
+                        }
+                    }
                 }
+                //上下移動
+                if (vec.y > 0)
+                {
+                    //一つ上に移動
+                    playerSelectingTrap_store[playerId] -= trapWidthCount;
+                    //上に移動できないと下端にループ
+                    for (int i = 0; i < trapWidthCount; i++)
+                    {
+                        if (playerSelectingTrap_store[playerId] == i - trapWidthCount)
+                        {
+                            playerSelectingTrap_store[playerId] += trapWidthCount * trapHighCount;
+                            break;
+                        }
+                    }
+                }
+                else if (vec.y < 0)
+                {
+                    //一つ下に移動
+                    playerSelectingTrap_store[playerId] += trapWidthCount;
+                    //下に移動できないと上端にループ
+                    for (int i = 0; i < trapWidthCount; i++)
+                    {
+                        if (playerSelectingTrap_store[playerId] == trapWidthCount * trapHighCount + i)
+                        {
+                            playerSelectingTrap_store[playerId] -= trapWidthCount * trapHighCount;
+                            break;
+                        }
+                    }
+                }
+                //UIを更新
+                gui_m.SetTrapSelectCursor(
+                    playerId,
+                    playerSelectingTrap_store[playerId],
+                    isStoreTrapTable[playerId]
+                    );
+            }
+            //自分のトラップ選択中
+            else
+            {
+                //右入力
+                if(vec.x > 0)
+                {
+                    playerSelectingTrap_mine[playerId] = 1;
+                }
+                //左入力
+                else if(vec.x < 0)
+                {
+                    playerSelectingTrap_mine[playerId] = 3;
+                }
+                //上入力
+                else if(vec.y > 0)
+                {
+                    playerSelectingTrap_mine[playerId] = 0;
+                }
+                //下入力
+                else if (vec.y < 0)
+                {
+                    playerSelectingTrap_mine[playerId] = 2;
+                }
+
+                //UIを更新
+                gui_m.SetTrapSelectCursor(
+                    playerId,
+                    playerSelectingTrap_mine[playerId],
+                    isStoreTrapTable[playerId]
+                    );
             }
         }
-    }
+    } 
 
     #endregion
 }

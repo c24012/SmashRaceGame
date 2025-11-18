@@ -794,10 +794,6 @@ MonoBehaviour:
     m_ActionName: TitleScene/Move[/DualShock4GamepadHID/leftStick,/DualShock4GamepadHID/dpad/up,/DualShock4GamepadHID/dpad/down,/DualShock4GamepadHID/dpad/left,/DualShock4GamepadHID/dpad/right,/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/Keyboard/upArrow,/Keyboard/downArrow,/Keyboard/leftArrow,/Keyboard/rightArrow]
   - m_PersistentCalls:
       m_Calls: []
-    m_ActionId: 8c9aba2b-df84-4951-8368-ee84d28a9393
-    m_ActionName: TitleScene/Color[/DualShock4GamepadHID/leftShoulder,/DualShock4GamepadHID/rightShoulder,/Keyboard/q,/Keyboard/e,/Keyboard/x,/Keyboard/c]
-  - m_PersistentCalls:
-      m_Calls: []
     m_ActionId: c9514640-717c-4527-8f52-e77c2d4a40b3
     m_ActionName: TitleScene/Info[/DualShock4GamepadHID/buttonNorth,/Keyboard/ctrl,/Keyboard/tab]
   m_NeverAutoSwitchControlSchemes: 0
@@ -822,6 +818,8 @@ MonoBehaviour:
   trapObj:
   - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
   - {fileID: 2055197002879597668, guid: 0c120c80f28b7424aba39e1ef2d53c76, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
   moveSpeedRatio: 1
   length: 0.7
   trapNum: 0

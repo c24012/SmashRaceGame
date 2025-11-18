@@ -56,6 +56,8 @@ public class RaceManager : MonoBehaviour
     [SerializeField] CorseCheck corseCheck;
     //TimeLineの管理
     [SerializeField] TimeLineManager timeLine;
+    //トラップストア
+    [SerializeField] TrapStore trapStore;
 
     // 解像度
     [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
@@ -97,6 +99,13 @@ public class RaceManager : MonoBehaviour
                 //オブジェクトの登録
                 playerObjs.Add(player.transform.parent.gameObject);
                 pm = player.transform.parent.GetComponent<PlayerManager>();
+
+                //トラップの登録
+                PlayerController pc = player.GetComponent<PlayerController>();
+                for (int t = 0; t < 4; t++) 
+                {
+                    pc.trapObj[t] = trapStore.trapObjs[playerInfo[i].trapNum[t]];
+                }
             }
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報

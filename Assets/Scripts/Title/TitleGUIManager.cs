@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
+using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TitleGUIManager : MonoBehaviour
 {
     [SerializeField] TitleManager title;
+    [SerializeField] TrapStore trapStore;
     [SerializeField, Header("GUIs")] GameObject selectMenuPanel;
     [SerializeField] GameObject trapSelecterPanel;
     [SerializeField] Animation titlePanelAnim;
@@ -18,31 +20,38 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] Sprite[] charactorSprites = new Sprite[4];
     [SerializeField] Image[] charactorImage = new Image[4];
     [SerializeField] RectTransform[] trapIcons_store = new RectTransform[8];
+    [SerializeField] Image[] trapIconsImage_store = new Image[8];
     [SerializeField] List<List<RectTransform>> trapIcons_mine = new();
+    [SerializeField] List<List<Image>> trapIconsImage_mine = new();
     [SerializeField] RectTransform[] selectCursors = new RectTransform[4];
-
+    [SerializeField] HorizontalLayoutGroup SelectManulayoutGroup;
     [SerializeField] Transform root;
 
-    [ContextMenu("Debug_set")]
-    public void SetIcons()
+    /// <summary>
+    /// //各プレイヤーの自分のトラップアイコンのRectTransformとImage取得
+    /// </summary>
+    public void SetTrapIcons_mine()
     {
         for (int i = 0; i < 4; i++)
         {
             trapIcons_mine.Add(new List<RectTransform>());
+            trapIconsImage_mine.Add(new List<Image>());
         }
         for (int i = 0; i < 4; i++)
         {
             for (int j = 0; j < 4; j++)
             {
-                trapIcons_mine[i].Add(root.GetChild(i).GetChild(1).GetChild(j).GetComponent<RectTransform>());
+                Transform sumpleTf = root.GetChild(i).GetChild(1).GetChild(j+1);
+                trapIcons_mine[i].Add(sumpleTf.GetComponent<RectTransform>());
+                trapIconsImage_mine[i].Add(sumpleTf.GetChild(0).GetComponent<Image>());
             }
         }
-        print(trapIcons_mine.Count + ":" + trapIcons_mine[0].Count);
     }
 
     private void Awake()
     {
-        SetIcons();
+        //各プレイヤーの自分のトラップアイコンのRectTransformを取得
+        SetTrapIcons_mine();
 
         //初期はタイトルパネル以外非表示
         for (int i = 0; i < 4; i++)
@@ -51,9 +60,29 @@ public class TitleGUIManager : MonoBehaviour
             charactorPanels[i].SetActive(true);
             trapPanels[i].SetActive(false);
             ViewCharactorImage(playerNum:i, isView:false);
-            SetTrapSelectCursor(playerNum:i,trapId:0,isStore:true);
+            SetTrapSelectCursor(playerNum:i,trapId:0,isStore:false);
         }
         trapSelecterPanel.SetActive(false);
+
+        //アイコンImageの適応
+        for (int i = 0; i < trapStore.trapObjs.Count; i++) 
+        {
+            trapIconsImage_store[i].sprite = trapStore.trapObjs[i].GetComponent<TrapBase>().icon;
+            trapIconsImage_store[i].enabled = true;
+        }
+        for (int i = trapStore.trapObjs.Count; i < 8; i++) 
+        {
+            trapIconsImage_store[i].enabled = false;
+        }
+
+        //カーソルを初期位置に移動
+        for(int i = 0; i < 4; i++)
+        {
+            selectCursors[i].position = new Vector2(-10,-10);
+        }
+
+        //プレイヤーの自動レイアウトをオン
+        SelectManulayoutGroup.enabled = true;
     }
 
     /// <summary>
@@ -79,11 +108,15 @@ public class TitleGUIManager : MonoBehaviour
     public void ViewTrapSelect()
     {
         trapSelecterPanel.SetActive(true);
+        //プレイヤーの自動レイアウトをオフ
+        SelectManulayoutGroup.enabled = false;
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < title.currentPlayerCount; i++)
         {
             charactorPanels[i].SetActive(false);
             trapPanels[i].SetActive(true);
+            //カーソルの位置を変更
+            SetTrapSelectCursor(playerNum: i, trapId: 0, isStore: false);
         }
     }
 
@@ -143,5 +176,17 @@ public class TitleGUIManager : MonoBehaviour
         {
             selectCursors[playerNum].position = trapIcons_mine[playerNum][trapId].position;
         }
+    }
+
+    /// <summary>
+    /// プレイヤーの自分のトラップIconを選んだトラップに変更
+    /// </summary>
+    /// <param name="playernum"></param>
+    /// <param name="trapId"></param>
+    /// <param name="trapObjNum"></param>
+    public void SetTrapIconSprite(int playernum,int trapId,int trapObjNum)
+    {
+        trapIconsImage_mine[playernum][trapObjNum].sprite = trapStore.trapObjs[trapId].GetComponent<TrapBase>().icon;
+        trapIconsImage_mine[playernum][trapObjNum].enabled = true;
     }
 }

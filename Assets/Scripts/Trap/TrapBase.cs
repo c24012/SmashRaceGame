@@ -25,6 +25,9 @@ public class TrapBase : MonoBehaviour
 
     protected int rankingPower;
 
+    [Header("トラップの表示アイコン")]
+    public Sprite icon = null;
+
     private void Awake()
     {
         col = GetComponent<Collider2D>();
