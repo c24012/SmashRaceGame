@@ -20,15 +20,20 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("Rayの長さ")] float length;
     [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
-    [SerializeField, Tooltip("バフリスト")] List<string> buffNameList = new();
+    [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
 
     const float MOVE_POWER = 500;
     CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
+    float locketSpeed = 10;
+    float locketMaxSpeed = 10;
 
     [SerializeField,Header("フラグ確認用")] bool trapFlag = true;
-    [SerializeField] bool isMove = false;
-    [SerializeField] bool isStop = false;
-    [SerializeField] bool isStart = false;
+    [SerializeField] bool isMove = false;       //動いているか
+    [SerializeField] bool isStop = false;       //行動不能
+    [SerializeField] bool isStart = false;      //レースが始まっているか
+    [SerializeField] bool isSlip = false;       //滑り状態
+    [SerializeField] bool isConfusion = false;  //混乱状態
+    [SerializeField] bool isLocket = false;     //ロケット状態
 
     /// <summary>
     /// 初期化
@@ -64,12 +69,24 @@ public class PlayerController : MonoBehaviour
         GUIsTracking();
         //動いているとアニメーションを変化
         CheckIsMove();
+
+        //滑っているときのチャージをキャンセル
+        if (isSlip && isMove)
+        {
+            //パワーゲージ非表示
+            powerGageCanvas.enabled = false;
+            //パワーゲージのリセット
+            pm.powerGage.ResetCharge();
+        }
     }
 
     private void FixedUpdate()
     {
         //地面によって摩擦を変化
         ChangeRigidBodyDrag();
+
+        //ロケット状態だと加速し続ける
+        if (isLocket) LocketDash();
     }
 
     /// <summary>
@@ -119,7 +136,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Trap()
     {
-        bool isUp = trapObj[trapNum].GetComponent<TrapBase>().trapType == TrapBase.ETrapType.Up;
+        bool isUp = true;
         if (trapFlag)
         {
             trapFlag = false;
@@ -183,6 +200,10 @@ public class PlayerController : MonoBehaviour
         if (isStop) return;
         //現在の道の状態を確認＆取得
         road = pm.corseCheck.GetAttribute(transform.position);
+
+        //スリップ状態だったら落下だけ判定
+        if (isSlip && road != CorseCheck.EAttribute.Out) return;
+
         //状態によって摩擦力を増減
         if (road == CorseCheck.EAttribute.Road) rb.drag = 3;
         else if (road == CorseCheck.EAttribute.Dart) rb.drag = 6;
@@ -192,7 +213,11 @@ public class PlayerController : MonoBehaviour
         {
             rb.drag = 100;
             StartCoroutine(CorseOut());
+            return;
         }
+
+        //ロケット状態なら固定
+        if (isLocket) rb.drag = 3;
     }
 
     /// <summary>
@@ -227,38 +252,218 @@ public class PlayerController : MonoBehaviour
         isStop = false;
     }
 
-    #region #外部から使う関数
-
     /// <summary>
-    /// 移動力の倍率を指定
+    /// スタン(行動不能状態)
     /// </summary>
-    /// <param name="speedFluctuation">増減させる値</param>
-    /// <param name="trapName">トラップの名前</param>
-    public void AddMoveSpeedRatio(float speedFluctuation, string trapName)
+    void Stun(bool isActive)
     {
-        //もうすでに存在している効果かどうかを取得
-        bool isContain = buffNameList.Contains(trapName);
-        //効果名を登録
-        buffNameList.Add(trapName);
-        //もとから存在していた場合返却
-        if (isContain) return;
-        //初めての効果の場合付与
-        moveSpeedRatio += speedFluctuation;
+        isStop = isActive;
+        if (isStop) Init();
     }
 
     /// <summary>
-    /// 移動力倍率を戻す
+    /// スタン(行動不能状態)
     /// </summary>
-    /// <param name="speedFluctuation">増減させた値</param>
-    /// <param name="trapName">トラップの名前</param>
-    public void RemoveMoveSpeedRaito(float speedFluctuation, string trapName)
+    void Slip(bool isActive)
     {
-        //一つ登録から消す
-        buffNameList.Remove(trapName);
-        //消してもなお残っている場合返却
-        if (buffNameList.Contains(trapName)) return;
-        //もう残っていない効果の場合戻す
-        else moveSpeedRatio -= speedFluctuation;
+        isSlip = isActive;
+        if (isSlip)
+        {
+            rb.drag = 0.3f;
+        }
+    }
+
+    /// <summary>
+    /// 混乱(操作反転)
+    /// </summary>
+    void Confusion(bool isActive)
+    {
+        isConfusion = isActive;
+    }
+
+    /// <summary>
+    /// ロケットダッシュ
+    /// </summary>
+    void LocketDash()
+    {
+        //前方に加速
+        rb.AddForce(transform.up * locketSpeed);
+
+        if (rb.velocity.sqrMagnitude > Mathf.Pow(locketMaxSpeed,2))
+        {
+            rb.velocity = rb.velocity.normalized * locketMaxSpeed;
+        }
+    }
+
+    #region #トラップ用関数
+
+    /// <summary>
+    /// 移動力の倍率を指定&解除
+    /// </summary>
+    /// <param name="speedFluctuation">増減させる値</param>
+    /// <param name="trapName">トラップの名前</param>
+    public void EffectMoveSpeedRatio(float speedFluctuation, bool isActive, string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合付与
+            moveSpeedRatio += speedFluctuation;
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            else moveSpeedRatio -= speedFluctuation;
+        }
+    }
+
+    /// <summary>
+    /// スタン付与&解除
+    /// </summary>
+    /// <param name="stunTime"></param>
+    /// <param name="trapName"></param>
+    public void EffectStun(bool isActive, string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            Stun(true);
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            Stun(false);
+        }
+    }
+
+    /// <summary>
+    /// スリップ付与&解除
+    /// </summary>
+    /// <param name="isActive"></param>
+    /// <param name="trapName"></param>
+    public void EffectSlip(bool isActive,string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            Slip(true);
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            Slip(false);
+        }
+    }
+
+    /// <summary>
+    /// 混乱付与&解除
+    /// </summary>
+    /// <param name="isActive"></param>
+    /// <param name="trapName"></param>
+    public void EffectConfusion(bool isActive,string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            Confusion(true);
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            Confusion(false);
+        }
+    }
+
+    /// <summary>
+    /// 衝撃波の加速
+    /// </summary>
+    /// <param name="pos"></param>
+    public void EffectShockWave(Vector2 pos)
+    {
+        //位置の差を計算
+        Vector2 vec = (Vector2)transform.position - pos;
+        float diff = MathF.Max(vec.magnitude,0.1f);
+        //方向の正規化
+        vec.Normalize();
+        //中心から離れるほど弱く加速
+        rb.AddForce((vec * MOVE_POWER) / (diff * 2));
+    }
+
+    /// <summary>
+    /// ロケットダッシュ開始＆終了
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void EffectLocketDash(bool isActive,string trapName,float speed = 0, float maxSpeed = 0)
+    {
+        isLocket = isActive;
+
+        //速度を指定
+        locketSpeed = speed;
+        //最高速度を指定
+        locketMaxSpeed = maxSpeed;
+
+        if (isActive)
+        {
+            //効果名を登録
+            effectNameList.Add(trapName);
+        }
+        else
+        {
+            //効果名を削除
+            effectNameList.Remove(trapName);
+        }
+
+        //パワーゲージ非表示
+        powerGageCanvas.enabled = false;
+        //パワーゲージのリセット
+        pm.powerGage.ResetCharge();
     }
 
     #endregion
@@ -273,6 +478,13 @@ public class PlayerController : MonoBehaviour
     {
         //行動不能時は返却
         if (isStop) return;
+
+        //滑っていて動いている時はチャージできない
+        if (isSlip && isMove) return;
+
+        //ロケット状態ではチャージできない
+        if (isLocket) return;
+
         //ボタンが押されたら力をチャージ
         if (context.started)
         {
@@ -298,7 +510,11 @@ public class PlayerController : MonoBehaviour
         if (!isStart) return;
         //行動不能時は返却
         if (isStop) return;
-        ////ボタンが離されたとき
+
+        //ロケット状態ではチャージできない
+        if (isLocket) return;
+
+        //ボタンが離されたとき
         if (context.canceled)
         {
             Trap();
@@ -317,6 +533,10 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             Vector2 dire = context.ReadValue<Vector2>();
+
+            //もし混乱しているなら反転させる
+            if (isConfusion) dire = new Vector2(-dire.x, -dire.y);
+
             ChangeDirection(dire);
         }
     }

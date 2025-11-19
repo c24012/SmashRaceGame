@@ -47,3 +47,9 @@ MonoBehaviour:
   trapObjs:
   - {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
   - {fileID: 2055197002879597668, guid: 0c120c80f28b7424aba39e1ef2d53c76, type: 3}
+  - {fileID: 2055197002879597668, guid: 7d037f1d66dbb184e8113d46ef124f7d, type: 3}
+  - {fileID: 2055197002879597668, guid: 1fa609c0c2044b14eb397b24a65bf3d4, type: 3}
+  - {fileID: 2055197002879597668, guid: 8ded68a7fca9c5645a03a24a55ea1126, type: 3}
+  - {fileID: 2055197002879597668, guid: ddda4bff1158c604388cee020e418f98, type: 3}
+  - {fileID: 2055197002879597668, guid: 167d811b117ceba4eaba771bd2eb89a2, type: 3}
+  - {fileID: 0}
