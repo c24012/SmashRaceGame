@@ -137,6 +137,6 @@ MonoBehaviour:
   trapNum: 0
   pm: {fileID: 0}
   effectTime: 01000000020000000400000008000000
-  icon: {fileID: -1042987997, guid: 62758e58a638ae24f8f4897a85579165, type: 3}
+  icon: {fileID: 1896879398, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   speeds: 0.5
   objTime: 10
