@@ -49,6 +49,14 @@ public class PlayerUIController : MonoBehaviour
         if (context.started)
         {
             Vector2 vec = context.ReadValue<Vector2>();
+            if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))
+            {
+                vec = new(vec.x > 0 ? 1 : -1, 0);
+            }
+            else if (Mathf.Abs(vec.y) > Mathf.Abs(vec.x))
+            {
+                vec = new(0, vec.y > 0 ? 1 : -1);
+            }
             titleManager.OnMove(playerInput.playerIndex, vec);
         }
     }
