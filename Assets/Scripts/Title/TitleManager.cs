@@ -217,7 +217,7 @@ public class TitleManager : MonoBehaviour
         {
             //準備OK状態にする
             playerIsLady[playerId] = true;
-            gui_m.ViewCharactorImage(playerId, true);
+            gui_m.ViewCharactorImage(playerId, true, playerCharactor[playerId]);
             //プレイヤーのキャラをデータ型に代入
             SetCharactorPlayerInfo(playerId, playerCharactor[playerId]);
             //他のプレイヤーも準備ができたらトラップ選択画へ
