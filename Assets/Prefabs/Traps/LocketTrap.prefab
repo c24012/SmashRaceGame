@@ -134,7 +134,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pm: {fileID: 0}
-  icon: {fileID: -1766519824, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
+  icon: {fileID: -1027990602, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   isInstantActive: 1
   effectTime:
