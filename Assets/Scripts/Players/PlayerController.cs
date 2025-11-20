@@ -151,14 +151,13 @@ public class PlayerController : MonoBehaviour
         //壁に当たったか、当たってないか
         if (hit.collider != null)
         {
-
-            sampleBase = Instantiate(trapObj[trapNum], hit.point, Quaternion.identity).
+            sampleBase = Instantiate(trapObj[trapNum], hit.point, transform.rotation).
                 GetComponent<TrapBase>();
         }
         else
         {
             sampleBase = Instantiate(trapObj[trapNum], 
-                transform.position + (transform.up * (isUp ? 1 : -1)) * length, Quaternion.identity).
+                transform.position + (transform.up * (isUp ? 1 : -1)) * length, transform.rotation).
                 GetComponent<TrapBase>();
         }
         sampleBase.pm = pm;
@@ -253,16 +252,16 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// スタン(行動不能状態)
+    /// スタン_電撃(行動不能状態)
     /// </summary>
-    void Stun(bool isActive)
+    void Stun_ElectricShock(bool isActive)
     {
         isStop = isActive;
         if (isStop) Init();
     }
 
     /// <summary>
-    /// スタン(行動不能状態)
+    /// 滑る
     /// </summary>
     void Slip(bool isActive)
     {
@@ -293,6 +292,15 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = rb.velocity.normalized * locketMaxSpeed;
         }
+    }
+
+    /// <summary>
+    /// スタン_炎(行動不能状態)
+    /// </summary>
+    void Stun_Flame(bool isActive)
+    {
+        isStop = isActive;
+        if (isStop) Init();
     }
 
     #region #トラップ用関数
@@ -329,11 +337,11 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// スタン付与&解除
+    /// 電撃スタン付与&解除
     /// </summary>
     /// <param name="stunTime"></param>
     /// <param name="trapName"></param>
-    public void EffectStun(bool isActive, string trapName)
+    public void EffectStun_ElectricShock(bool isActive, string trapName)
     {
         //付与
         if (isActive)
@@ -345,7 +353,7 @@ public class PlayerController : MonoBehaviour
             //もとから存在していた場合返却
             if (isContain) return;
             //初めての効果の場合は付与
-            Stun(true);
+            Stun_ElectricShock(true);
         }
         //解除
         else
@@ -355,7 +363,7 @@ public class PlayerController : MonoBehaviour
             //消してもなお残っている場合返却
             if (effectNameList.Contains(trapName)) return;
             //もう残っていない効果の場合戻す
-            Stun(false);
+            Stun_ElectricShock(false);
         }
     }
 
@@ -466,6 +474,37 @@ public class PlayerController : MonoBehaviour
         pm.powerGage.ResetCharge();
     }
 
+    /// <summary>
+    /// 電撃スタン付与&解除
+    /// </summary>
+    /// <param name="stunTime"></param>
+    /// <param name="trapName"></param>
+    public void EffectStun_Flame(bool isActive, string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            Stun_Flame(true);
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            Stun_Flame(false);
+        }
+    }
+
     #endregion
 
     #region #入力関数
@@ -559,5 +598,6 @@ public class PlayerController : MonoBehaviour
             pm.iconManager.BanCheck(!trapFlag);
         }
     }
+
     #endregion
 }

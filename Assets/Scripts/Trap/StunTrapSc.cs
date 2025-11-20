@@ -32,11 +32,11 @@ public class StunTrapSc : TrapBase
         //順位を取得
         rankingPower = pm.playerData.ranking;
         //スタンを付与
-        pm.playerController.EffectStun(true,gameObject.name);
+        pm.playerController.EffectStun_ElectricShock(true,gameObject.name);
         //解除まで待機
         yield return new WaitForSeconds(effectTime[rankingPower]);
         //スタンを解除
-        pm.playerController.EffectStun(false, gameObject.name);
+        pm.playerController.EffectStun_ElectricShock(false, gameObject.name);
     }
 
     /// <summary>

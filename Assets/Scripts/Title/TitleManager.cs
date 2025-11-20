@@ -45,6 +45,11 @@ public class PlayerInfo
             trapNum[i] = selectTraps[this.playerIndex,i];
         }
     }
+
+    public void RemovePlayerInput()
+    {
+        playerInput = null;
+    }
 }
 
 public class TitleManager : MonoBehaviour
@@ -173,6 +178,12 @@ public class TitleManager : MonoBehaviour
     {
         //人数
         gameData.playerCount = currentPlayerCount;
+
+        //PlayerInputを忘れる
+        for (int i = 0; i < playerInfoList.Count; i++)
+        {
+            playerInfoList[i].RemovePlayerInput();
+        }
         //各プレイヤーの詳細データ
         gameData.playerInfoList = playerInfoList;
     }

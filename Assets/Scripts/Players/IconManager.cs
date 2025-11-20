@@ -14,10 +14,10 @@ public class IconManager : MonoBehaviour
     [SerializeField] int bunCount;
     [SerializeField] float disappearanceTime;
 
-    private void Awake()
+    private void Start()
     {
         //持っているトラップのアイコンを取得
-        for(int i = 0;i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
             trapIconSp[i] = pm.playerController.trapObj[i].GetComponent<TrapBase>().icon;
         }
@@ -25,10 +25,7 @@ public class IconManager : MonoBehaviour
         trapFrameObj.SetActive(false);
         banIconSr.enabled = false;
         trapIconSr.enabled = true;
-    }
 
-    private void Start()
-    {
         //初期アイコンは1つ目のトラップに指定
         trapIconSr.sprite = trapIconSp[0];
     }

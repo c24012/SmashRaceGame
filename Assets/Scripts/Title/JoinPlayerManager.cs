@@ -60,6 +60,7 @@ public class JoinPlayerManager : MonoBehaviour
     /// <param name="input"></param>
     private void OnLeaveManager(PlayerInput input)
     {
+        if (title_m.nowPhase == TitleManager.NowPhase.TrapSelect) return;
         //プレイヤー詳細データから削除
         title_m.playerInfoList.Remove(title_m.playerInfoList.Find((x) => x.playerInput == input));
         //デバイスリストから破壊されたプレイヤーのデバイスを削除
