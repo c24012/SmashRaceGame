@@ -17,8 +17,9 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] GameObject[] charactorPanels = new GameObject[4];
     [SerializeField] GameObject[] trapPanels = new GameObject[4];
     [SerializeField] Image[] playingCharactorsImage = new Image[4];
-    [SerializeField] Sprite[] charactorSprites = new Sprite[4];
+    [SerializeField] Sprite[] playingCharactorSprites = new Sprite[4];
     [SerializeField] Image[] charactorImage = new Image[4];
+    [SerializeField] Sprite[] charactorSprite = new Sprite[4];
     [SerializeField] RectTransform[] trapIcons_store = new RectTransform[8];
     [SerializeField] Image[] trapIconsImage_store = new Image[8];
     [SerializeField] List<List<RectTransform>> trapIcons_mine = new();
@@ -125,8 +126,12 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     /// <param name="playerNum"></param>
     /// <param name="isView"></param>
-    public void ViewCharactorImage(int playerNum,bool isView)
+    public void ViewCharactorImage(int playerNum,bool isView,int charaNum = -1)
     {
+        if(charaNum >= 0)
+        {
+            charactorImage[playerNum].sprite = charactorSprite[charaNum];
+        }
         charactorImage[playerNum].enabled = isView;
     }
 
@@ -148,7 +153,7 @@ public class TitleGUIManager : MonoBehaviour
     /// <param name="charactorId"></param>
     public void ChangePlayingCharactorsImage(int playerNum,int charactorId)
     {
-        playingCharactorsImage[playerNum].sprite = charactorSprites[charactorId];
+        playingCharactorsImage[playerNum].sprite = playingCharactorSprites[charactorId];
     }
 
     /// <summary>

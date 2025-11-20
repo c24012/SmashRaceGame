@@ -3001,7 +3001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   join_m: {fileID: 465464085}
   gui_m: {fileID: 1800562652}
-  gameData: {fileID: 2370985440151811585, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
+  gameData: {fileID: -1807419503190558655, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
   playerInfoList: []
   currentPlayerCount: 0
   trapWidthCount: 4
@@ -6573,16 +6573,21 @@ MonoBehaviour:
   - {fileID: 92737771}
   - {fileID: 32173801}
   - {fileID: 1333005310}
-  charactorSprites:
-  - {fileID: 504969294, guid: d0761f30546732b4989455e749e3f558, type: 3}
-  - {fileID: -1985053487, guid: f2b6cfab3b0eb2e4381729125583ce1b, type: 3}
-  - {fileID: -493766722, guid: 7fb618f3f84521645a62fff9a15ae2ab, type: 3}
-  - {fileID: -1152606858, guid: 0f87d491a7f184941bd433bafd599d63, type: 3}
+  playingCharactorSprites:
+  - {fileID: 694400125, guid: d0761f30546732b4989455e749e3f558, type: 3}
+  - {fileID: -972608683, guid: f2b6cfab3b0eb2e4381729125583ce1b, type: 3}
+  - {fileID: 185810849, guid: 7fb618f3f84521645a62fff9a15ae2ab, type: 3}
+  - {fileID: 1487917470, guid: 0f87d491a7f184941bd433bafd599d63, type: 3}
   charactorImage:
   - {fileID: 2007458714}
   - {fileID: 703262495}
   - {fileID: 834536383}
   - {fileID: 431150092}
+  charactorSprite:
+  - {fileID: -111676335, guid: f2668648aa5559f4286ca1afbebe396f, type: 3}
+  - {fileID: 1092379742, guid: f2668648aa5559f4286ca1afbebe396f, type: 3}
+  - {fileID: 127306791, guid: f2668648aa5559f4286ca1afbebe396f, type: 3}
+  - {fileID: 442972212, guid: f2668648aa5559f4286ca1afbebe396f, type: 3}
   trapIcons_store:
   - {fileID: 932340689}
   - {fileID: 206593324}
