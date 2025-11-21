@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
-    [SerializeField, Tooltip("Rayの長さ")] float length;
-    [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
     [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
 
     const float MOVE_POWER = 500;
@@ -27,8 +26,8 @@ public class PlayerController : MonoBehaviour
     float locketSpeed = 10;
     float locketMaxSpeed = 10;
 
-    [SerializeField,Header("フラグ確認用")] bool trapFlag = true;
-    [SerializeField] bool isMove = false;       //動いているか
+    [SerializeField, Header("フラグ確認用")] 
+    bool isMove = false;                        //動いているか
     [SerializeField] bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
     [SerializeField] bool isSlip = false;       //滑り状態
@@ -132,39 +131,6 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 罠を設置
-    /// </summary>
-    void Trap()
-    {
-        bool isUp = true;
-        if (trapFlag)
-        {
-            trapFlag = false;
-            Invoke(new Action(() => { trapFlag = true; pm.iconManager.BanCheck(!trapFlag);}).Method.Name, 3);
-        }
-        else
-        {
-            return;
-        }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up * (isUp ? 1:-1), length, 1) ;
-        TrapBase sampleBase = null;
-        //壁に当たったか、当たってないか
-        if (hit.collider != null)
-        {
-            sampleBase = Instantiate(trapObj[trapNum], hit.point, transform.rotation).
-                GetComponent<TrapBase>();
-        }
-        else
-        {
-            sampleBase = Instantiate(trapObj[trapNum], 
-                transform.position + (transform.up * (isUp ? 1 : -1)) * length, transform.rotation).
-                GetComponent<TrapBase>();
-        }
-        sampleBase.pm = pm;
-        pm.iconManager.BanCheck(!trapFlag);
-    }
-
-    /// <summary>
     /// GUIキャンバスをプレイヤーに追尾
     /// </summary>
     void GUIsTracking()
@@ -251,6 +217,8 @@ public class PlayerController : MonoBehaviour
         isStop = false;
     }
 
+    #region 状態異常関数
+
     /// <summary>
     /// スタン_電撃(行動不能状態)
     /// </summary>
@@ -302,6 +270,8 @@ public class PlayerController : MonoBehaviour
         isStop = isActive;
         if (isStop) Init();
     }
+
+    #endregion
 
     #region #トラップ用関数
 
@@ -553,10 +523,31 @@ public class PlayerController : MonoBehaviour
         //ロケット状態ではチャージできない
         if (isLocket) return;
 
-        //ボタンが離されたとき
-        if (context.canceled)
+        //トラップがクールタイム中は返却
+        if (!pm.trap.trapFlag) return;
+
+        //速攻発動トラップの場合
+        if (pm.trap.GetIsInstantActive())
         {
-            Trap();
+            //ボタンが押されたら発動
+            if (context.started)
+            {
+                pm.trap.Trap();
+            }
+        }
+        else
+        {
+            //ボタンが押されたら力をチャージ
+            if (context.started)
+            {
+                pm.trap.StartCharge();
+            }
+
+            //ボタンが離されたときに発動
+            if (context.canceled)
+            {
+                pm.trap.StopCharge();
+            }
         }
     }
 
@@ -588,14 +579,12 @@ public class PlayerController : MonoBehaviour
     {
         //行動不能時は返却
         if (isStop) return;
+        
         if (context.started)
         {
             float value = context.ReadValue<float>();
-            //0～最大値までのループ計算
-            trapNum = (trapNum + (int)value + trapObj.Length) % trapObj.Length;
-            //トラップとアイコンを変更
-            pm.iconManager.IconChange(trapNum);
-            pm.iconManager.BanCheck(!trapFlag);
+            if(value > 0) pm.trap.TrapChange(value: 1);
+            else pm.trap.TrapChange(value: -1);
         }
     }
 

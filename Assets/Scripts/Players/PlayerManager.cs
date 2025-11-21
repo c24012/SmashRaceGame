@@ -14,4 +14,5 @@ public class PlayerManager : MonoBehaviour
     public PlayerController playerController;
     public PowerGage powerGage;
     public IconManager iconManager;
+    public PlayerTrap trap;
 }

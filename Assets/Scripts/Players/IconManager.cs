@@ -44,8 +44,6 @@ public class IconManager : MonoBehaviour
     {
         trapFrameObj.SetActive(true);
         banIconSr.enabled = isBan;
-        //Invoke(new Action(() => { trapImageObj.SetActive(false); banIconObj.SetActive(false); }).Method.Name, 3);
-        //StartCoroutine(IconReset());
         bunCount++;
         Invoke(nameof(IconReset), disappearanceTime);
     }
