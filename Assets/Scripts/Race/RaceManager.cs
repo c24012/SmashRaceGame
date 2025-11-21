@@ -183,6 +183,14 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    public void PlayFinishAnimation()
+    {
+        //ゴールアニメーション
+        timeLine.Play_FinishFadeIn();
+        //プレイヤー全員の終了関数を呼ぶ
+        FinishRace();
+    }
+
     /// <summary>
     /// レース開始
     /// </summary>
@@ -195,10 +203,19 @@ public class RaceManager : MonoBehaviour
         }
     }
 
+    void FinishRace()
+    {
+        //登録されているプレイヤーオブジェクトのレース終了関数を起動
+        for (int i = 0; i < playerObjs.Count; i++)
+        {
+            playerObjs[i].GetComponent<PlayerManager>().playerController.FinishRace();
+        }
+    }
+
     /// <summary>
-    /// レース終了
+    /// リザルト画面をロード
     /// </summary>
-    public void FinishRace()
+    public void ToResultScene()
     {
         //各プレイヤーデータのランキングをゲームデータのランキングに入力
         for (int i = 0; i < playerDatas.Count; i++)

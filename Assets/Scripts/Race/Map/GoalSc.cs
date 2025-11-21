@@ -17,8 +17,7 @@ public class GoalSc : MonoBehaviour
             {
                 if (playerData.lapCount >= raceManager.lapCount)
                 {
-                    print($"{playerData.playerNum}P‚ªƒS[ƒ‹I");
-                    raceManager.FinishRace();
+                    raceManager.PlayFinishAnimation();
                 }
             }
         }

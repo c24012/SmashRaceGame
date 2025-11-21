@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
 
@@ -16,6 +17,7 @@ public class PlayerTrap : MonoBehaviour
     [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
     [SerializeField] float chargeSpeed = 1;
     [SerializeField] float power = 0;
+    [SerializeField] float coolTime = 4f;
 
     public bool trapFlag = true;
 
@@ -119,7 +121,7 @@ public class PlayerTrap : MonoBehaviour
         if (trapFlag)
         {
             trapFlag = false;
-            Invoke(new Action(() => { trapFlag = true; pm.iconManager.BanCheck(!trapFlag); }).Method.Name, 3);
+            Invoke(new Action(() => { trapFlag = true; pm.iconManager.BanCheck(!trapFlag); }).Method.Name, coolTime);
         }
         else
         {

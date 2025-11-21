@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FadeIn_Ghost_move
+  m_Name: FadeOut_Ghost_move
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -23,19 +23,19 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2150
-        inSlope: 0
-        outSlope: -1290
-        tangentMode: 65
+        value: 0
+        inSlope: -1290
+        outSlope: 0
+        tangentMode: 5
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.6666666
-        value: 0
-        inSlope: -1290
+        value: -2159
+        inSlope: 0
         outSlope: 0
-        tangentMode: 5
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
@@ -197,19 +197,19 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 2150
-        inSlope: 0
-        outSlope: -1290
-        tangentMode: 65
+        value: 0
+        inSlope: -1290
+        outSlope: 0
+        tangentMode: 5
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334
       - serializedVersion: 3
         time: 1.6666666
-        value: 0
-        inSlope: -1290
+        value: -2159
+        inSlope: 0
         outSlope: 0
-        tangentMode: 5
+        tangentMode: 1
         weightedMode: 0
         inWeight: 0.33333334
         outWeight: 0.33333334

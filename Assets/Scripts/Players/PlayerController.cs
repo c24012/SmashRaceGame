@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
     bool isMove = false;                        //動いているか
     [SerializeField] bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
+    [SerializeField] bool isFinish = false;      //レースが終わっているか
     [SerializeField] bool isSlip = false;       //滑り状態
     [SerializeField] bool isConfusion = false;  //混乱状態
     [SerializeField] bool isLocket = false;     //ロケット状態
@@ -120,6 +121,14 @@ public class PlayerController : MonoBehaviour
     public void StartRace()
     {
         isStart = true;
+    }
+
+    /// <summary>
+    /// レース終了
+    /// </summary>
+    public void FinishRace()
+    {
+        isFinish = true;
     }
 
     /// <summary>
@@ -485,6 +494,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
+        //試合終了時は返却
+        if (isFinish) return;
+
         //行動不能時は返却
         if (isStop) return;
 
@@ -515,6 +527,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnTrap(InputAction.CallbackContext context)
     {
+        //試合終了時は返却
+        if (isFinish) return;
+
         //レース開始前は返却
         if (!isStart) return;
         //行動不能時は返却
@@ -557,6 +572,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnDirection(InputAction.CallbackContext context)
     {
+        //試合終了時は返却
+        if (isFinish) return;
+
         //行動不能時は返却
         if (isStop) return;
         //入力中なら自身の向きを入力方向に変更
@@ -577,6 +595,9 @@ public class PlayerController : MonoBehaviour
     /// <param name="context"></param>
     public void OnChange(InputAction.CallbackContext context)
     {
+        //試合終了時は返却
+        if (isFinish) return;
+
         //行動不能時は返却
         if (isStop) return;
         
