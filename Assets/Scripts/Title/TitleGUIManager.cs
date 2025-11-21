@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.UI;
 
 public class TitleGUIManager : MonoBehaviour
@@ -28,6 +29,18 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] HorizontalLayoutGroup SelectManulayoutGroup;
     [SerializeField] Transform root;
 
+    [SerializeField] PlayableDirector charaAnim;
+
+    [SerializeField] PlayableDirector selectAnim;
+
+
+    [SerializeField] PlayableDirector fadeIn;
+
+    [SerializeField] Animator[] GhostAnim;
+
+    int playerNum_local;
+    int charactorId_local;
+
     /// <summary>
     /// //各プレイヤーの自分のトラップアイコンのRectTransformとImage取得
     /// </summary>
@@ -42,10 +55,25 @@ public class TitleGUIManager : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                Transform sumpleTf = root.GetChild(i).GetChild(1).GetChild(j+1);
+                Transform sumpleTf = root.GetChild(i).GetChild(2).GetChild(j+1);
                 trapIcons_mine[i].Add(sumpleTf.GetComponent<RectTransform>());
                 trapIconsImage_mine[i].Add(sumpleTf.GetChild(0).GetComponent<Image>());
             }
+        }
+    }
+
+    public void FinishSelectCharaAnim()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                trapIconsImage_mine[i][j].enabled = true;
+            }
+        }
+        for (int i = 0; i < 8; i++)
+        {
+            trapIconsImage_store[i].enabled = true;
         }
     }
 
@@ -69,7 +97,7 @@ public class TitleGUIManager : MonoBehaviour
         for (int i = 0; i < trapStore.trapObjs.Count; i++) 
         {
             trapIconsImage_store[i].sprite = trapStore.trapObjs[i].GetComponent<TrapBase>().icon;
-            trapIconsImage_store[i].enabled = true;
+            //trapIconsImage_store[i].enabled = true;
         }
         for (int i = trapStore.trapObjs.Count; i < 8; i++) 
         {
@@ -111,7 +139,11 @@ public class TitleGUIManager : MonoBehaviour
         trapSelecterPanel.SetActive(true);
         //プレイヤーの自動レイアウトをオフ
         SelectManulayoutGroup.enabled = false;
+        charaAnim.Play();
+    }
 
+    public void SlectPanelActive()
+    {
         for (int i = 0; i < title.currentPlayerCount; i++)
         {
             charactorPanels[i].SetActive(false);
@@ -119,6 +151,7 @@ public class TitleGUIManager : MonoBehaviour
             //カーソルの位置を変更
             SetTrapSelectCursor(playerNum: i, trapId: 0, isStore: false);
         }
+        selectAnim.Play();
     }
 
     /// <summary>
@@ -153,7 +186,17 @@ public class TitleGUIManager : MonoBehaviour
     /// <param name="charactorId"></param>
     public void ChangePlayingCharactorsImage(int playerNum,int charactorId)
     {
-        playingCharactorsImage[playerNum].sprite = playingCharactorSprites[charactorId];
+        playerNum_local = playerNum;
+        playingCharactorsImage[playerNum_local].sprite = playingCharactorSprites[charactorId];
+        if(charactorId - 1 == charactorId_local || charactorId_local  == charactorId + 3)
+        {
+            GhostAnim[playerNum].SetTrigger("Right");
+        }
+        else
+        {
+            GhostAnim[playerNum].SetTrigger("Left");
+        }
+        charactorId_local = charactorId;
     }
 
     /// <summary>
@@ -193,5 +236,10 @@ public class TitleGUIManager : MonoBehaviour
     {
         trapIconsImage_mine[playernum][trapObjNum].sprite = trapStore.trapObjs[trapId].GetComponent<TrapBase>().icon;
         trapIconsImage_mine[playernum][trapObjNum].enabled = true;
+    }
+
+    public void PlayFadeIn()
+    {
+        fadeIn.Play();
     }
 }
