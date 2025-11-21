@@ -70,6 +70,9 @@ public class TitleManager : MonoBehaviour
     bool[] isStoreTrapTable = new bool[4];          //自分のテーブルを選択中か一覧のテーブルを選択中か
     bool[] playerIsLady = new bool[4];              //プレイヤーの準備状態
 
+    //[NonSerialized]
+    public bool[] charaSelectFlag = new bool[4];
+
     public enum NowPhase
     {
         Title,
@@ -197,7 +200,12 @@ public class TitleManager : MonoBehaviour
         SetGameData();
 
         //--ここで画面の暗転アニメーションが入る(まだ)
+        gui_m.PlayFadeIn();
+        
+    }
 
+    public void FinishTitleFadeIn()
+    {
         //レースシーンへ
         SceneManager.LoadScene("RaceScene");
     }
@@ -238,7 +246,7 @@ public class TitleManager : MonoBehaviour
                 //--カメラアニメーション(まだ)
 
                 //トラップ選択画面へ
-                ChengedToTrapPanel();
+                Invoke(nameof(ChengedToTrapPanel), 1);
                 //準備フラグを全員リセット
                 for (int i = 0; i < 4; i++)
                 {
@@ -335,10 +343,12 @@ public class TitleManager : MonoBehaviour
         {
             //すでに準備できている状態は返却
             if (playerIsLady[playerId]) return;
+            if (charaSelectFlag[playerId]) return;
 
             //順番にキャラを表示
             playerCharactor[playerId] = (playerCharactor[playerId] + (int)vec.x + 4) % 4;
             gui_m.ChangePlayingCharactorsImage(playerId, playerCharactor[playerId]);
+            charaSelectFlag[playerId] = true;
         }
         //トラップ選択画面
         else if (nowPhase == NowPhase.TrapSelect)
