@@ -269,7 +269,7 @@ SpriteRenderer:
   m_Size: {x: 0.56, y: 0.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &5829436773744738994
@@ -504,7 +504,7 @@ SpriteRenderer:
   m_Size: {x: 0.56, y: 0.56}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &6786003523531567290
@@ -794,6 +794,7 @@ GameObject:
   - component: {fileID: 604501647485577127}
   - component: {fileID: 7550207555693170296}
   - component: {fileID: 3234308522134770008}
+  - component: {fileID: 2941396129132912671}
   - component: {fileID: 85082761554030558}
   - component: {fileID: 3918333228885481275}
   - component: {fileID: 5241005607912688899}
@@ -1012,6 +1013,18 @@ MonoBehaviour:
   - {fileID: 0}
   bunCount: 0
   disappearanceTime: 1
+--- !u!114 &2941396129132912671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9020068425943922510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3611298f972227d409f01ab10dd7cbb0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!212 &85082761554030558
 SpriteRenderer:
   m_ObjectHideFlags: 0
