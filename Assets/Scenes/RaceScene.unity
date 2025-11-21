@@ -3399,7 +3399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e8cfc649e74646b02d0c2d8335e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
+  debugMode: 1
   bebug_playerCount: 2
   gameData: {fileID: -1807419503190558655, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
   playerCount: 2
@@ -8058,6 +8058,10 @@ PlayableDirector:
     value: {fileID: 1736928192}
   - key: {fileID: 729748281182332930, guid: c5dd6dc319ba88e41ae59f8c1ee004a3, type: 2}
     value: {fileID: 912265364}
+  - key: {fileID: 3343307210050174780, guid: c5dd6dc319ba88e41ae59f8c1ee004a3, type: 2}
+    value: {fileID: 1790346894}
+  - key: {fileID: 6152283575231757249, guid: c5dd6dc319ba88e41ae59f8c1ee004a3, type: 2}
+    value: {fileID: 1790346892}
   m_ExposedReferences:
     m_References: []
 --- !u!114 &1988634098
