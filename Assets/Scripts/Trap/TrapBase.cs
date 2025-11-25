@@ -10,7 +10,7 @@ public class TrapBase : MonoBehaviour
     [Tooltip("トラップの説明")]
     public string info = null;
     [Header("トラップの効果時間")]
-    public float[] effectTime = { 1, 2, 4, 8 };
+    public float[] effectTime = { 1, 2, 4, 8 , 100 };
     [Header("即発動トラップか")]
     public bool isInstantActive = false;
 

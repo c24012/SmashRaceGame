@@ -3585,7 +3585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e1e8cfc649e74646b02d0c2d8335e10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 1
+  debugMode: 0
   bebug_playerCount: 2
   gameData: {fileID: -1807419503190558655, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
   playerCount: 2

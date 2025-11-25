@@ -9,6 +9,7 @@ public class PlayerManager : MonoBehaviour
 
     [Header("他オブジェスクリプト")]
     public CorseCheck corseCheck;
+    public PauseManager pause;
 
     [Header("Playerスクリプト")]
     public PlayerController playerController;

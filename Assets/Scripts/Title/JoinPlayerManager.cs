@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 
 
 public class JoinPlayerManager : MonoBehaviour
@@ -12,12 +10,14 @@ public class JoinPlayerManager : MonoBehaviour
     [SerializeField, Header("タイトルマネージャー")] TitleManager title_m;
     [SerializeField, Header("GUIマネージャー")] TitleGUIManager gui_m;
     [SerializeField, Header("参加アクション")] InputActionReference joinActionRef;
+    [SerializeField, Header("チュートリアルアクション")] InputActionReference tutorialActionRef;
     [SerializeField, Header("タイトル操作プレイヤーPrefab")] PlayerInput playerObj;
 
     [SerializeField] GameObject firstSelectObj;
     [SerializeField] GameObject cursorRootObj;
 
     InputAction joinInputAction;                    //参加ボタン検知用
+    InputAction tutorialInputAction;                //チュートリアルボタン検知用
     List<InputDevice> inputDeviceList = new();      //現在使われているデバイスリスト
     const int MAX_PLAYER_COUNT = 4;                 //最大参加可能人数
 
@@ -27,22 +27,34 @@ public class JoinPlayerManager : MonoBehaviour
         //PlayerInputManagerを取得
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        //参加ボタンを検知できるようにIAReferenceからInputActionを取得
+        //参加ボタン,チュートリアルボタンを検知できるようにIAReferenceからInputActionを取得
         joinInputAction = joinActionRef.action;
+        tutorialInputAction = tutorialActionRef.action;
+
         //ボタン検知を有効化
         joinInputAction.Enable();
+        tutorialInputAction.Enable();
         //参加ボタン入力時呼び出す関数を登録
         joinInputAction.started += OnJoin;
+        tutorialInputAction.started += OnTutorial;
         //参加時に呼ばれる関数を登録
         playerInputManager.onPlayerJoined += OnJoinManager;
         //オブジェクトが破壊されたときに呼ばれる関数を登録
         playerInputManager.onPlayerLeft += OnLeaveManager;
     }
 
-    private void OnDestroy()
+    public void DisableActions()
     {
         //ボタン検知を解除
         joinInputAction.Disable();
+        tutorialInputAction.Disable();
+        //参加ボタン入力時呼び出す関数を登録
+        joinInputAction.started -= OnJoin;
+        tutorialInputAction.started -= OnTutorial;
+        //参加時に呼ばれる関数を登録
+        playerInputManager.onPlayerJoined -= OnJoinManager;
+        //オブジェクトが破壊されたときに呼ばれる関数を登録
+        playerInputManager.onPlayerLeft -= OnLeaveManager;
     }
 
     /// <summary>
@@ -99,5 +111,10 @@ public class JoinPlayerManager : MonoBehaviour
 
         //GUI表示を更新
        gui_m.SetPlayerPanel(title_m.currentPlayerCount);
+    }
+
+    void OnTutorial(InputAction.CallbackContext context)
+    {
+        title_m.StartTutorial();
     }
 }

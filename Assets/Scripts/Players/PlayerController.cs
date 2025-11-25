@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer sr;
+    PlayerInput playerInput;
 
     [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
     [SerializeField, Tooltip("パワーゲージキャンバス")] Canvas powerGageCanvas;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour
     CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
     float locketSpeed = 10;
     float locketMaxSpeed = 10;
+    bool isItemChange = false;
 
     [SerializeField, Header("フラグ確認用")] 
     bool isMove = false;                        //動いているか
@@ -58,6 +60,7 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        playerInput = GetComponent<PlayerInput>();
         //初期化
         Init();
     }
@@ -136,6 +139,7 @@ public class PlayerController : MonoBehaviour
     void ChangeDirection(Vector2 dire)
     {
         transform.rotation = Quaternion.FromToRotation(Vector2.up, dire);
+        if (transform.rotation.eulerAngles.y != 0) transform.rotation = Quaternion.Euler(0, 0, transform.eulerAngles.z);
     }
 
     /// <summary>
@@ -529,6 +533,9 @@ public class PlayerController : MonoBehaviour
         //ロケット状態ではチャージできない
         if (isLocket) return;
 
+        //一時停止中は無効
+        //if (pm.pause.isOpen) return;
+
         //ボタンが押されたら力をチャージ
         if (context.started)
         {
@@ -564,12 +571,23 @@ public class PlayerController : MonoBehaviour
         //トラップがクールタイム中は返却
         if (!pm.trap.trapFlag) return;
 
+        //一時停止中は無効
+        //if (pm.pause.isOpen) return;
+
         //速攻発動トラップの場合
         if (pm.trap.GetIsInstantActive())
         {
-            //ボタンが押されたら発動
+            //ボタンが押されたら準備
             if (context.started)
             {
+                isItemChange = false;
+                pm.iconManager.ViewIcon(true);
+            }
+            //ボタンが離されたら発動
+            if (context.canceled)
+            {
+                pm.iconManager.ViewIcon(false);
+                if (isItemChange) return;
                 pm.trap.Trap();
             }
         }
@@ -578,12 +596,16 @@ public class PlayerController : MonoBehaviour
             //ボタンが押されたら力をチャージ
             if (context.started)
             {
+                isItemChange = false;
+                pm.iconManager.ViewIcon(true);
                 pm.trap.StartCharge();
             }
 
             //ボタンが離されたときに発動
             if (context.canceled)
             {
+                pm.iconManager.ViewIcon(false);
+                if (isItemChange) return;
                 pm.trap.StopCharge();
             }
         }
@@ -600,6 +622,10 @@ public class PlayerController : MonoBehaviour
 
         //行動不能時は返却
         if (isStop) return;
+
+        //一時停止中は無効
+        //if (pm.pause.isOpen) return;
+
         //入力中なら自身の向きを入力方向に変更
         if (context.performed)
         {
@@ -636,14 +662,59 @@ public class PlayerController : MonoBehaviour
 
         //行動不能時は返却
         if (isStop) return;
-        
+
+        //一時停止中は無効
+        //if (pm.pause.isOpen) return;
+
         if (context.started)
         {
             float value = context.ReadValue<float>();
             if(value > 0) pm.trap.TrapChange(value: 1);
             else pm.trap.TrapChange(value: -1);
+            isItemChange = true;
         }
     }
 
+    /// <summary>
+    /// ポーズ画面の入力    
+    /// </summary>
+    public void OnPause(InputAction.CallbackContext context)
+    {
+        //試合終了時は返却
+        if (isFinish) return;
+
+        //もうすでに開いているときは返却
+        //if (pm.pause.isOpen) return;
+
+        //ボタン入力で画面一時停止
+        if (context.started)
+        {
+            pm.pause.Pause(pm.playerNum);
+            playerInput.SwitchCurrentActionMap("PauseMenu");
+        }
+    }
+
+    public void OnClose(InputAction.CallbackContext context)
+    {
+        //if (!pm.pause.isOpen) return;
+        
+        //ボタン入力で一時停止解除
+        if (context.started)
+        {
+            pm.pause.Close(pm.playerNum);
+            playerInput.SwitchCurrentActionMap("RaceScene");
+        }
+    }
+
+    public void OnExit(InputAction.CallbackContext context)
+    {
+        //if (!pm.pause.isOpen) return;
+
+        //ボタン入力でタイトルに戻る
+        if (context.started)
+        {
+            pm.pause.ReturnTitle(pm.playerNum);
+        }
+    }
     #endregion
 }

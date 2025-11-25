@@ -51,6 +51,7 @@ MonoBehaviour:
   - 2
   - 3
   - 4
+  - 3
   isInstantActive: 1
   speeds: 0.5
   chargeSpeeds: 1

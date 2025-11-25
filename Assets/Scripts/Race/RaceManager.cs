@@ -2,11 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Splines;
-using UnityEngine.SceneManagement;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.Splines;
 
 [Serializable]
 /// <summary>

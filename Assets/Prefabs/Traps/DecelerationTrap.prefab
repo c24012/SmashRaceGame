@@ -174,6 +174,7 @@ MonoBehaviour:
   - 2
   - 3
   - 4
+  - 4
   isInstantActive: 0
   throwObj: {fileID: 6881958846578112831}
   throwCurve:

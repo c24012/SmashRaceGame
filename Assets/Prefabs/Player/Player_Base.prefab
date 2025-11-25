@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 1894249848701114581}
   - component: {fileID: 1527260826592242577}
   - component: {fileID: 2245563986278930380}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -112,14 +112,14 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3104092917822892836}
-  m_LocalRotation: {x: -0, y: -0, z: 0.70783645, w: 0.70637643}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: -3}
   m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8834887031755199706}
   m_Father: {fileID: 6775662033213618666}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -142,7 +142,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: -1550550645
@@ -283,7 +283,7 @@ GameObject:
   - component: {fileID: 8834887031755199706}
   - component: {fileID: 6085360870158115158}
   - component: {fileID: 7493540752318607421}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: PowerGageOutSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 3838569830213735585}
   - component: {fileID: 9145696839402035062}
   - component: {fileID: 6347062072953684524}
-  m_Layer: 5
+  m_Layer: 3
   m_Name: PowerGage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -563,6 +563,7 @@ MonoBehaviour:
     percentagePos: 0
     progress: 0
   corseCheck: {fileID: 0}
+  pause: {fileID: 0}
   playerController: {fileID: 8618556625193094002}
   powerGage: {fileID: 604501647485577127}
   iconManager: {fileID: 3234308522134770008}
@@ -1013,7 +1014,55 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: c9514640-717c-4527-8f52-e77c2d4a40b3
     m_ActionName: TitleScene/Info[/DualShock4GamepadHID/buttonNorth,/Keyboard/ctrl,/Keyboard/tab]
-  m_NeverAutoSwitchControlSchemes: 0
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8618556625193094002}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnClose
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 97128393-3914-410d-9002-518cb4ceec99
+    m_ActionName: PauseMenu/Close[/XInputControllerWindows/buttonEast,/Keyboard/j,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8618556625193094002}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnExit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 99db6e9d-1841-4c86-9e66-25e4705ecf18
+    m_ActionName: PauseMenu/Exit[/XInputControllerWindows/buttonSouth,/Keyboard/k,/Keyboard/shift]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8618556625193094002}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnPause
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 78d3215d-3eb4-48e5-a69c-9a4a96a82b42
+    m_ActionName: RaceScene/Pause[/XInputControllerWindows/start,/XInputControllerWindows/select,/Keyboard/escape]
+  m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepads
   m_DefaultActionMap: RaceScene
   m_SplitScreenIndex: -1
@@ -1098,6 +1147,7 @@ MonoBehaviour:
   - {fileID: 0}
   bunCount: 0
   disappearanceTime: 1
+  isView: 0
 --- !u!114 &2941396129132912671
 MonoBehaviour:
   m_ObjectHideFlags: 0

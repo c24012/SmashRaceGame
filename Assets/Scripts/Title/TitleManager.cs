@@ -1,13 +1,8 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 [Serializable]
 /// <summary>
@@ -70,8 +65,9 @@ public class TitleManager : MonoBehaviour
     bool[] isStoreTrapTable = new bool[4];          //自分のテーブルを選択中か一覧のテーブルを選択中か
     bool[] playerIsLady = new bool[4];              //プレイヤーの準備状態
 
-    //[NonSerialized]
     public bool[] charaSelectFlag = new bool[4];
+
+    bool isTutorial = false;
 
     public enum NowPhase
     {
@@ -199,13 +195,25 @@ public class TitleManager : MonoBehaviour
         //プレイヤーの情報を共有用データに保存
         SetGameData();
 
-        //--ここで画面の暗転アニメーションが入る(まだ)
+        //画面の暗転アニメーションが入る
         gui_m.PlayFadeIn();
         
     }
 
+    /// <summary>
+    /// フェードインが終了
+    /// </summary>
     public void FinishTitleFadeIn()
     {
+        //ボタン検知をオフ
+        join_m.DisableActions();
+
+        if (isTutorial)
+        {
+            //レースシーンへ
+            SceneManager.LoadScene("TutorialScene");
+            return;
+        }
         //レースシーンへ
         SceneManager.LoadScene("RaceScene");
     }
@@ -219,7 +227,19 @@ public class TitleManager : MonoBehaviour
         Application.Quit();
     }
 
-    #region プレイヤーからの入力
+    /// <summary>
+    /// チュートリアル開始
+    /// </summary>
+    public void StartTutorial()
+    {
+        //チュートリアルフラグをオン
+        isTutorial = true;
+
+        //画面の暗転アニメーションが入る
+        gui_m.PlayFadeIn();
+    }
+
+    #region #プレイヤーからの入力
 
     /// <summary>
     /// 決定ボタン
@@ -344,6 +364,9 @@ public class TitleManager : MonoBehaviour
             //すでに準備できている状態は返却
             if (playerIsLady[playerId]) return;
             if (charaSelectFlag[playerId]) return;
+
+            //横入力がない場合は返却
+            if ((int)vec.x == 0) return;
 
             //順番にキャラを表示
             playerCharactor[playerId] = (playerCharactor[playerId] + (int)vec.x + 4) % 4;

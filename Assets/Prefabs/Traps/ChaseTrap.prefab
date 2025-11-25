@@ -134,6 +134,7 @@ MonoBehaviour:
   - 0.5
   - 0.2
   - 0.1
+  - 0.5
   isInstantActive: 1
   rb: {fileID: 2511541324827407470}
   sensorCol: {fileID: 1246592143764396139}

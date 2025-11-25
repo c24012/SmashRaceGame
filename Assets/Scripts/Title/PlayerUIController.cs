@@ -46,6 +46,7 @@ public class PlayerUIController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
+        print("‚Ù‚°");
         if (context.started)
         {
             Vector2 vec = context.ReadValue<Vector2>();

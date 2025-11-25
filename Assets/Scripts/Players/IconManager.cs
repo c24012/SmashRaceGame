@@ -13,11 +13,13 @@ public class IconManager : MonoBehaviour
     
     [SerializeField] int bunCount;
     [SerializeField] float disappearanceTime;
+    [SerializeField] bool isView = false;
 
     private void Start()
     {
+        trapIconSp = new Sprite[pm.playerController.trapObj.Length];
         //持っているトラップのアイコンを取得
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < pm.playerController.trapObj.Length; i++)
         {
             trapIconSp[i] = pm.playerController.trapObj[i].GetComponent<TrapBase>().icon;
         }
@@ -52,9 +54,26 @@ public class IconManager : MonoBehaviour
     {
         if(bunCount == 1)
         {
-            banIconSr.enabled = false;
-            trapFrameObj.SetActive(false);
+            if (!isView)
+            {
+                banIconSr.enabled = false;
+                trapFrameObj.SetActive(false);
+            }
         }
         bunCount--;
+    }
+
+    public void ViewIcon(bool isView)
+    {
+        if (isView)
+        {
+            this.isView = true;
+            trapFrameObj.SetActive(true);
+        }
+        else
+        {
+            this.isView = false;
+            trapFrameObj.SetActive(false);
+        }
     }
 }

@@ -2448,6 +2448,7 @@ MonoBehaviour:
   title_m: {fileID: 721094455}
   gui_m: {fileID: 1800562652}
   joinActionRef: {fileID: -8757475513641471707, guid: 93c8e0d9f42eea44b9a074d0d0fa22d0, type: 3}
+  tutorialActionRef: {fileID: 5944876671545470451, guid: 93c8e0d9f42eea44b9a074d0d0fa22d0, type: 3}
   playerObj: {fileID: 1946348954820531956, guid: ed246cd12a5957e4490a5831c764c6b2, type: 3}
   firstSelectObj: {fileID: 932340688}
   cursorRootObj: {fileID: 517638927}
@@ -9305,9 +9306,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1936768170}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.089745, y: -1.7042396, z: 0.028078614}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -9.670897, y: -5.4170423, z: 90.00028}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 557075771}

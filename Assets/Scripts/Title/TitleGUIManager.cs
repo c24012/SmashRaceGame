@@ -1,8 +1,4 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.ComTypes;
-using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -123,8 +119,14 @@ public class TitleGUIManager : MonoBehaviour
         //人数を更新
         for (int i = 0; i < 4; i++)
         {
-            if (i < playerCount) playerPanels?[i].SetActive(true);
-            else playerPanels?[i].SetActive(false);
+            if (i < playerCount)
+            {
+                if (playerPanels[i] != null) playerPanels[i].SetActive(true);
+            }
+            else
+            {
+                if (playerPanels[i] != null) playerPanels[i].SetActive(false);
+            }
         }
 
         //もしタイトル画面ならキャラ選択画面へ移行
