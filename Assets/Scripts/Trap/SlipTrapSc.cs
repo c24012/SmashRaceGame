@@ -1,11 +1,11 @@
 using System.Collections;
 using UnityEngine;
 
-public class SlipTrapSc : TrapBase
+public class SlipTrapSc : TrapThrow
 {
     [Header("壊れるまでの時間")] public float timeItTakesToBreak = 8f;
 
-    private void Start()
+    override protected void LandedTrap()
     {
         //指定時間後にトラップを破壊
         Invoke(nameof(TimeUp),timeItTakesToBreak);

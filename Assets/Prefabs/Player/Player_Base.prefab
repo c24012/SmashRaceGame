@@ -706,7 +706,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6775662033213618666}
@@ -1033,17 +1033,19 @@ MonoBehaviour:
   guisTf: {fileID: 3358448367102029347}
   powerGageCanvas: {fileID: 1894249848701114581}
   trapObj:
-  - {fileID: 2055197002879597668, guid: 8ded68a7fca9c5645a03a24a55ea1126, type: 3}
   - {fileID: 2055197002879597668, guid: ddda4bff1158c604388cee020e418f98, type: 3}
-  - {fileID: 2055197002879597668, guid: 167d811b117ceba4eaba771bd2eb89a2, type: 3}
-  - {fileID: 2055197002879597668, guid: 0bfef716a3e8878499c8d527981a6257, type: 3}
+  - {fileID: 2055197002879597668, guid: 0c120c80f28b7424aba39e1ef2d53c76, type: 3}
+  - {fileID: 2055197002879597668, guid: 1fa609c0c2044b14eb397b24a65bf3d4, type: 3}
+  - {fileID: 2055197002879597668, guid: 8ded68a7fca9c5645a03a24a55ea1126, type: 3}
   moveSpeedRatio: 1
   effectNameList: []
   isMove: 0
   isStop: 0
   isStart: 0
+  isFinish: 0
+  isSlow: 0
   isSlip: 0
-  isConfusion: 0
+  confusionNum: 0
   isLocket: 0
 --- !u!114 &604501647485577127
 MonoBehaviour:
@@ -1058,7 +1060,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gageImage: {fileID: 6347062072953684524}
-  chargeSpeed: 1.5
+  chargeSpeed: 1.7
   power: 0
 --- !u!114 &7550207555693170296
 MonoBehaviour:
@@ -1111,9 +1113,9 @@ MonoBehaviour:
   aimObj: {fileID: 7117332586180655887}
   maxPower: 5
   trapNum: 0
-  chargeSpeed: 3
+  chargeSpeed: 3.5
   power: 0
-  coolTime: 4
+  coolTime: 5
   trapFlag: 1
 --- !u!212 &85082761554030558
 SpriteRenderer:

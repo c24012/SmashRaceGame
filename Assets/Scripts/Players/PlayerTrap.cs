@@ -28,6 +28,7 @@ public class PlayerTrap : MonoBehaviour
         //PlayerManagerを取得
         pm = transform.transform.parent.GetComponent<PlayerManager>();
 
+        trapFlag = true;
         Init();
     }
 
@@ -37,7 +38,7 @@ public class PlayerTrap : MonoBehaviour
     void Init()
     {
         isCharge = false;
-        power = 0;
+        power = 0.5f;
         aimObj.SetActive(false);
         aimObj.transform.localPosition = Vector3.zero;
     }
@@ -55,7 +56,7 @@ public class PlayerTrap : MonoBehaviour
     {
         //少しずつ溜まる
         power += Time.deltaTime * chargeSpeed;
-        //上限の「1」を超えないようにする
+        //上限を超えないようにする
         if (power > maxPower) power = maxPower;
 
         //トラップを置く直線状に障害物があるか確認用のレイ
@@ -83,10 +84,12 @@ public class PlayerTrap : MonoBehaviour
     }
 
     /// <summary>
-    /// チャージ量に応じて移動
+    /// チャージ量に遠くに投げる
     /// </summary>
     public void StopCharge()
     {
+        //チャージされていなかったらキャンセル
+        if (!isCharge) return;
         //溜めた分の距離でトラップを配置
         Trap();
         //ゲージをリセット
@@ -109,6 +112,9 @@ public class PlayerTrap : MonoBehaviour
         //トラップとアイコンを変更
         pm.iconManager.IconChange(trapNum);
         pm.iconManager.BanCheck(!trapFlag);
+
+        //今貯めているパワーはリセット
+        Init();
     }
 
     /// <summary>
@@ -161,7 +167,6 @@ public class PlayerTrap : MonoBehaviour
     /// </summary>
     public void ResetCharge()
     {
-        isCharge = false;
-        power = 0;
+        Init();
     }
 }

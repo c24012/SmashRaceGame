@@ -127,15 +127,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d8f2d5e41ba8a9409cbd72d87255f0b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pm: {fileID: 0}
   icon: {fileID: 317876842, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
-  isInstantActive: 1
   effectTime:
-  - 3
   - 2
-  - 1
   - 0.5
+  - 0.2
+  - 0.1
+  isInstantActive: 1
   rb: {fileID: 2511541324827407470}
   sensorCol: {fileID: 1246592143764396139}
   bodyCol: {fileID: 2599604544087897377}
@@ -155,7 +154,7 @@ GameObject:
   - component: {fileID: 449122928154859448}
   - component: {fileID: 1246592143764396139}
   - component: {fileID: 3259921937555085849}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Senser
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,9 +208,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 2.5}
+  m_Offset: {x: 0, y: 2}
   serializedVersion: 2
-  m_Radius: 3
+  m_Radius: 2
 --- !u!114 &3259921937555085849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,7 +236,7 @@ GameObject:
   - component: {fileID: 4585216638094362002}
   - component: {fileID: 2599604544087897377}
   - component: {fileID: 2946166393734593965}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Body
   m_TagString: Untagged
   m_Icon: {fileID: 0}

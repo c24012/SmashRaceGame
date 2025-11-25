@@ -44,6 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745320b217cb27241aca5427e8bafc1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 1
+  playerCount: 2
   playerInfoList: []
   ranking: 00000000000000000000000000000000

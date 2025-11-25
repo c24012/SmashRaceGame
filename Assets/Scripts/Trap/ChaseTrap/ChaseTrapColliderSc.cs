@@ -9,6 +9,12 @@ public class ChaseTrapColliderSc : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //‘ÎÛ‚ªå‚È‚ç–³‹
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if(trap.pm == collision.transform.parent.GetComponent<PlayerManager>()) return;
+        }
+
         if (isSenser)
         {
             if (collision.gameObject.CompareTag("Player"))
@@ -34,6 +40,12 @@ public class ChaseTrapColliderSc : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
+        //‘ÎÛ‚ªå‚È‚ç–³‹
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (trap.pm == collision.transform.parent.GetComponent<PlayerManager>()) return;
+        }
+
         if (isSenser)
         {
             if (collision.gameObject.CompareTag("Player"))

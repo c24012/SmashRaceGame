@@ -1,15 +1,15 @@
 using System.Collections;
 using UnityEngine;
 
-public class ConfusionTrapSc : TrapBase
+public class ConfusionTrapSc : TrapThrow
 {
     [Header("壊れるまでの時間")] public float timeItTakesToBreak = 0.2f;
 
-    private void Start()
+    protected override void LandedTrap()
     {
         //指定時間後にトラップを破壊
-        Invoke(nameof(TimeUp),timeItTakesToBreak);
-    }
+        Invoke(nameof(TimeUp), timeItTakesToBreak);
+    } 
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -45,8 +45,7 @@ public class ConfusionTrapSc : TrapBase
     private void TimeUp()
     {
         //先に当たり判定を消す
-        col.enabled = false;
-        sr.enabled = false;
+        trapObj.SetActive(false);
         //効果終了後に破壊
         float time = Mathf.Max(effectTime);
         Destroy(gameObject, time + 1);

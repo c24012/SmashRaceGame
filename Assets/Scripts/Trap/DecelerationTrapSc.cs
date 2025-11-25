@@ -1,15 +1,14 @@
 using System.Collections;
 using UnityEngine;
 
-public class DecelerationTrapSc : TrapBase
+public class DecelerationTrapSc : TrapThrow
 {
     [SerializeField, Header("スピードの減速値")] float downSpeed = 0.5f;
-    [Header("壊れるまでの時間")] public float timeItTakesToBreak = 10;
 
-    private void Start()
+    override protected void LandedTrap()
     {
         //指定時間後にトラップを破壊
-        Invoke(nameof(TimeUp), timeItTakesToBreak);
+        Invoke(nameof(TimeUp), effectTime[rankingPower]);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -18,28 +17,20 @@ public class DecelerationTrapSc : TrapBase
         {
             //合ったったプレイヤーのマネージャーを取得しておく
             pm = collision.transform.parent.GetComponent<PlayerManager>();
-            //当たったプレイヤーに効果を付与
-            StartCoroutine(GiveEffect(pm));
-            //一定時間後に破壊
-            TimeUp();
+            //減速を与える
+            pm.playerController.EffectMoveSpeedRatio(downSpeed, true, gameObject.name);
         }
     }
 
-    /// <summary>
-    /// 効果を付与
-    /// </summary>
-    /// <param name="pm"></param>
-    /// <returns></returns>
-    IEnumerator GiveEffect(PlayerManager pm)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        //順位を取得
-        rankingPower = pm.playerData.ranking;
-        //減速を与える
-        pm.playerController.EffectMoveSpeedRatio(downSpeed,true,gameObject.name);
-        //各順位の時間待機
-        yield return new WaitForSeconds(effectTime[rankingPower]);
-        //減速をリセット
-        pm.playerController.EffectMoveSpeedRatio(downSpeed,false,gameObject.name);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            //合ったったプレイヤーのマネージャーを取得しておく
+            pm = collision.transform.parent.GetComponent<PlayerManager>();
+            //減速をリセット
+            pm.playerController.EffectMoveSpeedRatio(downSpeed, false, gameObject.name);
+        }
     }
 
     /// <summary>
@@ -47,11 +38,6 @@ public class DecelerationTrapSc : TrapBase
     /// </summary>
     private void TimeUp()
     {
-        //先に判定を消す
-        col.enabled = false;
-        sr.enabled = false;
-        //最後の効果時間を待って破壊
-        float time = Mathf.Max(effectTime);
-        Destroy(gameObject, time + 1);
+        Destroy(gameObject);
     }
 }

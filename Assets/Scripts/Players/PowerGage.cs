@@ -80,4 +80,13 @@ public class PowerGage : MonoBehaviour
         power = 0;
         gageImage.fillAmount = 0;
     }
+
+    /// <summary>
+    /// ゲージのチャージ速度を増減
+    /// </summary>
+    /// <param name="value"></param>
+    public void AdditionChargeSpeed(float value)
+    {
+        chargeSpeed += value;
+    }
 }

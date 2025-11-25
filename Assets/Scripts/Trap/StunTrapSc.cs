@@ -45,8 +45,7 @@ public class StunTrapSc : TrapBase
     private void TimeUp()
     {
         //æ‚É“–‚½‚è”»’è‚ğÁ‚·
-        col.enabled = false;
-        sr.enabled = false;
+        trapObj.SetActive(false);
         //Œø‰ÊI—¹Œã‚É”j‰ó
         float time = Mathf.Max(effectTime);
         Destroy(gameObject, time + 1);

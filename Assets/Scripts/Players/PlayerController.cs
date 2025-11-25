@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.VFX;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,9 +28,10 @@ public class PlayerController : MonoBehaviour
     bool isMove = false;                        //動いているか
     [SerializeField] bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
-    [SerializeField] bool isFinish = false;      //レースが終わっているか
+    [SerializeField] bool isFinish = false;     //レースが終わっているか
+    [SerializeField] bool isSlow = false;       //泥踏み状態
     [SerializeField] bool isSlip = false;       //滑り状態
-    [SerializeField] bool isConfusion = false;  //混乱状態
+    [SerializeField] int confusionNum = 0;      //混乱状態
     [SerializeField] bool isLocket = false;     //ロケット状態
 
     /// <summary>
@@ -190,6 +189,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
+        //泥踏み状態は固定
+        if (isSlow) rb.drag = 6;
+
         //ロケット状態なら固定
         if (isLocket) rb.drag = 3;
     }
@@ -234,7 +236,11 @@ public class PlayerController : MonoBehaviour
     void Stun_ElectricShock(bool isActive)
     {
         isStop = isActive;
-        if (isStop) Init();
+        if (isStop)
+        {
+            Init();
+            pm.trap.ResetCharge();
+        }
     }
 
     /// <summary>
@@ -254,7 +260,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void Confusion(bool isActive)
     {
-        isConfusion = isActive;
+        if (isActive) confusionNum = UnityEngine.Random.Range(1, 4);
+        else confusionNum = 0;
     }
 
     /// <summary>
@@ -277,7 +284,11 @@ public class PlayerController : MonoBehaviour
     void Stun_Flame(bool isActive)
     {
         isStop = isActive;
-        if (isStop) Init();
+        if (isStop)
+        {
+            Init();
+            pm.trap.ResetCharge();
+        }
     }
 
     #endregion
@@ -289,7 +300,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="speedFluctuation">増減させる値</param>
     /// <param name="trapName">トラップの名前</param>
-    public void EffectMoveSpeedRatio(float speedFluctuation, bool isActive, string trapName)
+    public void EffectMoveSpeedRatio(float speedFluctuation, bool isActive, string trapName, float chargeSpeed = 0)
     {
         //付与
         if (isActive)
@@ -302,6 +313,11 @@ public class PlayerController : MonoBehaviour
             if (isContain) return;
             //初めての効果の場合付与
             moveSpeedRatio += speedFluctuation;
+
+            //加速の時は溜める速度を変更
+            if (chargeSpeed != 0) pm.powerGage.AdditionChargeSpeed(chargeSpeed);
+            //泥の減速中はフラグをオン
+            if (speedFluctuation < 0) isSlow = true;
         }
         //解除
         else
@@ -311,7 +327,12 @@ public class PlayerController : MonoBehaviour
             //消してもなお残っている場合返却
             if (effectNameList.Contains(trapName)) return;
             //もう残っていない効果の場合戻す
-            else moveSpeedRatio -= speedFluctuation;
+            moveSpeedRatio -= speedFluctuation;
+
+            //溜める速度を変更
+            if (chargeSpeed != 0) pm.powerGage.AdditionChargeSpeed(-chargeSpeed);
+            //泥の減速中はフラグをオフ
+            if (speedFluctuation < 0) isSlow = false;
         }
     }
 
@@ -412,15 +433,17 @@ public class PlayerController : MonoBehaviour
     /// 衝撃波の加速
     /// </summary>
     /// <param name="pos"></param>
-    public void EffectShockWave(Vector2 pos)
+    public void EffectShockWave(Vector2 pos, bool mySelf = false)
     {
         //位置の差を計算
         Vector2 vec = (Vector2)transform.position - pos;
-        float diff = MathF.Max(vec.magnitude,0.1f);
+        float diff = Mathf.Clamp(vec.magnitude, 0.5f, 2f);
         //方向の正規化
         vec.Normalize();
         //中心から離れるほど弱く加速
-        rb.AddForce((vec * MOVE_POWER) / (diff * 2));
+        //自分に当たった場合は影響を弱くする
+        if (mySelf) rb.AddForce((vec * MOVE_POWER) / (diff * 2));
+        else rb.AddForce((vec * MOVE_POWER) / diff);
     }
 
     /// <summary>
@@ -582,8 +605,21 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 dire = context.ReadValue<Vector2>();
 
-            //もし混乱しているなら反転させる
-            if (isConfusion) dire = new Vector2(-dire.x, -dire.y);
+            //もし混乱しているなら入力を回転させる
+            switch (confusionNum)
+            {
+                case 1: //90度回転
+                    dire = new Vector2(-dire.y, dire.x);
+                    break;
+                case 2: //180度回転
+                    dire = new Vector2(-dire.x, -dire.y);
+                    break;
+                case 3: //270度回転
+                    dire = new Vector2(dire.y, -dire.x);
+                    break;
+                default:
+                    break;
+            }
 
             ChangeDirection(dire);
         }
