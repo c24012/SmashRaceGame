@@ -80,7 +80,7 @@ public class JoinPlayerManager : MonoBehaviour
         //現在の参加者を減らす
         title_m.currentPlayerCount--;
         //GUI表示を更新
-        gui_m.SetPlayerPanel(title_m.currentPlayerCount);
+        //gui_m.SetPlayerPanel(title_m.currentPlayerCount);
         //プレイヤー詳細データを更新
         title_m.PlayerInfoDataUpdate();
     }
@@ -109,8 +109,14 @@ public class JoinPlayerManager : MonoBehaviour
         //プレイヤーを登録
         title_m.playerInfoList.Add(new PlayerInfo(player.playerIndex,player,context.control.device));
 
+        //参加ボタンで人数選択画面へ
+        if(title_m.nowPhase == TitleManager.NowPhase.Title)
+        {
+            title_m.CountSelectView();
+        }
+
         //GUI表示を更新
-       gui_m.SetPlayerPanel(title_m.currentPlayerCount);
+        gui_m.SetJoinPlayer(title_m.currentPlayerCount);
     }
 
     void OnTutorial(InputAction.CallbackContext context)

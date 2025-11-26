@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -46,7 +47,6 @@ public class PlayerUIController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        print("‚Ù‚°");
         if (context.started)
         {
             Vector2 vec = context.ReadValue<Vector2>();
@@ -64,7 +64,19 @@ public class PlayerUIController : MonoBehaviour
 
     public void OnInfo(InputAction.CallbackContext context)
     {
+        if(context.started)
+        {
+            
+        }
+    }
 
+
+    public void OnStart(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            titleManager.OnStart();
+        }
     }
 
     #endregion

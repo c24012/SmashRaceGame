@@ -150,6 +150,34 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: c9514640-717c-4527-8f52-e77c2d4a40b3
     m_ActionName: TitleScene/Info[/DualShock4GamepadHID/buttonNorth,/Keyboard/ctrl,/Keyboard/tab]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 78d3215d-3eb4-48e5-a69c-9a4a96a82b42
+    m_ActionName: RaceScene/Pause[/DualShock4GamepadHID/start,/DualShock4GamepadHID/select,/Keyboard/escape]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: -5181489790431469978}
+        m_TargetAssemblyTypeName: PlayerUIController, Assembly-CSharp
+        m_MethodName: OnStart
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 74278cd4-ccc9-45b6-9888-02a295824a84
+    m_ActionName: TitleScene/Start[/DualShock4GamepadHID/start,/DualShock4GamepadHID/select,/Keyboard/p]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 97128393-3914-410d-9002-518cb4ceec99
+    m_ActionName: PauseMenu/Close[/DualShock4GamepadHID/buttonEast,/Keyboard/j,/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 99db6e9d-1841-4c86-9e66-25e4705ecf18
+    m_ActionName: PauseMenu/Exit[/DualShock4GamepadHID/buttonSouth,/Keyboard/k,/Keyboard/shift]
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Keyborad
   m_DefaultActionMap: TitleScene

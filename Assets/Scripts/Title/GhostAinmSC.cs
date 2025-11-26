@@ -5,18 +5,30 @@ using UnityEngine.UI;
 
 public class GhostAinmSC : MonoBehaviour
 {
-    [SerializeField] Image playingCharactorsImage;
+    [SerializeField] GameObject inImage;
 
     [SerializeField] TitleManager title;
     [SerializeField] int playerNum;
-    public void PlayingCharaChengeFalse()
+
+    public void PlayingChengeFalse()
     {
-        playingCharactorsImage.enabled = false;
+        if (title.nowPhase == TitleManager.NowPhase.CountSelect)
+        {
+            title.countChangingFlag = true;
+        }
+        inImage.SetActive(false);
     }
 
-    public void PlayingCharaChengeTrue()
+    public void PlayingChengeTrue()
     {
-        title.charaSelectFlag[playerNum] = false;
-        playingCharactorsImage.enabled = true;
+        if(title.nowPhase == TitleManager.NowPhase.CountSelect)
+        {
+            title.countChangingFlag = false;
+        }
+        else if(title.nowPhase == TitleManager.NowPhase.CharaSelect)
+        {
+            title.charaChangingFlag[playerNum] = false;
+        }
+        inImage.SetActive(true);
     }
 }

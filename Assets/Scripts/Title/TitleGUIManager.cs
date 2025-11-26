@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
@@ -7,11 +8,19 @@ public class TitleGUIManager : MonoBehaviour
 {
     [SerializeField] TitleManager title;
     [SerializeField] TrapStore trapStore;
-    [SerializeField, Header("GUIs")] GameObject selectMenuPanel;
-    [SerializeField] GameObject trapSelecterPanel;
-    [SerializeField] Animation titlePanelAnim;
-    [SerializeField] GameObject[] playerPanels = new GameObject[4];
-    [SerializeField] GameObject[] charactorPanels = new GameObject[4];
+
+    [SerializeField ,Header("人数選択画面")] GameObject countSelectPanel;
+    [SerializeField] Animator countSelect_GhostAnim;
+    [SerializeField] Text countSlect_PlayerCountText;
+    [SerializeField] Animator countSelect_GhostUpAnim;
+    [SerializeField] Animation titleFadeAnim;
+
+    [SerializeField, Header("キャラ選択画面")] GameObject[] playerPanels = new GameObject[4];
+    [SerializeField] GameObject[] joinPanels = new GameObject[4];
+    [SerializeField] GameObject[] CharaSignBoardPanels = new GameObject[4];
+    [SerializeField] Animator[] GhostAnim;
+
+    [SerializeField, Header("アイテム選択画面")] GameObject trapSelecterPanel;
     [SerializeField] GameObject[] trapPanels = new GameObject[4];
     [SerializeField] Image[] playingCharactorsImage = new Image[4];
     [SerializeField] Sprite[] playingCharactorSprites = new Sprite[4];
@@ -24,23 +33,22 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] RectTransform[] selectCursors = new RectTransform[4];
     [SerializeField] HorizontalLayoutGroup SelectManulayoutGroup;
     [SerializeField] Transform root;
+    [SerializeField] Animator lastCheckSignBoardAnim;
 
-    [SerializeField] PlayableDirector charaAnim;
-
-    [SerializeField] PlayableDirector selectAnim;
-
-
+    //画面遷移
+    [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectOutAnim;
+    [SerializeField] PlayableDirector charaSelectOutAnim;
+    [SerializeField] PlayableDirector trapSelectInAnim;
     [SerializeField] PlayableDirector fadeIn;
 
-    [SerializeField] Animator[] GhostAnim;
-
+    
     int playerNum_local;
     int charactorId_local;
 
     /// <summary>
     /// //各プレイヤーの自分のトラップアイコンのRectTransformとImage取得
     /// </summary>
-    public void SetTrapIcons_mine()
+    void SetTrapIcons_mine()
     {
         for (int i = 0; i < 4; i++)
         {
@@ -58,20 +66,6 @@ public class TitleGUIManager : MonoBehaviour
         }
     }
 
-    public void FinishSelectCharaAnim()
-    {
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                trapIconsImage_mine[i][j].enabled = true;
-            }
-        }
-        for (int i = 0; i < 8; i++)
-        {
-            trapIconsImage_store[i].enabled = true;
-        }
-    }
 
     private void Awake()
     {
@@ -82,12 +76,12 @@ public class TitleGUIManager : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             playerPanels[i].SetActive(false);
-            charactorPanels[i].SetActive(true);
+            CharaSignBoardPanels[i].SetActive(true);
             trapPanels[i].SetActive(false);
             ViewCharactorImage(playerNum:i, isView:false);
             SetTrapSelectCursor(playerNum:i,trapId:0,isStore:false);
         }
-        trapSelecterPanel.SetActive(false);
+        SetPhasePanel(TitleManager.NowPhase.Title);
 
         //アイコンImageの適応
         for (int i = 0; i < trapStore.trapObjs.Count; i++) 
@@ -110,6 +104,82 @@ public class TitleGUIManager : MonoBehaviour
         SelectManulayoutGroup.enabled = true;
     }
 
+    #region #タイトル画面
+
+    /// <summary>
+    /// タイトル画面を表示
+    /// </summary>
+    public void ViewTitle()
+    {
+        SetPhasePanel(TitleManager.NowPhase.Title);
+    }
+
+    #endregion
+
+    #region #人数選択画面
+
+    /// <summary>
+    /// 人数選択画面を表示
+    /// </summary>
+    public void ViewCountSelect()
+    {
+        //ピンぼけアニメーション再生
+        titleFadeAnim.Play();
+        //人数選択画面を表示
+        SetPhasePanel(TitleManager.NowPhase.CountSelect);
+    }
+
+    #endregion
+
+    /// <summary>
+    /// フェーズによって必要パネル表示を切り替え
+    /// </summary>
+    /// <param name="now"></param>
+    void SetPhasePanel(TitleManager.NowPhase now)
+    {
+        switch (now)
+        {
+            //タイトル
+            case TitleManager.NowPhase.Title:
+                countSelectPanel.SetActive(false);
+                for (int i = 0; i < 4; i++)
+                {
+                    joinPanels[i].SetActive(false);
+                    CharaSignBoardPanels[i].SetActive(false);
+                }
+                trapSelecterPanel.SetActive(false);
+                break;
+            //人数選択
+            case TitleManager.NowPhase.CountSelect:
+                countSelectPanel.SetActive(true); 
+                for(int i = 0; i < 4; i++)
+                {
+                    joinPanels[i].SetActive(false);
+                    CharaSignBoardPanels[i].SetActive(false);
+                }
+                trapSelecterPanel.SetActive(false);
+                break;
+            //キャラ選択
+            case TitleManager.NowPhase.CharaSelect:
+                countSelectPanel.SetActive(false);
+                trapSelecterPanel.SetActive(false);
+                break;
+            //アイテム選択
+            case TitleManager.NowPhase.TrapSelect:
+                countSelectPanel.SetActive(false);
+                for (int i = 0; i < 4; i++)
+                {
+                    joinPanels[i].SetActive(false);
+                    CharaSignBoardPanels[i].SetActive(false);
+                    trapPanels[i].SetActive(true);
+                    //カーソルの位置を変更
+                    if (i < title.currentPlayerCount) SetTrapSelectCursor(playerNum: i, trapId: 0, isStore: false);
+                }
+                trapSelecterPanel.SetActive(true);
+                break;
+        }
+    }
+
     /// <summary>
     /// プレイヤーの人数に合わせて枠を用意
     /// </summary>
@@ -128,9 +198,24 @@ public class TitleGUIManager : MonoBehaviour
                 if (playerPanels[i] != null) playerPanels[i].SetActive(false);
             }
         }
+    }
 
-        //もしタイトル画面ならキャラ選択画面へ移行
-        if (title.nowPhase == TitleManager.NowPhase.Title) title.CharactorSelectView();
+    public void SetJoinPlayer(int playerCount)
+    {
+        //人数を更新
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < playerCount)
+            {
+                joinPanels[i].SetActive(false);
+                CharaSignBoardPanels[i].SetActive(true);
+            }
+            else
+            {
+                joinPanels[i].SetActive(true);
+                CharaSignBoardPanels[i].SetActive(false);
+            }
+        }
     }
 
     /// <summary>
@@ -138,22 +223,43 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     public void ViewTrapSelect()
     {
-        trapSelecterPanel.SetActive(true);
         //プレイヤーの自動レイアウトをオフ
         SelectManulayoutGroup.enabled = false;
-        charaAnim.Play();
-    }
 
-    public void SlectPanelActive()
+        //アニメーション開始
+        title.isPlayingAnim = true;
+        charaSelectOutAnim.stopped += CharaSelectOutAnim_stopped;
+        charaSelectOutAnim.Play();
+    }
+    void CharaSelectOutAnim_stopped(PlayableDirector obj)
     {
-        for (int i = 0; i < title.currentPlayerCount; i++)
+        //登録を削除
+        charaSelectOutAnim.stopped -= CharaSelectOutAnim_stopped;
+        //アイテム選択画面を表示
+        SetPhasePanel(TitleManager.NowPhase.TrapSelect);
+
+        //アニメーション開始
+        trapSelectInAnim.stopped += TrapSelectInAnim_stopped;
+        trapSelectInAnim.Play();
+    }
+    void TrapSelectInAnim_stopped(PlayableDirector obj)
+    {
+        //登録を解除
+        trapSelectInAnim.stopped -= TrapSelectInAnim_stopped;
+        //アニメーション終了
+        title.isPlayingAnim = false;
+        // アニメーション終了に合わせてトラップアイコンを表示
+        for (int i = 0; i < 4; i++)
         {
-            charactorPanels[i].SetActive(false);
-            trapPanels[i].SetActive(true);
-            //カーソルの位置を変更
-            SetTrapSelectCursor(playerNum: i, trapId: 0, isStore: false);
+            for (int j = 0; j < 4; j++)
+            {
+                trapIconsImage_mine[i][j].enabled = true;
+            }
         }
-        selectAnim.Play();
+        for (int i = 0; i < 8; i++)
+        {
+            trapIconsImage_store[i].enabled = true;
+        }
     }
 
     /// <summary>
@@ -175,10 +281,34 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     public void ViewCharactorSelect()
     {
-        //ピンぼけアニメーション再生
-        titlePanelAnim.Play();
+        //幽霊上昇アニメーション
+        title.isPlayingAnim = true;
+        countSelectOutAnim.stopped += CountSelectOutAnim_stopped;
+        countSelectOutAnim.Play();
+    }
+    void CountSelectOutAnim_stopped(PlayableDirector obj)
+    {
+        //登録を削除
+        countSelectOutAnim.stopped -= CountSelectOutAnim_stopped;
+        //アニメーション終了
+        title.isPlayingAnim = false;
         //キャラ選択画面を表示
-        selectMenuPanel.SetActive(true);
+        SetPhasePanel(TitleManager.NowPhase.CharaSelect);
+    }
+
+    /// <summary>
+    /// 人数選択の看板の数字変更&アニメーション
+    /// </summary>
+    /// <param name="inputValue"></param>
+    /// <param name="count"></param>
+    public void ChangePlayerCountText(int inputValue,int count)
+    {
+        //入力がプラスの場合は左
+        if(inputValue > 0) countSelect_GhostAnim.SetTrigger("Left");
+        //マイナスの場合は右回転
+        else countSelect_GhostAnim.SetTrigger("Right");
+        //数字を表示
+        countSlect_PlayerCountText.text = count.ToString();
     }
 
     /// <summary>
@@ -201,14 +331,6 @@ public class TitleGUIManager : MonoBehaviour
         charactorId_local = charactorId;
     }
 
-    /// <summary>
-    /// タイトル画面を表示
-    /// </summary>
-    public void ViewTitle()
-    {
-        selectMenuPanel.SetActive(false);
-        trapSelecterPanel.SetActive(false);
-    }
 
     /// <summary>
     /// トラップのカーソルを指定
@@ -240,6 +362,20 @@ public class TitleGUIManager : MonoBehaviour
         trapIconsImage_mine[playernum][trapObjNum].enabled = true;
     }
 
+    /// <summary>
+    /// 最終準備確認お化けのアニメーション
+    /// </summary>
+    /// <param name="isView"></param>
+    public void PlayLastCheckSignBoardAnim(bool isView)
+    {
+        //今の同じ状態は返却
+        if (lastCheckSignBoardAnim.GetBool("isDown") == isView) return;
+        lastCheckSignBoardAnim.SetBool("isDown", isView);
+    }
+
+    /// <summary>
+    /// シーン移動のフェードイン再生
+    /// </summary>
     public void PlayFadeIn()
     {
         fadeIn.Play();

@@ -58,32 +58,31 @@ public class TitleManager : MonoBehaviour
     [SerializeField] int trapWidthCount = 4;
     [SerializeField] int trapHighCount = 2;
 
+    int maxPlayerCount = 1;                         //決められたプレイヤー人数
     int[] playerCharactor = new int[4];             //各プレイヤーのキャラクターId
-    int[,] playerSelectedTraps = new int[4, 4];     //各プレイヤーのトラップId
+    int[,] playerSelectedTraps =                    //各プレイヤーのトラップId
+        {{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1}};
     int[] playerSelectingTrap_store = new int[4];   //トラップ選択画面のカーソルの場所(トラップ一覧)
     int[] playerSelectingTrap_mine = new int[4];    //トラップ選択画面のカーソルの場所(自分のトラップ)
     bool[] isStoreTrapTable = new bool[4];          //自分のテーブルを選択中か一覧のテーブルを選択中か
     bool[] playerIsLady = new bool[4];              //プレイヤーの準備状態
+    bool isLadyGame = false;                        //ゲーム開始できるか
+    bool isStartGame = false;                       //ゲーム開始
 
-    public bool[] charaSelectFlag = new bool[4];
+    public bool countChangingFlag = false;
+    public bool[] charaChangingFlag = new bool[4];  //キャラ選択のアニメーション中か
+    public bool isPlayingAnim = false;              //アニメーション再生中か
 
     bool isTutorial = false;
 
     public enum NowPhase
     {
         Title,
+        CountSelect,
         CharaSelect,
         TrapSelect,
     }
     public NowPhase nowPhase = NowPhase.Title;      //現在のフェーズ
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            StartGame();
-        }
-    }
 
     /// <summary>
     /// 全員が準備できたかの確認
@@ -95,13 +94,45 @@ public class TitleManager : MonoBehaviour
         //準備出来た人数をカウント
         foreach (bool ready in playerIsLady) if (ready) count++;
         //今いるプレイヤー全員と一致するかを返却
-        return count >= currentPlayerCount;
+        return count >= maxPlayerCount;
+    }
+
+    /// <summary>
+    /// 全員がアイテムを選択したかの確認
+    /// </summary>
+    /// <returns></returns>
+    bool CheckAllSelected()
+    {
+        //アイテムが全部選択されたか
+        for(int i = 0; i < maxPlayerCount; i++)
+        {
+            for(int j = 0; j < 4; j++)
+            {
+                if (playerSelectedTraps[i, j] == -1) return false;
+            }
+        }
+
+        int count = 0;
+        //準備出来た人数をカウント
+        foreach (bool ready in isStoreTrapTable) if (!ready) count++;
+        //今いるプレイヤー全員と一致するかを返却
+        return count >= maxPlayerCount;
+    }
+
+    /// <summary>
+    /// 人数選択画面へ
+    /// </summary>
+    public void CountSelectView()
+    {
+        nowPhase = NowPhase.CountSelect;
+        //プレイヤー人数選択画面
+        gui_m.ViewCountSelect();
     }
 
     /// <summary>
     /// トラップ選択画面へ
     /// </summary>
-    public void ChengedToTrapPanel()
+    public void TrapSelectView()
     {
         nowPhase = NowPhase.TrapSelect;
         //トラップ選択画面を表示
@@ -109,7 +140,7 @@ public class TitleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// タイトル画面から選択画面へと移動
+    /// キャラ選択画面へ
     /// </summary>
     public void CharactorSelectView()
     {
@@ -121,7 +152,7 @@ public class TitleManager : MonoBehaviour
     /// <summary>
     /// 選択画面画面からタイトルに戻る
     /// </summary>
-    public void ReturnTitle()
+    public void TitleView()
     {
         nowPhase = NowPhase.Title;
         //タイトル画面を表示
@@ -197,7 +228,6 @@ public class TitleManager : MonoBehaviour
 
         //画面の暗転アニメーションが入る
         gui_m.PlayFadeIn();
-        
     }
 
     /// <summary>
@@ -232,6 +262,9 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void StartTutorial()
     {
+        //タイトル以外は返却
+        if (nowPhase != NowPhase.Title) return;
+
         //チュートリアルフラグをオン
         isTutorial = true;
 
@@ -246,9 +279,22 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void Decision(int playerId)
     {
+        //ゲーム開始後は受け付けない
+        if (isStartGame) return;
+
+        //何かしらの遷移アニメーション中は受け付けない
+        if (isPlayingAnim) return;
+
         //タイトル
         if (nowPhase == NowPhase.Title)
         {
+            CountSelectView();
+        }
+        //人数選択画面
+        else if (nowPhase == NowPhase.CountSelect)
+        {
+            //人数分キャラパネルを用意
+            gui_m.SetPlayerPanel(maxPlayerCount);
             CharactorSelectView();
         }
         //キャラ選択画面
@@ -262,11 +308,8 @@ public class TitleManager : MonoBehaviour
             //他のプレイヤーも準備ができたらトラップ選択画へ
             if (CheckAllReady())
             {
-
-                //--カメラアニメーション(まだ)
-
                 //トラップ選択画面へ
-                Invoke(nameof(ChengedToTrapPanel), 1);
+                TrapSelectView();
                 //準備フラグを全員リセット
                 for (int i = 0; i < 4; i++)
                 {
@@ -293,6 +336,15 @@ public class TitleManager : MonoBehaviour
                     playerSelectingTrap_mine[playerId],
                     isStoreTrapTable[playerId]
                     );
+
+                //全員準備が終わったかの確認
+                if (CheckAllSelected())
+                {
+                    //レース始められるフラグをオン
+                    isLadyGame = true;
+                    //最終確認お化けアニメーション
+                    gui_m.PlayLastCheckSignBoardAnim(true);
+                }
             }
             //自分のトラップ選択中なら一覧に移動
             else
@@ -304,6 +356,12 @@ public class TitleManager : MonoBehaviour
                     playerSelectingTrap_store[playerId],
                     isStoreTrapTable[playerId]
                     );
+
+                //レース始められるフラグをオフ
+                isLadyGame = false;
+
+                //最終確認お化けアニメーション
+                gui_m.PlayLastCheckSignBoardAnim(false);
             }
 
         }
@@ -314,7 +372,12 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void Cancel(int playerId)
     {
-        print("B!");
+        //ゲーム開始後は受け付けない
+        if (isStartGame) return;
+
+        //何かしらの遷移アニメーション中は受け付けない
+        if (isPlayingAnim) return;
+
         //タイトル画面
         if (nowPhase == NowPhase.Title)
         {
@@ -325,7 +388,7 @@ public class TitleManager : MonoBehaviour
         if (nowPhase == NowPhase.CharaSelect)
         {
             //押したプレイヤーのオブジェクトを破壊(コントローラー切断の為)
-            Destroy(playerInfoList.Find((x) => x.playerIndex == playerId).playerInput.gameObject);
+            //Destroy(playerInfoList.Find((x) => x.playerIndex == playerId).playerInput.gameObject);
         }
         //トラップ選択画面
         if (nowPhase == NowPhase.TrapSelect)
@@ -353,17 +416,41 @@ public class TitleManager : MonoBehaviour
     /// <param name="next"></param>
     public void OnMove(int playerId, Vector2 vec)
     {
+        //ゲーム開始後は受け付けない
+        if (isStartGame) return;
+
+        //何かしらの遷移アニメーション中は受け付けない
+        if (isPlayingAnim) return;
+
         //タイトル画面
         if (nowPhase == NowPhase.Title)
         {
             //特になし
+        }
+        //人数選択画面
+        else if(nowPhase == NowPhase.CountSelect)
+        {
+            //横入力がない場合は返却
+            if ((int)vec.x == 0) return;
+            //まだ変更アニメーション中は返却
+            if (countChangingFlag) return;
+
+            //範囲内で値を変更
+            maxPlayerCount += (int)vec.x;
+            if(maxPlayerCount < 1 || maxPlayerCount > 4)
+            {
+                maxPlayerCount = Mathf.Clamp(maxPlayerCount, 1, 4);
+                return;
+            }
+            //UIを更新
+            gui_m.ChangePlayerCountText((int)vec.x, maxPlayerCount);
         }
         //キャラ選択画面
         else if (nowPhase == NowPhase.CharaSelect)
         {
             //すでに準備できている状態は返却
             if (playerIsLady[playerId]) return;
-            if (charaSelectFlag[playerId]) return;
+            if (charaChangingFlag[playerId]) return;
 
             //横入力がない場合は返却
             if ((int)vec.x == 0) return;
@@ -371,7 +458,7 @@ public class TitleManager : MonoBehaviour
             //順番にキャラを表示
             playerCharactor[playerId] = (playerCharactor[playerId] + (int)vec.x + 4) % 4;
             gui_m.ChangePlayingCharactorsImage(playerId, playerCharactor[playerId]);
-            charaSelectFlag[playerId] = true;
+            charaChangingFlag[playerId] = true;
         }
         //トラップ選択画面
         else if (nowPhase == NowPhase.TrapSelect)
@@ -448,17 +535,17 @@ public class TitleManager : MonoBehaviour
             else
             {
                 //右入力
-                if(vec.x > 0)
+                if (vec.x > 0)
                 {
                     playerSelectingTrap_mine[playerId] = 1;
                 }
                 //左入力
-                else if(vec.x < 0)
+                else if (vec.x < 0)
                 {
                     playerSelectingTrap_mine[playerId] = 3;
                 }
                 //上入力
-                else if(vec.y > 0)
+                else if (vec.y > 0)
                 {
                     playerSelectingTrap_mine[playerId] = 0;
                 }
@@ -477,6 +564,19 @@ public class TitleManager : MonoBehaviour
             }
         }
     } 
+
+    /// <summary>
+    /// ゲーム開始ボタン
+    /// </summary>
+    public void OnStart()
+    {
+        //準備ができていたらゲーム開始
+        if (isLadyGame)
+        {
+            isStartGame = true;
+            StartGame();
+        }
+    }
 
     #endregion
 }
