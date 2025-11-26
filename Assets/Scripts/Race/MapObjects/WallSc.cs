@@ -10,6 +10,10 @@ public class WallSc : MonoBehaviour
 
     [SerializeField, Header("再構築のクールタイム")] float resetTime;
 
+    [SerializeField, Header("アニメーターコントローラー")] Animator anim;
+
+    [SerializeField, Header("スプライトレンダラー")] SpriteRenderer sr;
+
     private void Start()
     {
         strength = strengthMax;
@@ -21,20 +25,31 @@ public class WallSc : MonoBehaviour
         {
             if(strength - collision.relativeVelocity.magnitude <= 0)
             {
-                gameObject.SetActive(false);
+                anim.SetBool("IsFinish", true);
+                
                 Invoke(nameof(WallReset), resetTime);
             }
             else
             {
+                anim.SetTrigger("Damage");
                 strength -= collision.relativeVelocity.magnitude;
             }
-            print(collision.relativeVelocity.magnitude);
         }
     }
 
-    public void WallReset()
+    private void WallReset()
+    {
+        anim.SetBool("IsFinish", false);
+    }
+
+    public void LayerBack()
+    {
+        sr.sortingLayerName = "BackGround";
+    }
+
+    public void LayerFoward()
     {
         strength = strengthMax;
-        gameObject.SetActive(true);
+        sr.sortingLayerName = "FowardObj";
     }
 }

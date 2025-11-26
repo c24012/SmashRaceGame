@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Tooltip("パワーゲージキャンバス")] Canvas powerGageCanvas;
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
+    [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj; 
+
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
 
@@ -473,6 +475,8 @@ public class PlayerController : MonoBehaviour
             //効果名を削除
             effectNameList.Remove(trapName);
         }
+
+        cottonObj.SetActive(isActive);
 
         //パワーゲージ非表示
         powerGageCanvas.enabled = false;
