@@ -33,7 +33,7 @@ public class ChaseTrapColliderSc : MonoBehaviour
             else if(collision.CompareTag("MapObj"))
             {
                 print(collision.name);
-                trap.TimeUp();
+                trap.TimeUpAnim();
             }
         }
     }

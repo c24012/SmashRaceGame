@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -127,18 +127,18 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 72
         width: 48
         height: 72
       alignment: 9
-      pivot: {x: 0.5, y: 0.6527778}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2247c36f2664d094fa278ac25756dc5a
-      internalID: 1487917470
+      spriteID: 82f51490c55de6d489c98b15d1b8d4c7
+      internalID: 804076593
       vertices: []
       indices: 
       edges: []
@@ -148,18 +148,60 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 48
-        y: 0
+        y: 72
         width: 48
         height: 72
       alignment: 9
-      pivot: {x: 0.5, y: 0.6527778}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c6a3350567bee749a8f88693118523f
-      internalID: -1152606858
+      spriteID: cb30d6113b228784297e723175bc8e4e
+      internalID: -1679531398
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterD_2
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 48
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ac6c0ff812ff4b41b10b7fc6854b856
+      internalID: 1158254470
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterD_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 48
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5e46f0af48eb2324da528c752f81c895
+      internalID: -816166354
       vertices: []
       indices: 
       edges: []
@@ -175,8 +217,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CharacterD_0: 1487917470
-      CharacterD_1: -1152606858
+      CharacterD_0: 804076593
+      CharacterD_1: -1679531398
+      CharacterD_2: 1158254470
+      CharacterD_3: -816166354
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

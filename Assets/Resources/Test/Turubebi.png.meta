@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: f2b6cfab3b0eb2e4381729125583ce1b
+guid: cd3d43ad4fe339a438743bb7385ca9e7
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,85 +123,43 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterB_0
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 72
-        width: 48
-        height: 72
-      alignment: 9
-      pivot: {x: 0.5, y: 0.65}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 68c1cb4f87eee744bade74cde7e96a82
-      internalID: 1659906927
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterB_1
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 72
-        width: 48
-        height: 72
-      alignment: 9
-      pivot: {x: 0.5, y: 0.65}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: a8df0469612f89342b29464bfc88d8b0
-      internalID: 1444107505
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: CharacterB_2
+      name: Turubebi_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 72
-      alignment: 9
-      pivot: {x: 0.5, y: 0.65}
+        width: 72
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 652c84e70abc79c4e885c42f0deb1dce
-      internalID: 259837080
+      spriteID: 688c9582b4fe0e14cac533c330408aa0
+      internalID: -1046280822
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterB_3
+      name: Turubebi_1
       rect:
         serializedVersion: 2
-        x: 48
+        x: 72
         y: 0
-        width: 48
-        height: 72
-      alignment: 9
-      pivot: {x: 0.5, y: 0.65}
+        width: 72
+        height: 80
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32fba42ff68d62147bf1eeecff300aa9
-      internalID: -119570484
+      spriteID: 901b8343431f01e4dac5fbd546891cba
+      internalID: 592445700
       vertices: []
       indices: 
       edges: []
@@ -217,10 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CharacterB_0: 1659906927
-      CharacterB_1: 1444107505
-      CharacterB_2: 259837080
-      CharacterB_3: -119570484
+      Turubebi_0: -1046280822
+      Turubebi_1: 592445700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

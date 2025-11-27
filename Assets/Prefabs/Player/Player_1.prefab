@@ -12,6 +12,26 @@ PrefabInstance:
       propertyPath: playerNum
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_Size.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_Size.y
+      value: 0.72
+      objectReference: {fileID: 0}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2003481808, guid: d0761f30546732b4989455e749e3f558, type: 3}
+    - target: {fileID: 85082761554030558, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2782760770111831050, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_ApplyRootMotion
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3266023813882111046, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -63,6 +83,18 @@ PrefabInstance:
     - target: {fileID: 5134719973973049144, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: m_Color.r
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706813150048666173, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706813150048666173, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: 74278cd4-ccc9-45b6-9888-02a295824a84
+      objectReference: {fileID: 0}
+    - target: {fileID: 5706813150048666173, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionName
+      value: TitleScene/Start[/Keyboard/p]
       objectReference: {fileID: 0}
     - target: {fileID: 6775662033213618666, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: m_LocalPosition.x
