@@ -9,7 +9,7 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] TitleManager title;
     [SerializeField] TrapStore trapStore;
 
-    [SerializeField ,Header("人数選択画面")] GameObject countSelectPanel;
+    [SerializeField, Header("人数選択画面")] GameObject countSelectPanel;
     [SerializeField] Animator countSelect_GhostAnim;
     [SerializeField] Text countSlect_PlayerCountText;
     [SerializeField] Animator countSelect_GhostUpAnim;
@@ -34,6 +34,8 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] HorizontalLayoutGroup SelectManulayoutGroup;
     [SerializeField] Transform root;
     [SerializeField] Animator lastCheckSignBoardAnim;
+    [SerializeField] Image[] iconImage;
+    [SerializeField] Sprite[] iconSp;
 
     //画面遷移
     [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectOutAnim;
@@ -41,7 +43,7 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] PlayableDirector trapSelectInAnim;
     [SerializeField] PlayableDirector fadeIn;
 
-    
+
     int playerNum_local;
     int charactorId_local;
 
@@ -59,9 +61,9 @@ public class TitleGUIManager : MonoBehaviour
         {
             for (int j = 0; j < 4; j++)
             {
-                Transform sumpleTf = root.GetChild(i).GetChild(2).GetChild(j+1);
+                Transform sumpleTf = root.GetChild(i).GetChild(2).GetChild(j + 1);
                 trapIcons_mine[i].Add(sumpleTf.GetComponent<RectTransform>());
-                trapIconsImage_mine[i].Add(sumpleTf.GetChild(0).GetComponent<Image>());
+                trapIconsImage_mine[i].Add(sumpleTf.GetComponent<Image>());
             }
         }
     }
@@ -78,26 +80,26 @@ public class TitleGUIManager : MonoBehaviour
             playerPanels[i].SetActive(false);
             CharaSignBoardPanels[i].SetActive(true);
             trapPanels[i].SetActive(false);
-            ViewCharactorImage(playerNum:i, isView:false);
-            SetTrapSelectCursor(playerNum:i,trapId:0,isStore:false);
+            ViewCharactorImage(playerNum: i, isView: false);
+            SetTrapSelectCursor(playerNum: i, trapId: 0, isStore: false);
         }
         SetPhasePanel(TitleManager.NowPhase.Title);
 
         //アイコンImageの適応
-        for (int i = 0; i < trapStore.trapObjs.Count; i++) 
+        for (int i = 0; i < trapStore.trapObjs.Count; i++)
         {
             trapIconsImage_store[i].sprite = trapStore.trapObjs[i].GetComponent<TrapBase>().icon;
             //trapIconsImage_store[i].enabled = true;
         }
-        for (int i = trapStore.trapObjs.Count; i < 8; i++) 
+        for (int i = trapStore.trapObjs.Count; i < 8; i++)
         {
             trapIconsImage_store[i].enabled = false;
         }
 
         //カーソルを初期位置に移動
-        for(int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++)
         {
-            selectCursors[i].position = new Vector2(-10,-10);
+            selectCursors[i].position = new Vector2(-10, -10);
         }
 
         //プレイヤーの自動レイアウトをオン
@@ -151,8 +153,8 @@ public class TitleGUIManager : MonoBehaviour
                 break;
             //人数選択
             case TitleManager.NowPhase.CountSelect:
-                countSelectPanel.SetActive(true); 
-                for(int i = 0; i < 4; i++)
+                countSelectPanel.SetActive(true);
+                for (int i = 0; i < 4; i++)
                 {
                     joinPanels[i].SetActive(false);
                     CharaSignBoardPanels[i].SetActive(false);
@@ -248,6 +250,12 @@ public class TitleGUIManager : MonoBehaviour
         trapSelectInAnim.stopped -= TrapSelectInAnim_stopped;
         //アニメーション終了
         title.isPlayingAnim = false;
+        //キャラによってアイコンを変更
+        for (int i = 0; i < title.currentPlayerCount; i++)
+        {
+            iconImage[i].sprite = iconSp[title.playerInfoList[i].charactorNum];
+            
+        }
         // アニメーション終了に合わせてトラップアイコンを表示
         for (int i = 0; i < 4; i++)
         {
@@ -267,9 +275,9 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     /// <param name="playerNum"></param>
     /// <param name="isView"></param>
-    public void ViewCharactorImage(int playerNum,bool isView,int charaNum = -1)
+    public void ViewCharactorImage(int playerNum, bool isView, int charaNum = -1)
     {
-        if(charaNum >= 0)
+        if (charaNum >= 0)
         {
             charactorImage[playerNum].sprite = charactorSprite[charaNum];
         }
@@ -301,10 +309,10 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     /// <param name="inputValue"></param>
     /// <param name="count"></param>
-    public void ChangePlayerCountText(int inputValue,int count)
+    public void ChangePlayerCountText(int inputValue, int count)
     {
         //入力がプラスの場合は左
-        if(inputValue > 0) countSelect_GhostAnim.SetTrigger("Left");
+        if (inputValue > 0) countSelect_GhostAnim.SetTrigger("Left");
         //マイナスの場合は右回転
         else countSelect_GhostAnim.SetTrigger("Right");
         //数字を表示
@@ -316,11 +324,11 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     /// <param name="playerNum"></param>
     /// <param name="charactorId"></param>
-    public void ChangePlayingCharactorsImage(int playerNum,int charactorId)
+    public void ChangePlayingCharactorsImage(int playerNum, int charactorId)
     {
         playerNum_local = playerNum;
         playingCharactorsImage[playerNum_local].sprite = playingCharactorSprites[charactorId];
-        if(charactorId - 1 == charactorId_local || charactorId_local  == charactorId + 3)
+        if (charactorId - 1 == charactorId_local || charactorId_local == charactorId + 3)
         {
             GhostAnim[playerNum].SetTrigger("Right");
         }
@@ -338,7 +346,7 @@ public class TitleGUIManager : MonoBehaviour
     /// <param name="playerNum"></param>
     /// <param name="trapId"></param>
     /// <param name="isStore"></param>
-    public void SetTrapSelectCursor(int playerNum,int trapId,bool isStore)
+    public void SetTrapSelectCursor(int playerNum, int trapId, bool isStore)
     {
         if (isStore)
         {
@@ -356,7 +364,7 @@ public class TitleGUIManager : MonoBehaviour
     /// <param name="playernum"></param>
     /// <param name="trapId"></param>
     /// <param name="trapObjNum"></param>
-    public void SetTrapIconSprite(int playernum,int trapId,int trapObjNum)
+    public void SetTrapIconSprite(int playernum, int trapId, int trapObjNum)
     {
         trapIconsImage_mine[playernum][trapObjNum].sprite = trapStore.trapObjs[trapId].GetComponent<TrapBase>().icon;
         trapIconsImage_mine[playernum][trapObjNum].enabled = true;
