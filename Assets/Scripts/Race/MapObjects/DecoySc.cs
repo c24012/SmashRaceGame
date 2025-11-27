@@ -47,15 +47,21 @@ public class DecoySc : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        enterPlayerCount++;
-        if (enterColliderList.Contains(collision)) return;
-        enterColliderList.Add(collision);
+        if (collision.CompareTag("Player"))
+        {
+            enterPlayerCount++;
+            if (enterColliderList.Contains(collision)) return;
+            enterColliderList.Add(collision);
+        } 
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        enterPlayerCount--;
-        if (enterColliderList.Contains(collision)) enterColliderList.Remove(collision);
+        if (collision.CompareTag("Player"))
+        {
+            enterPlayerCount--;
+            if (enterColliderList.Contains(collision)) enterColliderList.Remove(collision);
+        }   
     }
 
     private void OnTriggerStay2D(Collider2D collision)

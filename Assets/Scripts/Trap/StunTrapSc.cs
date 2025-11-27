@@ -1,14 +1,23 @@
+using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Playables;
 
 public class StunTrapSc : TrapBase
 {
-    [Header("壊れるまでの時間")] public float timeItTakesToBreak = 0.2f;
+    [SerializeField] PlayableDirector anim;
+    [SerializeField] GameObject warningAreaObj;
+    Collider2D trapCol;
 
-    private void Start()
+    private void Awake()
     {
-        //指定時間後にトラップを破壊
-        Invoke(nameof(TimeUp),timeItTakesToBreak);
+        //アニメーションコンポーネントを取得
+        trapCol = warningAreaObj.GetComponent<Collider2D>();
+
+        transform.rotation = Quaternion.identity;
+
+        anim.stopped += TimeUp;
+        anim.Play();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -39,15 +48,18 @@ public class StunTrapSc : TrapBase
         pm.playerController.EffectStun_ElectricShock(false, gameObject.name);
     }
 
+    public void SetColliderEnable(bool isEnable)
+    {
+        trapCol.enabled = isEnable;
+    }
+
     /// <summary>
     /// トラップを破壊する
     /// </summary>
-    private void TimeUp()
+    private void TimeUp(PlayableDirector director)
     {
-        //先に当たり判定を消す
-        trapObj.SetActive(false);
-        //効果終了後に破壊
-        float time = Mathf.Max(effectTime);
-        Destroy(gameObject, time + 1);
+        anim.stopped -= TimeUp;
+        float maxTime = Mathf.Max(effectTime);
+        Destroy(gameObject, maxTime);
     }
 }
