@@ -41,7 +41,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
     [SerializeField] bool isFinish = false;     //レースが終わっているか
-    [SerializeField] bool isSpeedUp = false;    //加速状態
     [SerializeField] bool isSlow = false;       //泥踏み状態
     [SerializeField] bool isSlip = false;       //滑り状態
     [SerializeField] int confusionNum = 0;      //混乱状態
