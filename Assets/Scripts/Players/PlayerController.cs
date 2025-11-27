@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer sr;
-    Collider col;
+    Collider2D col;
     PlayerInput playerInput;
 
 
@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("エフェクトのオブジェ"), SerializeField] GameObject effectObj;
     [Tooltip("エフェクトのスプライト"), SerializeField] Sprite[] effectSp;
     SpriteRenderer effectSR;
+
+    [Tooltip("風エフェクトオブジェ"), SerializeField] GameObject windEffectObj;
+    Animator windEffectAnim;
 
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
@@ -38,6 +41,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
     [SerializeField] bool isFinish = false;     //レースが終わっているか
+    [SerializeField] bool isSpeedUp = false;    //加速状態
     [SerializeField] bool isSlow = false;       //泥踏み状態
     [SerializeField] bool isSlip = false;       //滑り状態
     [SerializeField] int confusionNum = 0;      //混乱状態
@@ -67,9 +71,10 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        col = GetComponent<Collider>();
+        col = GetComponent<Collider2D>();
         playerInput = GetComponent<PlayerInput>();
         effectSR = effectObj.GetComponent<SpriteRenderer>();
+        windEffectAnim = windEffectObj.GetComponent<Animator>();
         //初期化
         Init();
     }
@@ -170,10 +175,12 @@ public class PlayerController : MonoBehaviour
         if (isMove)
         {
             anim.SetBool("IsMove",true);
+            if (windEffectObj.activeSelf) windEffectAnim.SetBool("isMove", true);
         }
         else
         {
             anim.SetBool("IsMove", false);
+            if (windEffectObj.activeSelf) windEffectAnim.SetBool("isMove", false);
         }
     }
 
@@ -339,7 +346,11 @@ public class PlayerController : MonoBehaviour
             moveSpeedRatio += speedFluctuation;
 
             //加速の時は溜める速度を変更
-            if (chargeSpeed != 0) pm.powerGage.AdditionChargeSpeed(chargeSpeed);
+            if (chargeSpeed != 0)
+            {
+                pm.powerGage.AdditionChargeSpeed(chargeSpeed);
+                windEffectObj.SetActive(true);
+            }
             //泥の減速中はフラグをオン
             if (speedFluctuation < 0) isSlow = true;
         }
@@ -354,7 +365,11 @@ public class PlayerController : MonoBehaviour
             moveSpeedRatio -= speedFluctuation;
 
             //溜める速度を変更
-            if (chargeSpeed != 0) pm.powerGage.AdditionChargeSpeed(-chargeSpeed);
+            if (chargeSpeed != 0)
+            {
+                pm.powerGage.AdditionChargeSpeed(-chargeSpeed);
+                windEffectObj.SetActive(false);
+            }
             //泥の減速中はフラグをオフ
             if (speedFluctuation < 0) isSlow = false;
         }
