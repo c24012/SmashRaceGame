@@ -11,13 +11,18 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D rb;
     Animator anim;
     SpriteRenderer sr;
+    Collider col;
     PlayerInput playerInput;
+
 
     [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
     [SerializeField, Tooltip("パワーゲージキャンバス")] Canvas powerGageCanvas;
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
-    [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj; 
+    [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj;
+    [Tooltip("エフェクトのオブジェ"), SerializeField] GameObject effectObj;
+    [Tooltip("エフェクトのスプライト"), SerializeField] Sprite[] effectSp;
+    SpriteRenderer effectSR;
 
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
@@ -62,7 +67,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        col = GetComponent<Collider>();
         playerInput = GetComponent<PlayerInput>();
+        effectSR = effectObj.GetComponent<SpriteRenderer>();
         //初期化
         Init();
     }
@@ -209,26 +216,37 @@ public class PlayerController : MonoBehaviour
     {
         //一旦行動不能に
         isStop = true;
+        col.enabled = false;
         //初期化
         Init();
         //当たり判定をオフに
         rb.isKinematic = true;
-        //落下アニメーション待機
-        yield return new WaitForSeconds(0.5f);
-        //落下中は見た目を非表示
+        anim.SetTrigger("Fall");
+        WaitForSeconds wait = new(0.1f);
+        Quaternion deforeRotate = transform.rotation;
+        for(float i = 1; i > 0; i -= 0.1f)
+        {
+            transform.localScale = new Vector2(i, i);
+            transform.Rotate(new Vector3(0, 0, 10));
+            yield return wait;
+        }
         sr.enabled = false;
+        //落下中は見た目を非表示
+        transform.localScale = new Vector2(1, 1);
+        transform.rotation = deforeRotate;
         //落下ペナルティタイム
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1f);
         //一番近くのルートへ移動
         transform.position = pm.playerData.nearestPos;
         //点滅表示
-        WaitForSeconds wait = new(0.05f);
+        wait = new(0.05f);
         for(int i = 0; i < 20; i++)
         {
             sr.enabled = !sr.enabled;
             yield return wait;
         }
         //全部元に戻す
+        col.enabled = true;
         rb.isKinematic = false;
         sr.enabled = true;
         isStop = false;
@@ -352,6 +370,8 @@ public class PlayerController : MonoBehaviour
         //付与
         if (isActive)
         {
+            //元からスタンだったら返却
+            if (isStop) return;
             //もうすでに存在している効果かどうかを取得
             bool isContain = effectNameList.Contains(trapName);
             //効果名を登録
@@ -359,17 +379,31 @@ public class PlayerController : MonoBehaviour
             //もとから存在していた場合返却
             if (isContain) return;
             //初めての効果の場合は付与
+            effectObj.SetActive(true);
+            effectSR.sprite = effectSp[2];
             Stun_ElectricShock(true);
+            anim.SetBool("IsStan", true);
         }
         //解除
         else
         {
+            if (!effectNameList.Contains(trapName)) return;
             //一つ登録から消す
             effectNameList.Remove(trapName);
             //消してもなお残っている場合返却
             if (effectNameList.Contains(trapName)) return;
             //もう残っていない効果の場合戻す
             Stun_ElectricShock(false);
+            anim.SetBool("IsStan", false);
+            //混乱状態があるかどうか
+            if (confusionNum != 0)
+            {
+                effectSR.sprite = effectSp[1];
+            }
+            else
+            {
+                effectObj.SetActive(false);
+            }
         }
     }
 
@@ -420,6 +454,12 @@ public class PlayerController : MonoBehaviour
             effectNameList.Add(trapName);
             //もとから存在していた場合返却
             if (isContain) return;
+            //スタンじゃなかったら
+            if (!isStop)
+            {
+                effectObj.SetActive(true);
+                effectSR.sprite = effectSp[1];
+            }
             //初めての効果の場合は付与
             Confusion(true);
         }
@@ -431,6 +471,7 @@ public class PlayerController : MonoBehaviour
             //消してもなお残っている場合返却
             if (effectNameList.Contains(trapName)) return;
             //もう残っていない効果の場合戻す
+            effectObj.SetActive(false);
             Confusion(false);
         }
     }
@@ -476,6 +517,7 @@ public class PlayerController : MonoBehaviour
             effectNameList.Remove(trapName);
         }
 
+        //一反木綿を生成or消失
         cottonObj.SetActive(isActive);
 
         //パワーゲージ非表示
@@ -485,7 +527,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
-    /// 電撃スタン付与&解除
+    /// 炎上スタン付与&解除
     /// </summary>
     /// <param name="stunTime"></param>
     /// <param name="trapName"></param>
@@ -494,6 +536,8 @@ public class PlayerController : MonoBehaviour
         //付与
         if (isActive)
         {
+            //元からスタンだったら返却
+            if (isStop) return;
             //もうすでに存在している効果かどうかを取得
             bool isContain = effectNameList.Contains(trapName);
             //効果名を登録
@@ -501,17 +545,33 @@ public class PlayerController : MonoBehaviour
             //もとから存在していた場合返却
             if (isContain) return;
             //初めての効果の場合は付与
+            sr.color = new Color(1, 1, 1, 0.5f);
+            effectObj.SetActive(true);
+            effectSR.sprite = effectSp[0];
+            anim.SetBool("IsStan", true);
             Stun_Flame(true);
         }
         //解除
         else
         {
+            if (!effectNameList.Contains(trapName)) return;
             //一つ登録から消す
             effectNameList.Remove(trapName);
             //消してもなお残っている場合返却
             if (effectNameList.Contains(trapName)) return;
             //もう残っていない効果の場合戻す
+            sr.color = new Color(1, 1, 1, 1);
+            anim.SetBool("IsStan", false);
             Stun_Flame(false);
+            //混乱状態があるかどうか
+            if (confusionNum != 0)
+            {
+                effectSR.sprite = effectSp[1];
+            }
+            else
+            {
+                effectObj.SetActive(false);
+            }
         }
     }
 
@@ -623,10 +683,10 @@ public class PlayerController : MonoBehaviour
     {
         //試合終了時は返却
         if (isFinish) return;
-
+        
         //行動不能時は返却
         if (isStop) return;
-
+        
         //一時停止中は無効
         //if (pm.pause.isOpen) return;
 
@@ -634,7 +694,7 @@ public class PlayerController : MonoBehaviour
         if (context.performed)
         {
             Vector2 dire = context.ReadValue<Vector2>();
-
+            
             //もし混乱しているなら入力を回転させる
             switch (confusionNum)
             {
@@ -650,7 +710,7 @@ public class PlayerController : MonoBehaviour
                 default:
                     break;
             }
-
+            
             ChangeDirection(dire);
         }
     }

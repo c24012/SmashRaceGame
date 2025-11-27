@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 128
+    maxTextureSize: 256
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -123,7 +123,49 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: CharacterA 1_0
+      name: CharacterA_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 72
+        width: 48
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e5974bdd0d84a549b271f26e79ad03f
+      internalID: -174119692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterA_1
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 72
+        width: 48
+        height: 72
+      alignment: 9
+      pivot: {x: 0.5, y: 0.65}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 21cecd1e1d5484341a2a7cd167896c81
+      internalID: -2003481808
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: CharacterA_2
       rect:
         serializedVersion: 2
         x: 0
@@ -131,20 +173,20 @@ TextureImporter:
         width: 48
         height: 72
       alignment: 9
-      pivot: {x: 0.5, y: 0.6527778}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 188a209840936f64385aacd538564650
-      internalID: 694400125
+      spriteID: 134408d3ac2819a4f9cb0951cfb356fe
+      internalID: -1001699016
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: CharacterA 1_1
+      name: CharacterA_3
       rect:
         serializedVersion: 2
         x: 48
@@ -152,14 +194,14 @@ TextureImporter:
         width: 48
         height: 72
       alignment: 9
-      pivot: {x: 0.5, y: 0.6527778}
+      pivot: {x: 0.5, y: 0.65}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c780e8136be00b843b14dfd83c9497e0
-      internalID: 504969294
+      spriteID: c0ea29639e9ea1c488757832fe958de8
+      internalID: -1192867126
       vertices: []
       indices: 
       edges: []
@@ -175,8 +217,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      CharacterA 1_0: 694400125
-      CharacterA 1_1: 504969294
+      CharacterA_0: -174119692
+      CharacterA_1: -2003481808
+      CharacterA_2: -1001699016
+      CharacterA_3: -1192867126
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

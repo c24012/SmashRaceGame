@@ -9,6 +9,7 @@ public class ChaseTrapSc : TrapBase
     [SerializeField] Collider2D sensorCol;
     [SerializeField] Collider2D bodyCol;
     [SerializeField] SpriteRenderer chaseSr;
+    [SerializeField] Animator anim;
     [Header("加速度")] public float acceleration = 20;
     [Header("最高速度")] public float maxSpeed = 20;
     [Header("追尾性能")] public float chasePerformance;
@@ -25,7 +26,7 @@ public class ChaseTrapSc : TrapBase
     private void Start()
     {
         //指定時間後にトラップを破壊
-        Invoke(nameof(TimeUp), timeItTakesToBreak);
+        Invoke(nameof(TimeUpAnim), timeItTakesToBreak);
     }
 
 
@@ -61,7 +62,7 @@ public class ChaseTrapSc : TrapBase
     public IEnumerator GiveEffect(PlayerManager pm)
     {
         //破壊を予約
-        TimeUp();
+        TimeUpAnim();
         //順位を取得
         rankingPower = pm.playerData.ranking;
         //付与
@@ -75,11 +76,17 @@ public class ChaseTrapSc : TrapBase
     /// <summary>
     /// トラップを破壊する
     /// </summary>
-    public void TimeUp()
+    public void TimeUpAnim()
     {
+        anim.SetBool("IsFinish", true);
         //先に判定を消す
         sensorCol.enabled = false;
         bodyCol.enabled = false;
+        rb.constraints = RigidbodyConstraints2D.FreezePosition;
+    }
+
+    public void Finish()
+    {
         chaseSr.enabled = false;
         //効果終了を待って破壊
         float time = Mathf.Max(effectTime);
