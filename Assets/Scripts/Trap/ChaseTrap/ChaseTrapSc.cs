@@ -39,6 +39,7 @@ public class ChaseTrapSc : TrapBase
         rb.velocity = transform.up * speed;
     }
 
+
     /// <summary>
     /// ‘ÎÛ‚Ìtransform‚ğQÆ‚µ‚Ä’Ç”ö‚·‚é
     /// </summary>
