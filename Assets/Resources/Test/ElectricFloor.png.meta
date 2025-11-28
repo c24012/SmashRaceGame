@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 791fd3429d2780d4aa91b482a7aca60a
+guid: 9b9b29a204af0164eb358a8d853b4d65
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,13 +123,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Thundercloud_0
+      name: ElectricFloor_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 104
-        height: 120
+        height: 104
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,20 +137,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e13b76c755da09a46a404ac33e539d1e
-      internalID: 398416446
+      spriteID: 7c05284070d66a449bc715e68a4abe26
+      internalID: 862687609
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Thundercloud_1
+      name: ElectricFloor_1
       rect:
         serializedVersion: 2
         x: 104
         y: 0
         width: 104
-        height: 120
+        height: 104
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a5a1a1d721376d640bae0166a8ac9e65
-      internalID: -1004502278
+      spriteID: b43355de497a4af47a9b8856670ce976
+      internalID: -250620754
       vertices: []
       indices: 
       edges: []
@@ -175,8 +175,8 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Thundercloud_0: 398416446
-      Thundercloud_1: -1004502278
+      ElectricFloor_0: 862687609
+      ElectricFloor_1: -250620754
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
