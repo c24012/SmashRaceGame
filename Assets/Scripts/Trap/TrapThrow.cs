@@ -76,6 +76,6 @@ public class TrapThrow : TrapBase
     /// </summary>
     virtual protected void LandedTrap()
     {
-        Debug.LogError("–{‘Ì‚ÌŠÖ”‚É”­‰Î‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½ Name:"+gameObject.name);
+        //Debug.LogError("–{‘Ì‚ÌŠÖ”‚É”­‰Î‚Å‚«‚Ü‚¹‚ñ‚Å‚µ‚½ Name:"+gameObject.name);
     }
 }
