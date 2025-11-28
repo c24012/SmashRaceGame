@@ -6,11 +6,11 @@ public class ShockWaveTrapSc : TrapThrow
 {
     [Header("壊れるまでの時間")] public float timeItTakesToBreak = 0.05f;
 
-    protected override void LandedTrap()
-    {
-        //指定時間後にトラップを破壊
-        Invoke(nameof(TimeUp), timeItTakesToBreak);
-    }
+    //protected override void LandedTrap()
+    //{
+    //    //指定時間後にトラップを破壊
+    //    Invoke(nameof(TimeUp), timeItTakesToBreak);
+    //}
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -32,7 +32,7 @@ public class ShockWaveTrapSc : TrapThrow
     /// <summary>
     /// トラップを破壊する
     /// </summary>
-    private void TimeUp()
+    public void TimeUp()
     {
         Destroy(gameObject);
     }
