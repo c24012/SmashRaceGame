@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,6 +16,20 @@ public class ResultManager : MonoBehaviour
     public GameData data;
 
     public PlayableDirector fadeOutAnim;
+
+    [SerializeField] InputActionReference returnButton;
+    InputAction returnAction;
+
+    //フェードインのアニメーション
+    [SerializeField] Animator anim;
+
+    private void Awake()
+    {
+        //終了ボタンを有効化
+        returnAction = returnButton.action;
+        returnAction.Enable();
+        returnAction.started += ReturnTitle;
+    }
     private void Start()
     {
 
@@ -31,11 +46,12 @@ public class ResultManager : MonoBehaviour
         fadeOutAnim.Play();
     }
 
-    private void Update()
+    void ReturnTitle(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.R))
+        if (context.started)
         {
-            SceneManager.LoadScene("TitleScene");
+            //タイトルシーンロード
+            anim.SetTrigger("Load");
         }
     }
 }

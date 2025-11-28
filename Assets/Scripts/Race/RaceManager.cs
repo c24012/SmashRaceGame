@@ -70,11 +70,14 @@ public class RaceManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int iterations = 2;
 
-    //看板キャラのオブジェ
+    //看板キャラの変数
     [SerializeField] GameObject[] charaObj;
     [SerializeField] Image[] charaImage;
     [SerializeField] Sprite[] cahraSp;
     [SerializeField] TextMeshProUGUI[] lapText;
+
+    //フェードインのアニメーション
+    [SerializeField] Animator anim;
 
     PauseManager pause;
     TimeLineManager timeLine;
@@ -282,7 +285,7 @@ public class RaceManager : MonoBehaviour
     public void ToTitleScene()
     {
         //タイトルシーンロード
-        SceneManager.LoadScene("TitleScene");
+        anim.SetTrigger("Load");
         //時間停止を解除
         Time.timeScale = 1;
     }
