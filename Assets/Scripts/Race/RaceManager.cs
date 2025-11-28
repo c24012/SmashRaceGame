@@ -1,12 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.Splines;
+using UnityEngine.UI;
 
 [Serializable]
 /// <summary>
@@ -68,6 +70,15 @@ public class RaceManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int iterations = 2;
 
+    //看板キャラの変数
+    [SerializeField] GameObject[] charaObj;
+    [SerializeField] Image[] charaImage;
+    [SerializeField] Sprite[] cahraSp;
+    [SerializeField] TextMeshProUGUI[] lapText;
+
+    //フェードインのアニメーション
+    [SerializeField] Animator anim;
+
     PauseManager pause;
     TimeLineManager timeLine;
 
@@ -126,6 +137,13 @@ public class RaceManager : MonoBehaviour
             pm.playerData = new PlayerData(pm.playerNum, charactor);
             playerDatas.Add(pm.playerData);
         }
+        //看板のキャラを人数分用意する
+        for(int i = 0; i < playerCount; i++)
+        {
+            charaObj[i].SetActive(true);
+            if(!debugMode)charaImage[i].sprite = cahraSp[gameData.playerInfoList[i].charactorNum];
+            lapText[i].text = 0 + "/" + lapCount;
+        }
     }
 
     private void Start()
@@ -181,6 +199,14 @@ public class RaceManager : MonoBehaviour
             }
             //今何週目のどこにいるかを取得
             playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
+            if (playerDatas[i].lapCount <= 0)
+            {
+                lapText[i].text = 0 + "/" + lapCount;
+            }
+            else
+            {
+                lapText[i].text = playerDatas[i].lapCount - 1 + "/" + lapCount;
+            }
         }
         //リストをランキング順に並び替え
         playerDatas = playerDatas.OrderByDescending((x) => x.percentagePos).ToList();
@@ -259,7 +285,7 @@ public class RaceManager : MonoBehaviour
     public void ToTitleScene()
     {
         //タイトルシーンロード
-        SceneManager.LoadScene("TitleScene");
+        anim.SetTrigger("Load");
         //時間停止を解除
         Time.timeScale = 1;
     }
