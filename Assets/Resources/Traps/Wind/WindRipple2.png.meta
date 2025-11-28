@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 494f930c7782f0d40aeba1ef28020b91
+guid: 49b440166477b0c48910af4504573ae4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,7 +123,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: WindRipple1_0
+      name: WindRipple2_0
       rect:
         serializedVersion: 2
         x: 0
@@ -137,14 +137,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 61f8ea88f8e0e8f4cb47ea0bbbc08b58
-      internalID: 1885084118
+      spriteID: 7819d1b8ba8e0884c866f8cdddfcda4d
+      internalID: -822937519
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WindRipple1_1
+      name: WindRipple2_1
       rect:
         serializedVersion: 2
         x: 72
@@ -158,14 +158,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7cd3374bdddb924c86aba4305d1ecd7
-      internalID: -1493354776
+      spriteID: 16fc4eecbc4f9f3499a25d5e8b351915
+      internalID: -1931785037
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WindRipple1_2
+      name: WindRipple2_2
       rect:
         serializedVersion: 2
         x: 0
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ccda79817d38202488731fa75ddeec11
-      internalID: -1316349682
+      spriteID: 151c1c76248a8cb48b13bfb50f27909c
+      internalID: -2039747297
       vertices: []
       indices: 
       edges: []
@@ -196,9 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      WindRipple1_0: 1885084118
-      WindRipple1_1: -1493354776
-      WindRipple1_2: -1316349682
+      WindRipple2_0: -822937519
+      WindRipple2_1: -1931785037
+      WindRipple2_2: -2039747297
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

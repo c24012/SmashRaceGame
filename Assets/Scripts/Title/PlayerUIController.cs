@@ -47,7 +47,7 @@ public class PlayerUIController : MonoBehaviour
     /// <param name="context"></param>
     public void OnMove(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.performed)
         {
             Vector2 vec = context.ReadValue<Vector2>();
             if (Mathf.Abs(vec.x) > Mathf.Abs(vec.y))

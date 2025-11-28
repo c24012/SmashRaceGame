@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 2781884332559269422}
   - component: {fileID: 1167445622455970497}
   - component: {fileID: 5340858117500897098}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Decoy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 1417244198663561330}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 6.65, y: -0.93, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1550550645
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 734801677, guid: dce23b441bf3dff4784772e925a8bc42, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

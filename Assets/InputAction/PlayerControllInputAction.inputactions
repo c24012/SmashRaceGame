@@ -19,7 +19,7 @@
                     "type": "Value",
                     "id": "8cfdd14c-958f-46a2-a11b-09c7ccfab6b0",
                     "expectedControlType": "Vector2",
-                    "processors": "",
+                    "processors": "StickDeadzone",
                     "interactions": "",
                     "initialStateCheck": true
                 },
@@ -49,6 +49,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Shortcut",
+                    "type": "Button",
+                    "id": "d6fe8440-b8c8-4f79-b048-c3e9151c52fb",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -370,6 +379,17 @@
                     "action": "Pause",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "246e7d2a-d454-43e7-ae15-9e49e3c09612",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepads",
+                    "action": "Shortcut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -397,9 +417,9 @@
                 },
                 {
                     "name": "Move",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "e5279906-51d8-4f6f-b3dc-6de61b25f791",
-                    "expectedControlType": "Axis",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true

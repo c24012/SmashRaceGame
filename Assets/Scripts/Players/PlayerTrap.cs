@@ -81,6 +81,7 @@ public class PlayerTrap : MonoBehaviour
     {
         isCharge = true;
         aimObj.SetActive(true);
+        aimObj.transform.localScale = 2 * pm.playerController.trapObj[trapNum].transform.GetChild(0).GetComponent<CircleCollider2D>().radius * Vector3.one;
     }
 
     /// <summary>

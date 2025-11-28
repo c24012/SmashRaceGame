@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour
         pm.powerGage.ResetCharge();
         //加速度リセット
         rb.velocity = Vector2.zero;
+        //照準もリセット
+        pm.trap.ResetCharge();
     }
 
     private void Awake()
@@ -754,6 +756,34 @@ public class PlayerController : MonoBehaviour
     }
 
     /// <summary>
+    /// アイテムショートカットの入力
+    /// </summary>
+    /// <param name="context"></param>
+    public void OnShortcut(InputAction.CallbackContext context)
+    {
+        if (!context.performed) return;
+        
+        Vector2 inputValue = context.ReadValue<Vector2>();
+        print(inputValue);
+        //横軸が大きい
+        if (Mathf.Abs(inputValue.x) >= Mathf.Abs(inputValue.y))
+        {
+            //右
+            if (inputValue.x > 0) pm.trap.TrapChange(trapIndex: 1);
+            //左
+            else pm.trap.TrapChange(trapIndex: 3);
+        }
+        //縦軸が大きい
+        else
+        {
+            //上
+            if (inputValue.y > 0) pm.trap.TrapChange(trapIndex: 0);
+            //下
+            else pm.trap.TrapChange(trapIndex: 2);
+        }
+    }
+
+    /// <summary>
     /// ポーズ画面の入力    
     /// </summary>
     public void OnPause(InputAction.CallbackContext context)
@@ -771,7 +801,6 @@ public class PlayerController : MonoBehaviour
             playerInput.SwitchCurrentActionMap("PauseMenu");
         }
     }
-
     public void OnClose(InputAction.CallbackContext context)
     {
         //if (!pm.pause.isOpen) return;
@@ -783,7 +812,6 @@ public class PlayerController : MonoBehaviour
             playerInput.SwitchCurrentActionMap("RaceScene");
         }
     }
-
     public void OnExit(InputAction.CallbackContext context)
     {
         //if (!pm.pause.isOpen) return;

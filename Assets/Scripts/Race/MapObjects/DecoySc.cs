@@ -85,7 +85,7 @@ public class DecoySc : MonoBehaviour
             float sampleDistance = (collision.transform.position - transform.position).sqrMagnitude;
             float targetDistance = (targetTf.position - transform.position).sqrMagnitude;
             //‚Ç‚Á‚¿‚ª‹ß‚¢‚©”ä‚×‚é
-            if (sampleDistance > targetDistance)
+            if (sampleDistance < targetDistance)
             {
                 //‹ß‚¢•û‚ð‘_‚¤
                 targetTf = collision.transform;
@@ -198,7 +198,6 @@ public class DecoySc : MonoBehaviour
         //“–‚½‚è”»’è‚ðƒIƒt‚É
         collisionCol.enabled = false;
         rb.isKinematic = true;
-        anim.SetTrigger("Fall");
         WaitForSeconds wait = new(0.1f);
         Quaternion deforeRotate = transform.rotation;
         for (float i = 1; i > 0; i -= 0.1f)
