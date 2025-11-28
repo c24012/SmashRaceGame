@@ -59,7 +59,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] int trapHighCount = 2;
 
     int maxPlayerCount = 1;                         //決められたプレイヤー人数
-    int[] playerCharactor = new int[4];             //各プレイヤーのキャラクターId
+    int[] playerCharactor = { 0, 1, 2, 3 };         //各プレイヤーのキャラクターId
     int[,] playerSelectedTraps =                    //各プレイヤーのトラップId
         {{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1}};
     int[] playerSelectingTrap_store = new int[4];   //トラップ選択画面のカーソルの場所(トラップ一覧)
@@ -124,15 +124,24 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void CountSelectView(bool isReturn = false)
     {
-        nowPhase = NowPhase.CountSelect;
         if (isReturn)
         {
-            
+            //タイトルに戻る
+            gui_m.ReturnTitle();
+            nowPhase = NowPhase.Title;
+            //全員の準備状態を解除
+            for (int i = 0; i < currentPlayerCount; i++) 
+            {
+                //準備OK状態にする
+                playerIsLady[i] = false;
+                gui_m.ViewCharactorImage(i, false);
+            }
         }
         else
         {
             //プレイヤー人数選択画面
             gui_m.ViewCountSelect();
+            nowPhase = NowPhase.CountSelect;
         }
     }
 
@@ -141,7 +150,6 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void TrapSelectView(bool isReturn = false)
     {
-        nowPhase = NowPhase.TrapSelect;
         if (isReturn)
         {
 
@@ -150,6 +158,7 @@ public class TitleManager : MonoBehaviour
         {
             //トラップ選択画面を表示
             gui_m.ViewTrapSelect();
+            nowPhase = NowPhase.TrapSelect;
         }
     }
 
@@ -158,9 +167,18 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void CharactorSelectView(bool isReturn = false)
     {
-        nowPhase = NowPhase.CharaSelect;
-        //キャラ選択画面を表示
-        gui_m.ViewCharactorSelect();
+        if (isReturn)
+        {
+            //人数選択画面に戻る
+            gui_m.ReturnCountSelect();
+            nowPhase = NowPhase.CountSelect;
+        }
+        else
+        {
+            //キャラ選択画面を表示
+            gui_m.ViewCharactorSelect();
+            nowPhase = NowPhase.CharaSelect;
+        }
     }
 
     /// <summary>
@@ -169,8 +187,15 @@ public class TitleManager : MonoBehaviour
     public void TitleView(bool isReturn = false)
     {
         nowPhase = NowPhase.Title;
-        //タイトル画面を表示
-        gui_m.ViewTitle();
+        if (isReturn)
+        {
+
+        }
+        else
+        {
+            //タイトル画面を表示
+            gui_m.ViewTitle();
+        }
     }
 
     /// <summary>
@@ -405,13 +430,21 @@ public class TitleManager : MonoBehaviour
         //人数選択画面
         if(nowPhase == NowPhase.CountSelect)
         {
-            TitleView();
+            CountSelectView(isReturn: true);
         }
         //キャラ選択画面
         if (nowPhase == NowPhase.CharaSelect)
         {
-            //押したプレイヤーのオブジェクトを破壊(コントローラー切断の為)
-            //Destroy(playerInfoList.Find((x) => x.playerIndex == playerId).playerInput.gameObject);
+            if (playerIsLady[playerId])
+            {
+                //準備状態を解除
+                playerIsLady[playerId] = false;
+                gui_m.ViewCharactorImage(playerId, false);
+            }
+            else
+            {
+                CharactorSelectView(isReturn: true);
+            }
         }
         //トラップ選択画面
         if (nowPhase == NowPhase.TrapSelect)

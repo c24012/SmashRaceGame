@@ -38,14 +38,13 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] GameObject cursorsObj;
 
     //画面遷移
-    [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectInAnim;
-    [SerializeField] PlayableDirector reverseCountSelectInAnim;
-    [SerializeField] PlayableDirector countSelectOutAnim;
-    [SerializeField] PlayableDirector reverseCountSelectOutAnim;
+    [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countAnim_In;
+    [SerializeField] PlayableDirector R_CountAnim_In;
+    [SerializeField] PlayableDirector countAnim_Out;
+    [SerializeField] PlayableDirector R_CountAnim_Out;
+    [SerializeField] PlayableDirector R_CharaAnim_In;
     [SerializeField] PlayableDirector charaSelectOutAnim;
-    [SerializeField] PlayableDirector reverseCharaSelectOutAnim;
     [SerializeField] PlayableDirector trapSelectInAnim;
-    [SerializeField] PlayableDirector reverseTrapSelectInAnim;
     [SerializeField] PlayableDirector fadeIn;
 
 
@@ -130,7 +129,10 @@ public class TitleGUIManager : MonoBehaviour
     public void ViewCountSelect()
     {
         //アニメーション起動
-        countSelectInAnim.Play();
+        countAnim_In.Play();
+        //アニメーション中フラグオン
+        title.isPlayingAnim = true;
+        countAnim_In.stopped += StopedAnimation;
     }
 
     /// <summary>
@@ -139,8 +141,46 @@ public class TitleGUIManager : MonoBehaviour
     public void ReturnTitle()
     {
         //アニメーション起動
-        reverseCountSelectInAnim.Play();
+        R_CountAnim_In.Play();
+        //アニメーション中フラグオン
+        title.isPlayingAnim = true;
+        R_CountAnim_In.stopped += StopedAnimation;
     }
+    #endregion
+
+    #region #キャラ選択画面
+
+    /// <summary>
+    /// キャラ選択画面を表示
+    /// </summary>
+    public void ViewCharactorSelect()
+    {
+        //幽霊上昇アニメーション
+        countAnim_Out.Play();
+        //アニメーション中フラグオン
+        title.isPlayingAnim = true;
+        countAnim_Out.stopped += StopedAnimation;
+    }
+
+    /// <summary>
+    /// 人数選択画面に戻る
+    /// </summary>
+    public void ReturnCountSelect()
+    {
+        //退散アニメーション起動
+        R_CharaAnim_In.Play();
+        //アニメーション中フラグオン
+        title.isPlayingAnim = true;
+        R_CharaAnim_In.stopped += ReverseCharaSelectInAnim_stopped;
+    }
+    private void ReverseCharaSelectInAnim_stopped(PlayableDirector obj)
+    {
+        //人数選択画面に戻る
+        R_CountAnim_Out.Play();
+        R_CountAnim_Out.stopped += StopedAnimation;
+    }
+
+
     #endregion
 
     /// <summary>
@@ -190,6 +230,17 @@ public class TitleGUIManager : MonoBehaviour
                 trapSelecterPanel.SetActive(true);
                 break;
         }
+    }
+
+    /// <summary>
+    /// アニメーション終了時にフラグを解除
+    /// </summary>
+    /// <param name="anim"></param>
+    void StopedAnimation(PlayableDirector anim)
+    {
+        anim.stopped -= StopedAnimation;
+        //アニメーション中フラグ解除
+        title.isPlayingAnim = false;
     }
 
     /// <summary>
@@ -301,25 +352,6 @@ public class TitleGUIManager : MonoBehaviour
         charactorImage[playerNum].enabled = isView;
     }
 
-    /// <summary>
-    /// キャラ選択画面を表示
-    /// </summary>
-    public void ViewCharactorSelect()
-    {
-        //幽霊上昇アニメーション
-        title.isPlayingAnim = true;
-        countSelectOutAnim.stopped += CountSelectOutAnim_stopped;
-        countSelectOutAnim.Play();
-    }
-    void CountSelectOutAnim_stopped(PlayableDirector obj)
-    {
-        //登録を削除
-        countSelectOutAnim.stopped -= CountSelectOutAnim_stopped;
-        //アニメーション終了
-        title.isPlayingAnim = false;
-        //キャラ選択画面を表示
-        SetPhasePanel(TitleManager.NowPhase.CharaSelect);
-    }
 
     /// <summary>
     /// 人数選択の看板の数字変更&アニメーション
