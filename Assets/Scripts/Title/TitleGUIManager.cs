@@ -36,6 +36,8 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] Animator lastCheckSignBoardAnim;
     [SerializeField] Image[] iconImage;
     [SerializeField] Sprite[] iconSp;
+    [SerializeField] GameObject infoHintUiObj;
+    [SerializeField] GameObject cursorsObj;
 
     //画面遷移
     [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectOutAnim;
@@ -254,8 +256,9 @@ public class TitleGUIManager : MonoBehaviour
         for (int i = 0; i < title.currentPlayerCount; i++)
         {
             iconImage[i].sprite = iconSp[title.playerInfoList[i].charactorNum];
-            
         }
+        //変更後にカーソルを表示
+        cursorsObj.SetActive(true);
         // アニメーション終了に合わせてトラップアイコンを表示
         for (int i = 0; i < 4; i++)
         {
@@ -268,6 +271,8 @@ public class TitleGUIManager : MonoBehaviour
         {
             trapIconsImage_store[i].enabled = true;
         }
+        //説明のヒントUIも表示
+        infoHintUiObj.SetActive(true);
     }
 
     /// <summary>

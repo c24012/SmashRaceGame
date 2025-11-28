@@ -4,6 +4,7 @@ using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
 using UnityEngine.Splines;
 
@@ -53,10 +54,12 @@ public class RaceManager : MonoBehaviour
     [SerializeField] SplineContainer roadSpline;
     //道の情報
     [SerializeField] CorseCheck corseCheck;
-    //TimeLineの管理
-    [SerializeField] TimeLineManager timeLine;
     //トラップストア
     [SerializeField] TrapStore trapStore;
+    //一時停止画面
+    [SerializeField] Canvas pauseMenuCanvas;
+    //ピンぼけ
+    [SerializeField] PostProcessVolume post;
 
     // 解像度
     [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
@@ -65,10 +68,15 @@ public class RaceManager : MonoBehaviour
     [SerializeField, Range(1, 10)]
     private int iterations = 2;
 
-
+    PauseManager pause;
+    TimeLineManager timeLine;
 
     private void Awake()
     {
+        //コンポーネントを取得
+        pause = GetComponent<PauseManager>();
+        timeLine = GetComponent<TimeLineManager>();
+
         //ゲームデータから情報を取得
         playerCount = gameData.playerCount;
 
@@ -108,6 +116,7 @@ public class RaceManager : MonoBehaviour
             }
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
+            pm.pause = pause;    //ポーズマネージャーの登録
         }
         //プレイヤー全員のデータを生成
         for(int i = 0; i < playerObjs.Count; i++)
@@ -222,5 +231,36 @@ public class RaceManager : MonoBehaviour
             gameData.ranking[i] = playerDatas[i].playerNum;
         }
         SceneManager.LoadScene("ResultScene");
+    }
+
+    /// <summary>
+    /// ポーズメニューを表示&非表示
+    /// </summary>
+    /// <param name="isActive"></param>
+    public void ViewPauseMenu(bool isActive)
+    {
+        if (isActive)
+        {
+            pauseMenuCanvas.enabled = true;
+            post.weight = 1;
+            Time.timeScale = 0;
+        }
+        else
+        {
+            pauseMenuCanvas.enabled = false;
+            post.weight = 0;
+            Time.timeScale = 1;
+        }
+    }
+
+    /// <summary>
+    /// タイトル画面をロード
+    /// </summary>
+    public void ToTitleScene()
+    {
+        //タイトルシーンロード
+        SceneManager.LoadScene("TitleScene");
+        //時間停止を解除
+        Time.timeScale = 1;
     }
 }
