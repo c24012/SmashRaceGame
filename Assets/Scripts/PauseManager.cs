@@ -1,4 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
@@ -26,7 +29,7 @@ public class PauseManager : MonoBehaviour
         }
         else
         {
-            race.ViewPauseMenu(true);
+
         }
         isOpen = true;
     }
@@ -41,7 +44,7 @@ public class PauseManager : MonoBehaviour
             }
             else
             {
-                race.ViewPauseMenu(false);
+
             }
         }
         openPlayer = -1;
@@ -58,7 +61,7 @@ public class PauseManager : MonoBehaviour
             }
             else
             {
-                race.ToTitleScene();
+
             }
         }
     }

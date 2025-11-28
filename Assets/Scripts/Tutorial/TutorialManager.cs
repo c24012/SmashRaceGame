@@ -30,6 +30,8 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] Canvas pauseMenuCanvas;
     //ピンぼけ
     [SerializeField] PostProcessVolume post;
+    //フェードインのアニメーション
+    [SerializeField] Animator anim;
 
 
     //現プレイヤー人数
@@ -123,13 +125,13 @@ public class TutorialManager : MonoBehaviour
     }
 
     /// <summary>
-    /// タイトル画面をロード
+    /// フェードインアニメーションを起動
     /// </summary>
     public void ToTitleScene()
     {
         //ボタン検知を解除
         DisableActions();
-        SceneManager.LoadScene("TitleScene");
+        anim.SetTrigger("Load");
         //時間停止を解除
         Time.timeScale = 1;
     }
