@@ -122,27 +122,41 @@ public class TitleManager : MonoBehaviour
     /// <summary>
     /// 人数選択画面へ
     /// </summary>
-    public void CountSelectView()
+    public void CountSelectView(bool isReturn = false)
     {
         nowPhase = NowPhase.CountSelect;
-        //プレイヤー人数選択画面
-        gui_m.ViewCountSelect();
+        if (isReturn)
+        {
+            
+        }
+        else
+        {
+            //プレイヤー人数選択画面
+            gui_m.ViewCountSelect();
+        }
     }
 
     /// <summary>
     /// トラップ選択画面へ
     /// </summary>
-    public void TrapSelectView()
+    public void TrapSelectView(bool isReturn = false)
     {
         nowPhase = NowPhase.TrapSelect;
-        //トラップ選択画面を表示
-        gui_m.ViewTrapSelect();
+        if (isReturn)
+        {
+
+        }
+        else
+        {
+            //トラップ選択画面を表示
+            gui_m.ViewTrapSelect();
+        }
     }
 
     /// <summary>
     /// キャラ選択画面へ
     /// </summary>
-    public void CharactorSelectView()
+    public void CharactorSelectView(bool isReturn = false)
     {
         nowPhase = NowPhase.CharaSelect;
         //キャラ選択画面を表示
@@ -150,9 +164,9 @@ public class TitleManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 選択画面画面からタイトルに戻る
+    /// タイトル画面へ
     /// </summary>
-    public void TitleView()
+    public void TitleView(bool isReturn = false)
     {
         nowPhase = NowPhase.Title;
         //タイトル画面を表示
@@ -253,8 +267,13 @@ public class TitleManager : MonoBehaviour
     /// </summary>
     public void QuitGame()
     {
-        //アプリケーションを終了
-        Application.Quit();
+        //タイトル以外は返却
+        if (nowPhase != NowPhase.Title) return;
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;//ゲームプレイ終了
+#else
+        Application.Quit();//ゲームプレイ終了
+#endif
     }
 
     /// <summary>
@@ -381,8 +400,12 @@ public class TitleManager : MonoBehaviour
         //タイトル画面
         if (nowPhase == NowPhase.Title)
         {
-            //--長押ししたらゲーム終了(まだ)
-            
+            //何もなし
+        }
+        //人数選択画面
+        if(nowPhase == NowPhase.CountSelect)
+        {
+            TitleView();
         }
         //キャラ選択画面
         if (nowPhase == NowPhase.CharaSelect)

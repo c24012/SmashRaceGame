@@ -11,6 +11,7 @@ public class JoinPlayerManager : MonoBehaviour
     [SerializeField, Header("GUIマネージャー")] TitleGUIManager gui_m;
     [SerializeField, Header("参加アクション")] InputActionReference joinActionRef;
     [SerializeField, Header("チュートリアルアクション")] InputActionReference tutorialActionRef;
+    [SerializeField, Header("ゲーム終了アクション")] InputActionReference quitGameActionRef;
     [SerializeField, Header("タイトル操作プレイヤーPrefab")] PlayerInput playerObj;
 
     [SerializeField] GameObject firstSelectObj;
@@ -18,6 +19,7 @@ public class JoinPlayerManager : MonoBehaviour
 
     InputAction joinInputAction;                    //参加ボタン検知用
     InputAction tutorialInputAction;                //チュートリアルボタン検知用
+    InputAction quitGameInputAction;                //終了ボタン検知用
     List<InputDevice> inputDeviceList = new();      //現在使われているデバイスリスト
     const int MAX_PLAYER_COUNT = 4;                 //最大参加可能人数
 
@@ -30,13 +32,16 @@ public class JoinPlayerManager : MonoBehaviour
         //参加ボタン,チュートリアルボタンを検知できるようにIAReferenceからInputActionを取得
         joinInputAction = joinActionRef.action;
         tutorialInputAction = tutorialActionRef.action;
+        quitGameInputAction = quitGameActionRef.action;
 
         //ボタン検知を有効化
         joinInputAction.Enable();
         tutorialInputAction.Enable();
+        quitGameInputAction.Enable();
         //参加ボタン入力時呼び出す関数を登録
         joinInputAction.started += OnJoin;
         tutorialInputAction.started += OnTutorial;
+        quitGameInputAction.started += OnQuitGame;
         //参加時に呼ばれる関数を登録
         playerInputManager.onPlayerJoined += OnJoinManager;
         //オブジェクトが破壊されたときに呼ばれる関数を登録
@@ -48,9 +53,11 @@ public class JoinPlayerManager : MonoBehaviour
         //ボタン検知を解除
         joinInputAction.Disable();
         tutorialInputAction.Disable();
+        quitGameInputAction.Disable();
         //参加ボタン入力時呼び出す関数を登録
         joinInputAction.started -= OnJoin;
         tutorialInputAction.started -= OnTutorial;
+        quitGameInputAction.started -= OnQuitGame;
         //参加時に呼ばれる関数を登録
         playerInputManager.onPlayerJoined -= OnJoinManager;
         //オブジェクトが破壊されたときに呼ばれる関数を登録
@@ -122,5 +129,10 @@ public class JoinPlayerManager : MonoBehaviour
     void OnTutorial(InputAction.CallbackContext context)
     {
         title_m.StartTutorial();
+    }
+
+    void OnQuitGame(InputAction.CallbackContext context)
+    {
+        title_m.QuitGame();
     }
 }

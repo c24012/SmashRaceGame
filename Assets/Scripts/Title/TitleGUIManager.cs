@@ -12,8 +12,6 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField, Header("人数選択画面")] GameObject countSelectPanel;
     [SerializeField] Animator countSelect_GhostAnim;
     [SerializeField] Text countSlect_PlayerCountText;
-    [SerializeField] Animator countSelect_GhostUpAnim;
-    [SerializeField] Animation titleFadeAnim;
 
     [SerializeField, Header("キャラ選択画面")] GameObject[] playerPanels = new GameObject[4];
     [SerializeField] GameObject[] joinPanels = new GameObject[4];
@@ -40,9 +38,14 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] GameObject cursorsObj;
 
     //画面遷移
-    [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectOutAnim;
+    [SerializeField, Header("画面遷移アニメーション")] PlayableDirector countSelectInAnim;
+    [SerializeField] PlayableDirector reverseCountSelectInAnim;
+    [SerializeField] PlayableDirector countSelectOutAnim;
+    [SerializeField] PlayableDirector reverseCountSelectOutAnim;
     [SerializeField] PlayableDirector charaSelectOutAnim;
+    [SerializeField] PlayableDirector reverseCharaSelectOutAnim;
     [SerializeField] PlayableDirector trapSelectInAnim;
+    [SerializeField] PlayableDirector reverseTrapSelectInAnim;
     [SerializeField] PlayableDirector fadeIn;
 
 
@@ -69,7 +72,6 @@ public class TitleGUIManager : MonoBehaviour
             }
         }
     }
-
 
     private void Awake()
     {
@@ -127,12 +129,18 @@ public class TitleGUIManager : MonoBehaviour
     /// </summary>
     public void ViewCountSelect()
     {
-        //ピンぼけアニメーション再生
-        titleFadeAnim.Play();
-        //人数選択画面を表示
-        SetPhasePanel(TitleManager.NowPhase.CountSelect);
+        //アニメーション起動
+        countSelectInAnim.Play();
     }
 
+    /// <summary>
+    /// タイトルシーンに戻る
+    /// </summary>
+    public void ReturnTitle()
+    {
+        //アニメーション起動
+        reverseCountSelectInAnim.Play();
+    }
     #endregion
 
     /// <summary>
@@ -204,6 +212,10 @@ public class TitleGUIManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 参加した人を表示していく
+    /// </summary>
+    /// <param name="playerCount"></param>
     public void SetJoinPlayer(int playerCount)
     {
         //人数を更新
