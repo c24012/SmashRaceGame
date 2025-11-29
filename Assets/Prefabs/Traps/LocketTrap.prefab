@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ba19825319b5814fb7db2479d8ebcd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: -1027990602, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
+  icon: {fileID: 1922292455, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
   - 0.1
