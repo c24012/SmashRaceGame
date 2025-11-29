@@ -498,11 +498,17 @@ public class PlayerController : MonoBehaviour
     /// <param name="pos"></param>
     public void EffectShockWave(Vector2 pos, bool mySelf = false)
     {
+        //自分の加速度を半減
+        rb.velocity /= 2;
         //位置の差を計算
         Vector2 vec = (Vector2)transform.position - pos;
         float diff = Mathf.Clamp(vec.magnitude, 0.5f, 2f);
         //方向の正規化
         vec.Normalize();
+
+        //ロケットダッシュ状態は影響を強く受ける
+        if (isLocket) vec *= 1.5f;
+
         //中心から離れるほど弱く加速
         //自分に当たった場合は影響を弱くする
         if (mySelf) rb.AddForce((vec * MOVE_POWER) / (diff * 2));

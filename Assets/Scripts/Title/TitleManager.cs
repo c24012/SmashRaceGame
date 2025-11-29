@@ -114,9 +114,12 @@ public class TitleManager : MonoBehaviour
 
         int count = 0;
         //準備出来た人数をカウント
-        foreach (bool ready in isStoreTrapTable) if (!ready) count++;
+        for(int i = 0;i < maxPlayerCount; i++)
+        {
+            if (!isStoreTrapTable[i]) count++;
+        }
         //今いるプレイヤー全員と一致するかを返却
-        return count >= maxPlayerCount;
+        return count > maxPlayerCount;
     }
 
     /// <summary>
@@ -472,6 +475,7 @@ public class TitleManager : MonoBehaviour
     /// <param name="next"></param>
     public void OnMove(int playerId, Vector2 vec)
     {
+        print(vec+":P"+playerId);
         //ゲーム開始後は受け付けない
         if (isStartGame) return;
 
@@ -611,6 +615,7 @@ public class TitleManager : MonoBehaviour
                     playerSelectingTrap_mine[playerId] = 2;
                 }
 
+                print(playerId + ":" + vec.x + ":" + playerSelectingTrap_mine[playerId]);
                 //UIを更新
                 gui_m.SetTrapSelectCursor(
                     playerId,
