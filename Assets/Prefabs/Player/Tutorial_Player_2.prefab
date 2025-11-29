@@ -21,6 +21,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6828806516823141215, guid: a405e1357be7616478d9e884e2835d05, type: 3}
     - target: {fileID: 3507521565515842755, guid: b9fe9b6d66078fa41871c03ed8b01c82, type: 3}
+      propertyPath: trapObj.Array.data[1]
+      value: 
+      objectReference: {fileID: 2055197002879597668, guid: 0c120c80f28b7424aba39e1ef2d53c76, type: 3}
+    - target: {fileID: 3507521565515842755, guid: b9fe9b6d66078fa41871c03ed8b01c82, type: 3}
       propertyPath: trapObj.Array.data[2]
       value: 
       objectReference: {fileID: 2055197002879597668, guid: 7d037f1d66dbb184e8113d46ef124f7d, type: 3}
