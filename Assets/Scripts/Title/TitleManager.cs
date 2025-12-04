@@ -75,6 +75,8 @@ public class TitleManager : MonoBehaviour
 
     bool isTutorial = false;
 
+    public bool[] isSelect = { false, false, false, false };
+
     public enum NowPhase
     {
         Title,
@@ -119,7 +121,8 @@ public class TitleManager : MonoBehaviour
             if (!isStoreTrapTable[i]) count++;
         }
         //今いるプレイヤー全員と一致するかを返却
-        return count > maxPlayerCount;
+        //print(count);
+        return count == maxPlayerCount;
     }
 
     /// <summary>
@@ -347,6 +350,10 @@ public class TitleManager : MonoBehaviour
         //キャラ選択画面
         else if (nowPhase == NowPhase.CharaSelect)
         {
+            //既に選択されているなら返却
+            if (isSelect[playerCharactor[playerId]]) return;
+            isSelect[playerCharactor[playerId]] = true;
+            gui_m.BanActive(playerId, playerCharactor[playerId], true);
             //準備OK状態にする
             playerIsLady[playerId] = true;
             gui_m.ViewCharactorImage(playerId, true, playerCharactor[playerId]);
@@ -440,6 +447,9 @@ public class TitleManager : MonoBehaviour
         {
             if (playerIsLady[playerId])
             {
+                //選択を解除
+                isSelect[playerCharactor[playerId]] = false;
+                gui_m.BanActive(playerId, playerCharactor[playerId], false);
                 //準備状態を解除
                 playerIsLady[playerId] = false;
                 gui_m.ViewCharactorImage(playerId, false);
@@ -475,7 +485,7 @@ public class TitleManager : MonoBehaviour
     /// <param name="next"></param>
     public void OnMove(int playerId, Vector2 vec)
     {
-        print(vec+":P"+playerId);
+        //print(vec+":P"+playerId);
         //ゲーム開始後は受け付けない
         if (isStartGame) return;
 
@@ -615,7 +625,7 @@ public class TitleManager : MonoBehaviour
                     playerSelectingTrap_mine[playerId] = 2;
                 }
 
-                print(playerId + ":" + vec.x + ":" + playerSelectingTrap_mine[playerId]);
+                //print(playerId + ":" + vec.x + ":" + playerSelectingTrap_mine[playerId]);
                 //UIを更新
                 gui_m.SetTrapSelectCursor(
                     playerId,

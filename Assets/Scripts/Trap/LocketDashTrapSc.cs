@@ -5,6 +5,7 @@ public class LocketTrapSc : TrapBase
 {
     [SerializeField, Header("移動速度")] float speed = 10f;
     [SerializeField, Header("最高速度")] float maxSpeed = 10f;
+    [SerializeField, Header("効果音")] AudioSource audioSource;
 
     float timer = 0;
 
@@ -53,6 +54,11 @@ public class LocketTrapSc : TrapBase
     {
         //加速をリセット
         pm.playerController.EffectLocketDash(false, gameObject.name);
+        //音を徐々に小さくする
+        for (float i = 1; i > 0; i -= 0.1f)
+        {
+            audioSource.volume = i;
+        }
         //オブジェクトを破壊
         Destroy(gameObject);
     }

@@ -1036,7 +1036,7 @@ SpriteRenderer:
   m_Size: {x: 0.48, y: 0.72}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &8623054081200306853
@@ -1386,9 +1386,9 @@ MonoBehaviour:
   cottonObj: {fileID: 2133546564779271490}
   effectObj: {fileID: 7852663145402198422}
   effectSp:
-  - {fileID: -237661002, guid: 09df723a215c6c548a5f229328029db7, type: 3}
-  - {fileID: 897850156, guid: 09df723a215c6c548a5f229328029db7, type: 3}
-  - {fileID: 1801001597, guid: 09df723a215c6c548a5f229328029db7, type: 3}
+  - {fileID: 359227658, guid: 09df723a215c6c548a5f229328029db7, type: 3}
+  - {fileID: 479105029, guid: 09df723a215c6c548a5f229328029db7, type: 3}
+  - {fileID: 579920754, guid: 09df723a215c6c548a5f229328029db7, type: 3}
   windEffectObj: {fileID: 4105992913955358350}
   moveSpeedRatio: 1
   effectNameList: []
@@ -1547,7 +1547,7 @@ Rigidbody2D:
     serializedVersion: 2
     m_Bits: 0
   m_Interpolate: 0
-  m_SleepingMode: 1
+  m_SleepingMode: 0
   m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &5241005607912688899

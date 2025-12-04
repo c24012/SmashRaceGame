@@ -17,6 +17,7 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] GameObject[] joinPanels = new GameObject[4];
     [SerializeField] GameObject[] CharaSignBoardPanels = new GameObject[4];
     [SerializeField] Animator[] GhostAnim;
+    [SerializeField] GameObject[] banObj;
 
     [SerializeField, Header("ƒAƒCƒeƒ€‘I‘ğ‰æ–Ê")] GameObject trapSelecterPanel;
     [SerializeField] GameObject[] trapPanels = new GameObject[4];
@@ -377,6 +378,7 @@ public class TitleGUIManager : MonoBehaviour
     {
         playerNum_local = playerNum;
         playingCharactorsImage[playerNum_local].sprite = playingCharactorSprites[charactorId];
+        banObj[playerNum].SetActive(title.isSelect[charactorId]);
         if (charactorId - 1 == charactorId_local || charactorId_local == charactorId + 3)
         {
             GhostAnim[playerNum].SetTrigger("Right");
@@ -436,5 +438,21 @@ public class TitleGUIManager : MonoBehaviour
     public void PlayFadeIn()
     {
         fadeIn.Play();
+    }
+
+    /// <summary>
+    /// ‹Ö~‚ÌD‚ğ“\‚é•‰ğœ
+    /// </summary>
+    /// <param name="playerNum"></param>
+    /// <param name="charaNum"></param>
+    /// <param name="isBan"></param>
+   public void BanActive(int playerNum , int charaNum,bool isBan)
+    {
+        for (int i = 0; i < title.currentPlayerCount; i++)
+        {
+            if (playerNum == i || playingCharactorsImage[i].sprite != playingCharactorSprites[charaNum]) continue;
+            banObj[i].SetActive(isBan);
+        }
+
     }
 }

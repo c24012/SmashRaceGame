@@ -127,9 +127,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 72
-        width: 48
-        height: 72
+        y: 88
+        width: 96
+        height: 88
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -137,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d9c17fb3563c78c438e791ea513d637c
-      internalID: -237661002
+      spriteID: 91cb5ee88d8f8f6479b39ccbc9a9cf83
+      internalID: 359227658
       vertices: []
       indices: 
       edges: []
@@ -147,10 +147,10 @@ TextureImporter:
       name: ConditionEffect_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 72
-        width: 48
-        height: 72
+        x: 96
+        y: 88
+        width: 96
+        height: 88
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -158,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 5218f2a9fe2fc6b4a9c57d7509da720b
-      internalID: 897850156
+      spriteID: 35ea6e6fe6ddc6447bdd5c81f87f2c6e
+      internalID: 479105029
       vertices: []
       indices: 
       edges: []
@@ -170,8 +170,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 48
-        height: 72
+        width: 96
+        height: 88
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -179,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 060b31b2745957a45b088c68b815fbea
-      internalID: 1801001597
+      spriteID: 14461ea56e261df429c5a3a9be56176b
+      internalID: 579920754
       vertices: []
       indices: 
       edges: []
@@ -196,9 +196,9 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ConditionEffect_0: -237661002
-      ConditionEffect_1: 897850156
-      ConditionEffect_2: 1801001597
+      ConditionEffect_0: 359227658
+      ConditionEffect_1: 479105029
+      ConditionEffect_2: 579920754
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -48,10 +48,12 @@ public class ResultManager : MonoBehaviour
 
     void ReturnTitle(InputAction.CallbackContext context)
     {
+        
         if (context.started)
         {
             //タイトルシーンロード
             anim.SetTrigger("Load");
+            returnAction.started -= ReturnTitle;
         }
     }
 }

@@ -10,6 +10,7 @@ public class ChaseTrapSc : TrapBase
     [SerializeField] Collider2D bodyCol;
     [SerializeField] SpriteRenderer chaseSr;
     [SerializeField] Animator anim;
+    [SerializeField] AudioSource audioSource;
     [Header("‰Á‘¬“x")] public float acceleration = 20;
     [Header("Å‚‘¬“x")] public float maxSpeed = 20;
     [Header("’Ç”ö«”\")] public float chasePerformance;
@@ -79,6 +80,7 @@ public class ChaseTrapSc : TrapBase
     public void TimeUpAnim()
     {
         anim.SetBool("IsFinish", true);
+        audioSource.Play();
         //æ‚É”»’è‚ğÁ‚·
         sensorCol.enabled = false;
         bodyCol.enabled = false;
