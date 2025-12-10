@@ -1251,7 +1251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &370790547
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1997,8 +1997,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30BF\u30A4\u30C8\u30EB\u306B\u623B\u308B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cebae885a675d8147b98476dc500b644, type: 2}
+  m_sharedMaterial: {fileID: -4644644015671286376, guid: cebae885a675d8147b98476dc500b644, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -4163,8 +4163,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u30B2\u30FC\u30E0\u306B\u623B\u308B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cebae885a675d8147b98476dc500b644, type: 2}
+  m_sharedMaterial: {fileID: -4644644015671286376, guid: cebae885a675d8147b98476dc500b644, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5940,8 +5940,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u4E00\u6642\u505C\u6B62"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: cebae885a675d8147b98476dc500b644, type: 2}
+  m_sharedMaterial: {fileID: -4644644015671286376, guid: cebae885a675d8147b98476dc500b644, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6258,6 +6258,9 @@ MonoBehaviour:
   pauseMenuCanvas: {fileID: 548298705}
   post: {fileID: 1840744538}
   anim: {fileID: 282485892}
+  debugMode: 0
+  bebug_playerCount: 1
+  gameData: {fileID: -1807419503190558655, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
 --- !u!114 &1860326226
 MonoBehaviour:
   m_ObjectHideFlags: 0

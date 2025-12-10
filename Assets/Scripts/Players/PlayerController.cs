@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour
     SpriteRenderer sr;
     Collider2D col;
     PlayerInput playerInput;
+    AudioSource audioSource;
+
+    [SerializeField] AudioClip[] audioClip;
 
 
     [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
@@ -76,6 +79,7 @@ public class PlayerController : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
         effectSR = effectObj.GetComponent<SpriteRenderer>();
         windEffectAnim = windEffectObj.GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
         //初期化
         Init();
     }
@@ -232,6 +236,7 @@ public class PlayerController : MonoBehaviour
         anim.SetTrigger("Fall");
         WaitForSeconds wait = new(0.1f);
         Quaternion deforeRotate = transform.rotation;
+        audioSource.PlayOneShot(audioClip[1]);
         for(float i = 1; i > 0; i -= 0.1f)
         {
             transform.localScale = new Vector2(i, i);
@@ -633,6 +638,7 @@ public class PlayerController : MonoBehaviour
         if(context.canceled)
         {
             pm.powerGage.StopCharge();
+            audioSource.PlayOneShot(audioClip[0]);
             powerGageCanvas.enabled = false;
         }
     }
@@ -829,4 +835,9 @@ public class PlayerController : MonoBehaviour
         }
     }
     #endregion
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        audioSource.PlayOneShot(audioClip[2]);
+    }
 }

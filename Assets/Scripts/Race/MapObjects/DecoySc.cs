@@ -22,6 +22,7 @@ public class DecoySc : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Collider2D collisionCol;
+    [SerializeField] AudioSource audioSource;
 
     Vector2 firstPos;
     int enterPlayerCount = 0;
@@ -200,6 +201,7 @@ public class DecoySc : MonoBehaviour
         rb.isKinematic = true;
         WaitForSeconds wait = new(0.1f);
         Quaternion deforeRotate = transform.rotation;
+        audioSource.Play();
         for (float i = 1; i > 0; i -= 0.1f)
         {
             transform.localScale = new Vector2(i, i);

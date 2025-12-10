@@ -23,6 +23,8 @@ public class ResultManager : MonoBehaviour
     //フェードインのアニメーション
     [SerializeField] Animator anim;
 
+    [SerializeField] AudioSource audioSource;
+
     private void Awake()
     {
         //終了ボタンを有効化
@@ -54,6 +56,7 @@ public class ResultManager : MonoBehaviour
             //タイトルシーンロード
             anim.SetTrigger("Load");
             returnAction.started -= ReturnTitle;
+            audioSource.Play();
         }
     }
 }

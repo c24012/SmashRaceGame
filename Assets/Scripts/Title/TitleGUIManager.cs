@@ -1,8 +1,10 @@
 using System.Collections.Generic;
-using Unity.VisualScripting.FullSerializer;
+using TMPro;
+//using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.UI;
+//using UnityEngine.UIElements;
 
 public class TitleGUIManager : MonoBehaviour
 {
@@ -11,7 +13,12 @@ public class TitleGUIManager : MonoBehaviour
 
     [SerializeField, Header("人数選択画面")] GameObject countSelectPanel;
     [SerializeField] Animator countSelect_GhostAnim;
-    [SerializeField] Text countSlect_PlayerCountText;
+    [SerializeField] Animator modeSelect_GhostAnim;
+    [SerializeField] TextMeshProUGUI countSlect_PlayerCountText;
+    [SerializeField] TextMeshProUGUI modeSlect_GameModeText;
+    [SerializeField] Image[] countPanelImage;
+    [SerializeField] Image[] modePanelImage;
+    string[] modeNames = { "チュートリアル", "レース", "バトル" };
 
     [SerializeField, Header("キャラ選択画面")] GameObject[] playerPanels = new GameObject[4];
     [SerializeField] GameObject[] joinPanels = new GameObject[4];
@@ -35,7 +42,7 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] Animator lastCheckSignBoardAnim;
     [SerializeField] Image[] iconImage;
     [SerializeField] Sprite[] iconSp;
-    [SerializeField] GameObject infoHintUiObj;
+    [SerializeField] GameObject[] infoHintUiObj;
     [SerializeField] GameObject cursorsObj;
 
     //画面遷移
@@ -51,6 +58,11 @@ public class TitleGUIManager : MonoBehaviour
 
     int playerNum_local;
     int charactorId_local;
+
+    string[] itemName = { "団扇", "泥", "太鼓", "雪玉", "茶釜", "風袋", "一反木綿", "火の玉"};
+    [SerializeField] Text testText;
+
+    [SerializeField] AudioSource audioSource;
 
     /// <summary>
     /// //各プレイヤーの自分のトラップアイコンのRectTransformとImage取得
@@ -134,6 +146,14 @@ public class TitleGUIManager : MonoBehaviour
         //アニメーション中フラグオン
         title.isPlayingAnim = true;
         countAnim_In.stopped += StopedAnimation;
+        //色を待機状態にする
+        Color color = new Color(1, 1, 1, 0.5f);
+
+        for (int i = 0; i < modePanelImage.Length; i++)
+        {
+            modePanelImage[i].color = color;
+        }
+        modeSlect_GameModeText.color = new Color(0, 0, 0, 0.5f);
     }
 
     /// <summary>
@@ -336,7 +356,12 @@ public class TitleGUIManager : MonoBehaviour
             trapIconsImage_store[i].enabled = true;
         }
         //説明のヒントUIも表示
-        infoHintUiObj.SetActive(true);
+        //infoHintUiObj.SetActive(true);
+    }
+
+    public void InfoHint(int playerNum,bool isView)
+    {
+        infoHintUiObj[playerNum].SetActive(isView);
     }
 
     /// <summary>
@@ -367,6 +392,58 @@ public class TitleGUIManager : MonoBehaviour
         else countSelect_GhostAnim.SetTrigger("Right");
         //数字を表示
         countSlect_PlayerCountText.text = count.ToString();
+        //SEを再生
+        audioSource.Play();
+    }
+
+    public void ChangeGameModeText(int inputValue,int count)
+    {
+        //入力がプラスの場合は左
+        if (inputValue > 0) modeSelect_GhostAnim.SetTrigger("Left");
+        //マイナスの場合は右回転
+        else modeSelect_GhostAnim.SetTrigger("Right");
+        //数字を表示
+        modeSlect_GameModeText.text = modeNames[count];
+        //SEを再生
+        audioSource.Play();
+    }
+
+    public void ColorChenge(bool isCount)
+    {
+        Color beforColor = new(1, 1, 1, 0.5f);
+        Color afterColor = new(1, 1, 1, 1);
+        //モードのパネルへ
+        if (isCount)
+        {
+            //カウントパネルの色を薄くする
+            for (int i = 0; i < countPanelImage.Length; i++)
+            {
+                countPanelImage[i].color = beforColor;
+            }
+            countSlect_PlayerCountText.color = new Color(0, 0, 0, 0.5f);
+            //モードパネルの色を濃ゆくする
+            for (int i = 0; i < modePanelImage.Length; i++)
+            {
+                modePanelImage[i].color = afterColor;
+            }
+            modeSlect_GameModeText.color = Color.black;
+        }
+        //カウントのパネルへ
+        else
+        {
+            //モードパネルの色を薄くする
+            for (int i = 0; i < modePanelImage.Length; i++)
+            {
+                modePanelImage[i].color = beforColor;
+            }
+            modeSlect_GameModeText.color = new Color(0, 0, 0, 0.5f);
+            //カウントパネルの色を濃ゆくする
+            for (int i = 0; i < countPanelImage.Length; i++)
+            {
+                countPanelImage[i].color = afterColor;
+            }
+            countSlect_PlayerCountText.color = Color.black;
+        }
     }
 
     /// <summary>
@@ -388,6 +465,8 @@ public class TitleGUIManager : MonoBehaviour
             GhostAnim[playerNum].SetTrigger("Left");
         }
         charactorId_local = charactorId;
+        //SEを再生
+        audioSource.Play();
     }
 
 
@@ -402,11 +481,13 @@ public class TitleGUIManager : MonoBehaviour
         if (isStore)
         {
             selectCursors[playerNum].position = trapIcons_store[trapId].position;
+            testText.text = itemName[trapId];
         }
         else
         {
             selectCursors[playerNum].position = trapIcons_mine[playerNum][trapId].position;
         }
+        infoHintUiObj[playerNum].SetActive(isStore);
     }
 
     /// <summary>

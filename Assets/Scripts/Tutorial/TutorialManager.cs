@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
+//using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -39,21 +40,52 @@ public class TutorialManager : MonoBehaviour
     //現在使われているデバイスリスト
     List<InputDevice> inputDeviceList = new();
     //最大参加可能人数
-    const int MAX_PLAYER_COUNT = 4;                 
+    const int MAX_PLAYER_COUNT = 4;
+
+    [SerializeField, Header("デバッグモード")] bool debugMode;
+    [SerializeField] int bebug_playerCount;
+    [SerializeField, Header("ゲームの情報")] GameData gameData;
 
     private void Awake()
     {
-        //ボタンを検知できるようにIAReferenceからInputActionを取得
-        joinInputAction = joinActionRef.action;
 
-        //ボタン検知を有効化
-        joinInputAction.Enable();
 
-        //参加ボタン入力時呼び出す関数を登録
-        joinInputAction.started += OnJoin;
+        if (debugMode)
+        {
+            List<PlayerInfo> playerInfo = gameData.playerInfoList;
+            for (int i = 0; i < bebug_playerCount; i++)
+            {
+
+                GameObject playerObj = Instantiate(playerPrefabs[i]);
+                //オブジェクトの登録
+                playerObjs.Add(playerObj);
+                PlayerManager pm = playerObj.GetComponent<PlayerManager>();
+                //外部スクリプトを渡す
+                pm.corseCheck = corseCheck; //コースの情報の登録
+                pm.pause = pauseManager;    //ポーズマネージャーの登録
+            }
+            //プレイヤー全員のデータを生成
+            for (int i = 0; i < playerObjs.Count; i++)
+            {
+                Transform charactor = playerObjs[i].transform.GetChild(0);
+                PlayerManager pm = playerObjs[i].GetComponent<PlayerManager>();
+                pm.playerData = new PlayerData(pm.playerNum, charactor);
+                playerDatas.Add(pm.playerData);
+            }
+        }
+        else
+        {
+            //ボタンを検知できるようにIAReferenceからInputActionを取得
+            joinInputAction = joinActionRef.action;
+
+            //ボタン検知を有効化
+            joinInputAction.Enable();
+
+            //参加ボタン入力時呼び出す関数を登録
+            joinInputAction.started += OnJoin;
+        }
     }
-
-    void DisableActions()
+        void DisableActions()
     {
         //ボタン検知を解除
         joinInputAction.Disable();

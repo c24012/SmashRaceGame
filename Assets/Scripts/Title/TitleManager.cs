@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -73,14 +74,18 @@ public class TitleManager : MonoBehaviour
     public bool[] charaChangingFlag = new bool[4];  //キャラ選択のアニメーション中か
     public bool isPlayingAnim = false;              //アニメーション再生中か
 
-    bool isTutorial = false;
+    int modeNum = 0;
+    string[] moadName = { "チュートリアル", "レース", "バトル" };
 
     public bool[] isSelect = { false, false, false, false };
+
+    [SerializeField] AudioSource audioSource;
 
     public enum NowPhase
     {
         Title,
         CountSelect,
+        ModeSelect,
         CharaSelect,
         TrapSelect,
     }
@@ -148,6 +153,7 @@ public class TitleManager : MonoBehaviour
             //プレイヤー人数選択画面
             gui_m.ViewCountSelect();
             nowPhase = NowPhase.CountSelect;
+            audioSource.Play();
         }
     }
 
@@ -283,14 +289,23 @@ public class TitleManager : MonoBehaviour
         //ボタン検知をオフ
         join_m.DisableActions();
 
-        if (isTutorial)
+        if (modeNum == 0)
         {
-            //レースシーンへ
+            //チュートリアルシーンへ
             SceneManager.LoadScene("TutorialScene");
             return;
         }
-        //レースシーンへ
-        SceneManager.LoadScene("RaceScene");
+        else if(modeNum == 1)
+        {
+            //レースシーンへ
+            SceneManager.LoadScene("RaceScene");
+        }
+        else
+        {
+            //ここにバトルシーン
+            Debug.LogError("未設定のシーン");
+        }
+        
     }
 
     /// <summary>
@@ -306,21 +321,21 @@ public class TitleManager : MonoBehaviour
         Application.Quit();//ゲームプレイ終了
 #endif
     }
-
+    
+    
     /// <summary>
     /// チュートリアル開始
     /// </summary>
-    public void StartTutorial()
-    {
-        //タイトル以外は返却
-        if (nowPhase != NowPhase.Title) return;
-
-        //チュートリアルフラグをオン
-        isTutorial = true;
-
-        //画面の暗転アニメーションが入る
-        gui_m.PlayFadeIn();
-    }
+    //public void StartTutorial()
+    //{
+    //    //タイトル以外は返却
+    //    //if (nowPhase != NowPhase.CountSelect) return;
+        
+    //    //画面の暗転アニメーションが入る
+    //    //gui_m.PlayFadeIn();
+    //}
+    
+    
 
     #region #プレイヤーからの入力
 
@@ -343,6 +358,12 @@ public class TitleManager : MonoBehaviour
         //人数選択画面
         else if (nowPhase == NowPhase.CountSelect)
         {
+            nowPhase = NowPhase.ModeSelect;
+            gui_m.ColorChenge(true);
+        }
+        //モード選択画面
+        else if (nowPhase == NowPhase.ModeSelect)
+        {
             //人数分キャラパネルを用意
             gui_m.SetPlayerPanel(maxPlayerCount);
             CharactorSelectView();
@@ -362,6 +383,13 @@ public class TitleManager : MonoBehaviour
             //他のプレイヤーも準備ができたらトラップ選択画へ
             if (CheckAllReady())
             {
+                //チュートリアルなら移行
+                if (modeNum == 0)
+                {
+                    gui_m.PlayFadeIn();
+                    return;
+                }
+
                 //トラップ選択画面へ
                 TrapSelectView();
                 //準備フラグを全員リセット
@@ -442,6 +470,12 @@ public class TitleManager : MonoBehaviour
         {
             CountSelectView(isReturn: true);
         }
+        //
+        if(nowPhase == NowPhase.ModeSelect)
+        {
+            nowPhase = NowPhase.CountSelect;
+            gui_m.ColorChenge(false);
+        }
         //キャラ選択画面
         if (nowPhase == NowPhase.CharaSelect)
         {
@@ -482,7 +516,7 @@ public class TitleManager : MonoBehaviour
     /// カーソルを移動
     /// </summary>
     /// <param name="playerId"></param>
-    /// <param name="next"></param>
+    /// <param name="vec"></param>
     public void OnMove(int playerId, Vector2 vec)
     {
         //print(vec+":P"+playerId);
@@ -496,12 +530,13 @@ public class TitleManager : MonoBehaviour
         if (nowPhase == NowPhase.Title)
         {
             //特になし
+            return;
         }
         //人数選択画面
         else if(nowPhase == NowPhase.CountSelect)
         {
-            //横入力がない場合は返却
-            if ((int)vec.x == 0) return;
+            //縦入力の場合は返却
+            if ((int)vec.x == 0 && vec.y != 0) return;
             //まだ変更アニメーション中は返却
             if (countChangingFlag) return;
 
@@ -514,6 +549,15 @@ public class TitleManager : MonoBehaviour
             }
             //UIを更新
             gui_m.ChangePlayerCountText((int)vec.x, maxPlayerCount);
+        }
+        //モード選択画面
+        else if (nowPhase == NowPhase.ModeSelect)
+        {
+            //縦入力の場合は返却
+            if ((int)vec.x == 0 && vec.y != 0) return;
+            //モードを変更
+            modeNum = (modeNum + (int)vec.x + 3) % 3;
+            gui_m.ChangeGameModeText((int)vec.x, modeNum);
         }
         //キャラ選択画面
         else if (nowPhase == NowPhase.CharaSelect)
