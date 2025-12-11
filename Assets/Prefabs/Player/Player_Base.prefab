@@ -1384,11 +1384,12 @@ MonoBehaviour:
   guisTf: {fileID: 3358448367102029347}
   powerGageCanvas: {fileID: 1894249848701114581}
   trapObj:
-  - {fileID: 2055197002879597668, guid: ddda4bff1158c604388cee020e418f98, type: 3}
+  - {fileID: 2055197002879597668, guid: 167d811b117ceba4eaba771bd2eb89a2, type: 3}
   - {fileID: 2055197002879597668, guid: 8ded68a7fca9c5645a03a24a55ea1126, type: 3}
   - {fileID: 2055197002879597668, guid: 7d037f1d66dbb184e8113d46ef124f7d, type: 3}
   - {fileID: 2055197002879597668, guid: 0c120c80f28b7424aba39e1ef2d53c76, type: 3}
   cottonObj: {fileID: 2133546564779271490}
+  cottonSr: {fileID: 7999511667632756653}
   effectObj: {fileID: 7852663145402198422}
   effectSp:
   - {fileID: 359227658, guid: 09df723a215c6c548a5f229328029db7, type: 3}

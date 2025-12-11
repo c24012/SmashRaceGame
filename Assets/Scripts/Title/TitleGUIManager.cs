@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using TMPro;
 //using Unity.VisualScripting.FullSerializer;
 using UnityEngine;
@@ -60,7 +61,7 @@ public class TitleGUIManager : MonoBehaviour
     int charactorId_local;
 
     string[] itemName = { "’cî", "“D", "‘¾ŒÛ", "á‹Ê", "’ƒŠ˜", "•—‘Ü", "ˆê”½–Ø–È", "‰Î‚Ì‹Ê"};
-    [SerializeField] Text testText;
+    [SerializeField] Text[] testText;
 
     [SerializeField] AudioSource audioSource;
 
@@ -147,13 +148,7 @@ public class TitleGUIManager : MonoBehaviour
         title.isPlayingAnim = true;
         countAnim_In.stopped += StopedAnimation;
         //F‚ğ‘Ò‹@ó‘Ô‚É‚·‚é
-        Color color = new Color(1, 1, 1, 0.5f);
-
-        for (int i = 0; i < modePanelImage.Length; i++)
-        {
-            modePanelImage[i].color = color;
-        }
-        modeSlect_GameModeText.color = new Color(0, 0, 0, 0.5f);
+        ColorChenge(false);
     }
 
     /// <summary>
@@ -481,7 +476,7 @@ public class TitleGUIManager : MonoBehaviour
         if (isStore)
         {
             selectCursors[playerNum].position = trapIcons_store[trapId].position;
-            testText.text = itemName[trapId];
+            testText[playerNum].text = itemName[trapId];
         }
         else
         {

@@ -201,11 +201,11 @@ public class RaceManager : MonoBehaviour
             playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
             if (playerDatas[i].lapCount <= 0)
             {
-                lapText[i].text = 0 + "/" + lapCount;
+                lapText[playerDatas[i].playerNum].text = 0 + "/" + lapCount;
             }
             else
             {
-                lapText[i].text = playerDatas[i].lapCount - 1 + "/" + lapCount;
+                lapText[playerDatas[i].playerNum].text = playerDatas[i].lapCount - 1 + "/" + lapCount;
             }
         }
         //リストをランキング順に並び替え

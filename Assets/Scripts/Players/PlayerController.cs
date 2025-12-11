@@ -23,6 +23,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
     [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj;
+    [Tooltip("一反木綿のスプライト"), SerializeField] SpriteRenderer cottonSr;
     [Tooltip("エフェクトのオブジェ"), SerializeField] GameObject effectObj;
     [Tooltip("エフェクトのスプライト"), SerializeField] Sprite[] effectSp;
     SpriteRenderer effectSR;
@@ -243,6 +244,7 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(new Vector3(0, 0, 10));
             yield return wait;
         }
+        cottonSr.enabled = false;
         sr.enabled = false;
         //落下中は見た目を非表示
         transform.localScale = new Vector2(1, 1);
@@ -256,12 +258,14 @@ public class PlayerController : MonoBehaviour
         for(int i = 0; i < 20; i++)
         {
             sr.enabled = !sr.enabled;
+            cottonSr.enabled = !cottonSr.enabled;
             yield return wait;
         }
         //全部元に戻す
         col.enabled = true;
         rb.isKinematic = false;
         sr.enabled = true;
+        cottonSr.enabled = true;
         isStop = false;
     }
 

@@ -181,9 +181,9 @@ public class TitleManager : MonoBehaviour
     {
         if (isReturn)
         {
-            //人数選択画面に戻る
+            //モード選択画面に戻る
             gui_m.ReturnCountSelect();
-            nowPhase = NowPhase.CountSelect;
+            nowPhase = NowPhase.ModeSelect;
         }
         else
         {
@@ -470,7 +470,7 @@ public class TitleManager : MonoBehaviour
         {
             CountSelectView(isReturn: true);
         }
-        //
+        //モード選択画面
         if(nowPhase == NowPhase.ModeSelect)
         {
             nowPhase = NowPhase.CountSelect;
@@ -536,7 +536,12 @@ public class TitleManager : MonoBehaviour
         else if(nowPhase == NowPhase.CountSelect)
         {
             //縦入力の場合は返却
-            if ((int)vec.x == 0 && vec.y != 0) return;
+            if ((int)vec.x == 0 && vec.y != 0)
+            {
+                nowPhase = NowPhase.ModeSelect;
+                gui_m.ColorChenge(true);
+                return;
+            }
             //まだ変更アニメーション中は返却
             if (countChangingFlag) return;
 
@@ -554,7 +559,12 @@ public class TitleManager : MonoBehaviour
         else if (nowPhase == NowPhase.ModeSelect)
         {
             //縦入力の場合は返却
-            if ((int)vec.x == 0 && vec.y != 0) return;
+            if ((int)vec.x == 0 && vec.y != 0)
+            {
+                nowPhase = NowPhase.CountSelect;
+                gui_m.ColorChenge(false);
+                return;
+            }
             //モードを変更
             modeNum = (modeNum + (int)vec.x + 3) % 3;
             gui_m.ChangeGameModeText((int)vec.x, modeNum);
