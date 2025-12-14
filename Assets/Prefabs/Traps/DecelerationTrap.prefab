@@ -310,6 +310,7 @@ MonoBehaviour:
   isRotation: 0
   rotationSpeed: 0
   downSpeed: -0.4
+  timeItTakesToClear: 0.1
 --- !u!50 &6000344334569924038
 Rigidbody2D:
   serializedVersion: 4

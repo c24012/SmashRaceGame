@@ -93,6 +93,7 @@ MonoBehaviour:
   isRotation: 0
   rotationSpeed: 0
   timeItTakesToBreak: 8
+  timeItTakesToClear: 0.1
 --- !u!50 &7679580076165372362
 Rigidbody2D:
   serializedVersion: 4
@@ -240,7 +241,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.92
+  m_Radius: 0.85
 --- !u!82 &4410591552207512997
 AudioSource:
   m_ObjectHideFlags: 0

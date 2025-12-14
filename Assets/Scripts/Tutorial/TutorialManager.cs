@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
-using UnityEngine.SceneManagement;
-//using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class TutorialManager : MonoBehaviour
 {
