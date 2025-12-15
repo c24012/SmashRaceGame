@@ -41,7 +41,7 @@ public class RaceManager : MonoBehaviour
     [SerializeField,Header("デバッグモード")] bool debugMode;
     [SerializeField] int bebug_playerCount;
     //ゲームの情報取得用
-    [SerializeField,Header("")] GameData gameData;
+    [SerializeField, Header("ゲームの情報")] GameData gameData;
     //プレイヤー人数
     [SerializeField] int playerCount;
     //必要周回回数
@@ -74,7 +74,6 @@ public class RaceManager : MonoBehaviour
     [SerializeField] GameObject[] charaObj;
     [SerializeField] Image[] charaImage;
     [SerializeField] Sprite[] cahraSp;
-    [SerializeField] TextMeshProUGUI[] lapText;
 
     //フェードインのアニメーション
     [SerializeField] Animator anim;
@@ -142,7 +141,6 @@ public class RaceManager : MonoBehaviour
         {
             charaObj[i].SetActive(true);
             if(!debugMode)charaImage[i].sprite = cahraSp[gameData.playerInfoList[i].charactorNum];
-            lapText[i].text = 0 + "/" + lapCount;
         }
     }
 
@@ -199,14 +197,6 @@ public class RaceManager : MonoBehaviour
             }
             //今何週目のどこにいるかを取得
             playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
-            if (playerDatas[i].lapCount <= 0)
-            {
-                lapText[playerDatas[i].playerNum].text = 0 + "/" + lapCount;
-            }
-            else
-            {
-                lapText[playerDatas[i].playerNum].text = playerDatas[i].lapCount - 1 + "/" + lapCount;
-            }
         }
         //リストをランキング順に並び替え
         playerDatas = playerDatas.OrderByDescending((x) => x.percentagePos).ToList();

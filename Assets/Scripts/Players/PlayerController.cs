@@ -108,7 +108,7 @@ public class PlayerController : MonoBehaviour
         ChangeRigidBodyDrag();
 
         //ƒƒPƒbƒgó‘Ô‚¾‚Æ‰Á‘¬‚µ‘±‚¯‚é
-        if (isLocket) LocketDash();
+        if (isLocket && !isFinish) LocketDash();
     }
 
     /// <summary>

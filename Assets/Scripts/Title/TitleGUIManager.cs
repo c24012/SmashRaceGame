@@ -524,11 +524,10 @@ public class TitleGUIManager : MonoBehaviour
     /// <param name="isBan"></param>
    public void BanActive(int playerNum , int charaNum,bool isBan)
     {
-        for (int i = 0; i < title.currentPlayerCount; i++)
+        for (int i = 0; i < title.maxPlayerCount; i++)
         {
             if (playerNum == i || playingCharactorsImage[i].sprite != playingCharactorSprites[charaNum]) continue;
             banObj[i].SetActive(isBan);
         }
-
     }
 }

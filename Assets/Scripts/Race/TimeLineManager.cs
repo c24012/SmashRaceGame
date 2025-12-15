@@ -7,6 +7,7 @@ public class TimeLineManager : MonoBehaviour
 {
     [SerializeField] PlayableDirector startCountDonw;
     [SerializeField] PlayableDirector finishFadeIn;
+    [SerializeField] AudioSource audioSource;
 
     /// <summary>
     /// スタートカウントダウンを再生
@@ -21,6 +22,7 @@ public class TimeLineManager : MonoBehaviour
     /// </summary>
     public void Play_FinishFadeIn()
     {
+        audioSource.Stop();
         finishFadeIn.Play();
     }
 }
