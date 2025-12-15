@@ -1138,6 +1138,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   raceManager: {fileID: 912265361}
+  lapText:
+  - {fileID: 1082029274}
+  - {fileID: 1941290701}
+  - {fileID: 634390946}
+  - {fileID: 1282481460}
 --- !u!4 &231598988
 Transform:
   m_ObjectHideFlags: 0
@@ -4371,7 +4376,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugMode: 0
-  bebug_playerCount: 2
+  bebug_playerCount: 4
   gameData: {fileID: -1807419503190558655, guid: 9f230d27708efcb44af361bb2ceb1037, type: 3}
   playerCount: 2
   lapCount: 3
@@ -4404,11 +4409,6 @@ MonoBehaviour:
   - {fileID: 1444107505, guid: f2b6cfab3b0eb2e4381729125583ce1b, type: 3}
   - {fileID: 598239950, guid: 7fb618f3f84521645a62fff9a15ae2ab, type: 3}
   - {fileID: -1679531398, guid: 0f87d491a7f184941bd433bafd599d63, type: 3}
-  lapText:
-  - {fileID: 1082029274}
-  - {fileID: 1941290701}
-  - {fileID: 634390946}
-  - {fileID: 1282481460}
   anim: {fileID: 2049731378}
 --- !u!4 &912265362
 Transform:
@@ -4496,6 +4496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startCountDonw: {fileID: 1988634097}
   finishFadeIn: {fileID: 1499053423}
+  audioSource: {fileID: 618142975}
 --- !u!114 &912265366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11189,7 +11190,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: b13d9375d0d495740b8dcdb9a19e41c3, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
