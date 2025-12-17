@@ -15,8 +15,8 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField, Header("人数選択画面")] GameObject countSelectPanel;
     [SerializeField] Animator countSelect_GhostAnim;
     [SerializeField] Animator modeSelect_GhostAnim;
-    [SerializeField] TextMeshProUGUI countSlect_PlayerCountText;
-    [SerializeField] TextMeshProUGUI modeSlect_GameModeText;
+    [SerializeField] TextMeshProUGUI[] countSlect_PlayerCountText;
+    [SerializeField] TextMeshProUGUI[] modeSlect_GameModeText;
     [SerializeField] Image[] countPanelImage;
     [SerializeField] Image[] modePanelImage;
     string[] modeNames = { "チュートリアル", "レース", "バトル" };
@@ -386,7 +386,7 @@ public class TitleGUIManager : MonoBehaviour
         //マイナスの場合は右回転
         else countSelect_GhostAnim.SetTrigger("Right");
         //数字を表示
-        countSlect_PlayerCountText.text = count.ToString();
+        countSlect_PlayerCountText[0].text = count.ToString();
         //SEを再生
         audioSource.Play();
     }
@@ -398,15 +398,17 @@ public class TitleGUIManager : MonoBehaviour
         //マイナスの場合は右回転
         else modeSelect_GhostAnim.SetTrigger("Right");
         //数字を表示
-        modeSlect_GameModeText.text = modeNames[count];
+        modeSlect_GameModeText[0].text = modeNames[count];
         //SEを再生
         audioSource.Play();
     }
 
     public void ColorChenge(bool isCount)
     {
-        Color beforColor = new(1, 1, 1, 0.5f);
-        Color afterColor = new(1, 1, 1, 1);
+        Color32 beforColor = new(255, 255, 255, 128);
+        Color32 afterColor = Color.white;
+        Color32 beforColor_text = new(0, 0, 0, 128);
+        Color32 afterColor_text = Color.black;
         //モードのパネルへ
         if (isCount)
         {
@@ -415,13 +417,19 @@ public class TitleGUIManager : MonoBehaviour
             {
                 countPanelImage[i].color = beforColor;
             }
-            countSlect_PlayerCountText.color = new Color(0, 0, 0, 0.5f);
+            for (int i = 0; i < countSlect_PlayerCountText.Length; i++)
+            {
+                countSlect_PlayerCountText[i].color = beforColor_text;
+            }
             //モードパネルの色を濃ゆくする
             for (int i = 0; i < modePanelImage.Length; i++)
             {
                 modePanelImage[i].color = afterColor;
             }
-            modeSlect_GameModeText.color = Color.black;
+            for (int i = 0; i < modeSlect_GameModeText.Length; i++)
+            {
+                modeSlect_GameModeText[i].color = afterColor_text;
+            }
         }
         //カウントのパネルへ
         else
@@ -431,13 +439,19 @@ public class TitleGUIManager : MonoBehaviour
             {
                 modePanelImage[i].color = beforColor;
             }
-            modeSlect_GameModeText.color = new Color(0, 0, 0, 0.5f);
+            for (int i = 0; i < modeSlect_GameModeText.Length; i++)
+            {
+                modeSlect_GameModeText[i].color = beforColor_text;
+            }
             //カウントパネルの色を濃ゆくする
             for (int i = 0; i < countPanelImage.Length; i++)
             {
                 countPanelImage[i].color = afterColor;
             }
-            countSlect_PlayerCountText.color = Color.black;
+            for (int i = 0; i < countSlect_PlayerCountText.Length; i++)
+            {
+                countSlect_PlayerCountText[i].color = afterColor_text;
+            }
         }
     }
 
