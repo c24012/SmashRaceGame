@@ -301,8 +301,8 @@ public class TitleManager : MonoBehaviour
         }
         else
         {
-            //ここにバトルシーン
-            Debug.LogError("未設定のシーン");
+            //バトルシーンへ
+            SceneManager.LoadScene("BattleScene");
         }
         
     }

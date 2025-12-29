@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -197,6 +198,8 @@ public class PlayerController : MonoBehaviour
     {
         //行動不能時は返却
         if (isStop) return;
+        //試合開始前は返却
+        if (!isStart) return;
         //現在の道の状態を確認＆取得
         road = pm.corseCheck.GetAttribute(transform.position);
 
@@ -249,18 +252,47 @@ public class PlayerController : MonoBehaviour
         //落下中は見た目を非表示
         transform.localScale = new Vector2(1, 1);
         transform.rotation = deforeRotate;
-        //落下ペナルティタイム
-        yield return new WaitForSeconds(1f);
-        //一番近くのルートへ移動
-        transform.position = pm.playerData.nearestPos;
-        //点滅表示
-        wait = new(0.05f);
-        for(int i = 0; i < 20; i++)
+
+        //Battleモード
+        if(pm.nowMode == PlayerManager.GameMode.Battle)
         {
-            sr.enabled = !sr.enabled;
-            cottonSr.enabled = !cottonSr.enabled;
-            yield return wait;
+            //残機を減らす
+            pm.playerData.lives--;
+            //残機がなくなったらオブジェクト破壊
+            if (pm.playerData.lives <= 0) yield break;
+
+            //落下ペナルティタイム
+            yield return new WaitForSeconds(1f);
+            //初期位置へ移動
+            transform.position = pm.playerData.nearestPos;
+            //行動可能に
+            rb.isKinematic = false;
+            isStop = false;
+            //点滅表示
+            wait = new(0.05f);
+            for (int i = 0; i < 20; i++)
+            {
+                sr.enabled = !sr.enabled;
+                cottonSr.enabled = !cottonSr.enabled;
+                yield return wait;
+            }
         }
+        else if(pm.nowMode == PlayerManager.GameMode.Race)
+        {
+            //落下ペナルティタイム
+            yield return new WaitForSeconds(1f);
+            //一番近くのルートへ移動
+            transform.position = pm.playerData.nearestPos;
+            //点滅表示
+            wait = new(0.05f);
+            for (int i = 0; i < 20; i++)
+            {
+                sr.enabled = !sr.enabled;
+                cottonSr.enabled = !cottonSr.enabled;
+                yield return wait;
+            }
+        }
+            
         //全部元に戻す
         col.enabled = true;
         rb.isKinematic = false;

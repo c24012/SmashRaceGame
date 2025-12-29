@@ -1,60 +1,27 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using Unity.Mathematics;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
 using UnityEngine.SceneManagement;
-using UnityEngine.Splines;
 using UnityEngine.UI;
 
-[Serializable]
-/// <summary>
-/// プレイヤーのレース情報データ
-/// </summary>
-public class PlayerData
+public class BattleManager : MonoBehaviour
 {
-    public int playerNum;       //番号
-    public Transform newTf;     //現在位置
-    public int lapCount;        //周回数
-    public int lives;           //残機数
-    public int ranking;         //順位
-    public Vector3 nearestPos;  //最寄りルート(復帰場所)
-    public float percentagePos; //現在地の割合
-    public int progress;        //進行度
-   
-    public PlayerData(int playerNum, Transform newTf)
-    {
-        this.playerNum = playerNum;
-        this.newTf = newTf;
-        lapCount = 0;
-        lives = 3;
-        ranking = 0;
-        nearestPos = Vector3.zero;
-        percentagePos = 0;
-        progress = 0;
-    }
-}
-
-public class RaceManager : MonoBehaviour
-{
-    [SerializeField,Header("デバッグモード")] bool debugMode;
+    [SerializeField, Header("デバッグモード")] bool debugMode;
     [SerializeField] int bebug_playerCount;
     //ゲームの情報取得用
     [SerializeField, Header("ゲームの情報")] GameData gameData;
     //プレイヤー人数
-    [SerializeField] int playerCount;
-    //必要周回回数
-    public int lapCount;
+    int playerCount;
+    //残り人数
+    int remainingAmount;
     //生成用プレイヤープレハブ
     [SerializeField] GameObject[] playerPrefabs = new GameObject[4];
     //各プレイヤーオブジェクト
-    [SerializeField] List<GameObject> playerObjs = new();
+    List<GameObject> playerObjs = new();
     //プレイヤーの情報
     public List<PlayerData> playerDatas;
-    //道のスプライン
-    [SerializeField] SplineContainer roadSpline;
     //道の情報
     [SerializeField] CorseCheck corseCheck;
     //トラップストア
@@ -63,18 +30,14 @@ public class RaceManager : MonoBehaviour
     [SerializeField] Canvas pauseMenuCanvas;
     //ピンぼけ
     [SerializeField] PostProcessVolume post;
-
-    // 解像度
-    [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
-    private int resolution = 4;
-    // 計算回数
-    [SerializeField, Range(1, 10)]
-    private int iterations = 2;
+    //キャラの生成場所
+    [SerializeField] Transform[] spownPoints;
 
     //看板キャラの変数
-    [SerializeField] GameObject[] charaObj;
-    [SerializeField] Image[] charaImage;
-    [SerializeField] Sprite[] cahraSp;
+    [SerializeField] GameObject[] signboardObj;
+    [SerializeField] Image[] soulsImage;
+    [SerializeField] Sprite[] soulsSprite;
+    [SerializeField] TextMeshProUGUI[] livesCoutTexts;
 
     //フェードインのアニメーション
     [SerializeField] Animator anim;
@@ -94,11 +57,11 @@ public class RaceManager : MonoBehaviour
         List<PlayerInfo> playerInfo = gameData.playerInfoList;
 
         //人数分プレイヤーオブジェクトを生成
-        for (int i = 0;i < playerCount; i++)
+        for (int i = 0; i < playerCount; i++)
         {
             PlayerManager pm = null;
             //デバックモード
-            if (debugMode) 
+            if (debugMode)
             {
                 if (i >= bebug_playerCount) break;
                 GameObject playerObj = Instantiate(playerPrefabs[i]);
@@ -117,10 +80,13 @@ public class RaceManager : MonoBehaviour
                 //オブジェクトの登録
                 playerObjs.Add(player.transform.parent.gameObject);
                 pm = player.transform.parent.GetComponent<PlayerManager>();
-
+                //初期位置に移動
+                Transform charactorTf = playerObjs[i].transform.GetChild(0);
+                charactorTf.position = spownPoints[i].position;
+                charactorTf.rotation = spownPoints[i].rotation;
                 //トラップの登録
                 PlayerController pc = player.GetComponent<PlayerController>();
-                for (int t = 0; t < 4; t++) 
+                for (int t = 0; t < 4; t++)
                 {
                     pc.trapObj[t] = trapStore.trapObjs[playerInfo[i].trapNum[t]];
                 }
@@ -128,21 +94,27 @@ public class RaceManager : MonoBehaviour
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
             pm.pause = pause;    //ポーズマネージャーの登録
+            //モードを指定
+            pm.nowMode = PlayerManager.GameMode.Battle;
         }
         //プレイヤー全員のデータを生成
-        for(int i = 0; i < playerObjs.Count; i++)
+        for (int i = 0; i < playerObjs.Count; i++)
         {
             Transform charactor = playerObjs[i].transform.GetChild(0);
             PlayerManager pm = playerObjs[i].GetComponent<PlayerManager>();
             pm.playerData = new PlayerData(pm.playerNum, charactor);
+            pm.playerData.nearestPos = spownPoints[i].position;
+            pm.playerData.ranking = 4;
             playerDatas.Add(pm.playerData);
         }
         //看板のキャラを人数分用意する
-        for(int i = 0; i < playerCount; i++)
+        for (int i = 0; i < playerCount; i++)
         {
-            charaObj[i].SetActive(true);
-            if(!debugMode)charaImage[i].sprite = cahraSp[gameData.playerInfoList[i].charactorNum];
+            signboardObj[i].SetActive(true);
+            if (!debugMode) soulsImage[i].sprite = soulsSprite[gameData.playerInfoList[i].charactorNum];
         }
+        //初期の残り人数を設定
+        remainingAmount = playerObjs.Count;
     }
 
     private void Start()
@@ -158,53 +130,51 @@ public class RaceManager : MonoBehaviour
         timeLine.Play_StartCountDonw();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         //プレイヤーデータ収集
         GetPlayerDatas();
     }
 
     /// <summary>
-    /// 各プレイヤーの順位や周回を調べてデータに代入
+    /// 各プレイヤーの残機をもとに順位を調べてデータに代入
     /// </summary>
     void GetPlayerDatas()
     {
-        // ワールド空間におけるスプラインを取得
-        // スプラインはローカル空間なので、ローカル→ワールド変換行列を掛ける
-        // Updateを抜けるタイミングでDisposeされる
-        using NativeSpline spline = new(roadSpline.Spline, roadSpline.transform.localToWorldMatrix);
+        ////リストをランキング順に並び替え
+        //playerDatas = playerDatas.OrderByDescending((x) => x.lives).ToList();
+        ////各プレイヤーデータに現在のランキングを入力
+        //for (int i = 0; i < playerDatas.Count; i++)
+        //{
+        //    playerDatas[i].ranking = i;
+        //    for(int j = 0; j < i; j++)
+        //    {
+        //        if (playerDatas[j].lives == playerDatas[i].lives)
+        //        {
+        //            playerDatas[i].ranking = playerDatas[j].ranking;
+        //            break;
+        //        }
+        //    }
+        //}
 
-        for (int i = 0; i < playerObjs.Count; i++)
+        for (int i = 0; i < playerDatas.Count; i++) 
         {
-            // スプラインにおける直近位置を求める
-            Single distance = SplineUtility.GetNearestPoint(
-                spline,
-                playerDatas[i].newTf.position,
-                out float3 nearest,
-                out float t,
-                resolution,
-                iterations
-            );
+            livesCoutTexts[i].text = Mathf.Max(playerDatas[i].lives, 0).ToString();
 
-            //最も近いルートを取得
-            playerDatas[i].nearestPos = new Vector2(nearest.x, nearest.y);
-            //2割以下の進行は進行度を進ませる
-            if (playerDatas[i].progress < (int)(t * 10))
+            if (playerDatas[i].lives == 0)
             {
-                if ((int)(t * 10) - playerDatas[i].progress <= 2)
+                playerDatas[i].lives = -1;
+                //残り人数で順位を決める
+                playerDatas[i].ranking = remainingAmount - 1;
+                //残り人数を減らす
+                remainingAmount--;
+                //残り人数が一人になったらゲーム終了
+                if(remainingAmount == 1)
                 {
-                    playerDatas[i].progress = (int)(t * 10);
+                    //ゲーム終了アニメーション起動
+                    PlayFinishAnimation();
                 }
             }
-            //今何週目のどこにいるかを取得
-            playerDatas[i].percentagePos = t + playerDatas[i].lapCount;
-        }
-        //リストをランキング順に並び替え
-        playerDatas = playerDatas.OrderByDescending((x) => x.percentagePos).ToList();
-        //各プレイヤーデータに現在のランキングを入力
-        for (int i = 0; i < playerDatas.Count; i++)
-        {
-            playerDatas[i].ranking = i;
         }
     }
 
@@ -222,7 +192,7 @@ public class RaceManager : MonoBehaviour
     public void StartRace()
     {
         //登録されているプレイヤーオブジェクトのレース開始関数を起動
-        for(int i = 0;i< playerObjs.Count; i++)
+        for (int i = 0; i < playerObjs.Count; i++)
         {
             playerObjs[i].GetComponent<PlayerManager>().playerController.StartRace();
         }

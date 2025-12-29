@@ -6,6 +6,16 @@ public class PlayerManager : MonoBehaviour
 {
     public int playerNum;
     public PlayerData playerData;
+    /// <summary>
+    /// ゲームモード
+    /// </summary>
+    public enum GameMode
+    {
+        None,
+        Race,
+        Battle
+    }
+    public GameMode nowMode;
 
     [Header("他オブジェスクリプト")]
     public CorseCheck corseCheck;

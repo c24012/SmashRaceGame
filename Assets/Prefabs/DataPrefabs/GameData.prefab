@@ -45,5 +45,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCount: 4
-  playerInfoList: []
+  playerInfoList:
+  - playerInput: {fileID: 0}
+    playerIndex: 0
+    charactorNum: 0
+    trapNum: 05000000040000000300000002000000
+  - playerInput: {fileID: 0}
+    playerIndex: 1
+    charactorNum: 1
+    trapNum: 00000000000000000000000000000000
+  - playerInput: {fileID: 0}
+    playerIndex: 2
+    charactorNum: 2
+    trapNum: 00000000000000000000000000000000
+  - playerInput: {fileID: 0}
+    playerIndex: 3
+    charactorNum: 3
+    trapNum: 00000000000000000000000000000000
   ranking: 00000000000000000000000000000000
