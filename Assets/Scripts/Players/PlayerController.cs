@@ -43,15 +43,15 @@ public class PlayerController : MonoBehaviour
     bool isItemChange = false;
 
     [SerializeField, Header("フラグ確認用")] 
-    bool isMove = false;                        //動いているか
-    [SerializeField] protected bool isStop = false;       //行動不能
-    [SerializeField] bool isStart = false;      //レースが始まっているか
-    [SerializeField] bool isFinish = false;     //レースが終わっているか
-    [SerializeField] bool isSlow = false;       //泥踏み状態
-    [SerializeField] bool isSlip = false;       //滑り状態
-    [SerializeField] int confusionNum = 0;      //混乱状態
-    [SerializeField] bool isLocket = false;     //ロケット状態
-    public bool isIllution = false;   //幻影出現状態
+    bool isMove = false;                                //動いているか
+    [SerializeField] protected bool isStop = false;     //行動不能
+    [SerializeField] bool isStart = false;              //レースが始まっているか
+    [SerializeField] bool isFinish = false;             //レースが終わっているか
+    [SerializeField] bool isSlow = false;               //泥踏み状態
+    [SerializeField] bool isSlip = false;               //滑り状態
+    [SerializeField] int confusionNum = 0;              //混乱状態
+    [SerializeField] bool isLocket = false;             //ロケット状態
+    public bool isIllution = false;                     //幻影出現状態
 
     /// <summary>
     /// 初期化

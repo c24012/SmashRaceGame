@@ -18,12 +18,10 @@ public class IconManager : MonoBehaviour
 
     private void Start()
     {
-        trapIconSp = new Sprite[pm.playerController.trapObj.Length];
-        //持っているトラップのアイコンを取得
-        for (int i = 0; i < pm.playerController.trapObj.Length; i++)
-        {
-            trapIconSp[i] = pm.playerController.trapObj[i].GetComponent<TrapBase>().icon;
-        }
+        //ダミーはスキップ
+        if (pm.isDummy) return;
+
+        GetIconSprite();
         //表示＆非表示 初期化
         trapFrameObj.SetActive(false);
         banIconSr.enabled = false;
@@ -31,6 +29,19 @@ public class IconManager : MonoBehaviour
 
         //初期アイコンは1つ目のトラップに指定
         trapIconSr.sprite = trapIconSp[0];
+    }
+
+    /// <summary>
+    /// トラッププレハブからSpriteを取得
+    /// </summary>
+    public void GetIconSprite()
+    {
+        trapIconSp = new Sprite[pm.playerController.trapObj.Length];
+        //持っているトラップのアイコンを取得
+        for (int i = 0; i < pm.playerController.trapObj.Length; i++)
+        {
+            trapIconSp[i] = pm.playerController.trapObj[i].GetComponent<TrapBase>().icon;
+        }
     }
 
     /// <summary>

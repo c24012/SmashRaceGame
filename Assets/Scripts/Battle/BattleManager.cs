@@ -38,6 +38,7 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Image[] soulsImage;
     [SerializeField] Sprite[] soulsSprite;
     [SerializeField] TextMeshProUGUI[] livesCoutTexts;
+    [SerializeField] Animator[] turnAnim;
 
     //フェードインのアニメーション
     [SerializeField] Animator anim;
@@ -159,7 +160,15 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < playerDatas.Count; i++) 
         {
+            //すでに負けたプレイヤーは無視
+            if (playerDatas[i].lives == -1) continue;
+
+            //表示テキストとデータ残機が一致する場合、無視
+            if (livesCoutTexts[i].text == playerDatas[i].lives.ToString()) continue;
+            //異なる場合は更新&アニメーション
             livesCoutTexts[i].text = Mathf.Max(playerDatas[i].lives, 0).ToString();
+            //看板回転アニメーション
+            turnAnim[i].SetTrigger("TurnTrigger");
 
             if (playerDatas[i].lives == 0)
             {
@@ -169,8 +178,13 @@ public class BattleManager : MonoBehaviour
                 //残り人数を減らす
                 remainingAmount--;
                 //残り人数が一人になったらゲーム終了
-                if(remainingAmount == 1)
+                if (remainingAmount == 1)
                 {
+                    //残った一人の順位を1位に指定
+                    for(int j = 0; j < 4; j++)
+                    {
+                        if (playerDatas[j].lives > 0) playerDatas[j].ranking = 0;
+                    }
                     //ゲーム終了アニメーション起動
                     PlayFinishAnimation();
                 }
@@ -215,7 +229,7 @@ public class BattleManager : MonoBehaviour
         //各プレイヤーデータのランキングをゲームデータのランキングに入力
         for (int i = 0; i < playerDatas.Count; i++)
         {
-            gameData.ranking[i] = playerDatas[i].playerNum;
+            gameData.ranking[i] = playerDatas[i].ranking;
         }
         SceneManager.LoadScene("ResultScene");
     }

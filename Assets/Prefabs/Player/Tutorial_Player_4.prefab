@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3507521565515842755, guid: 7a789516cd06d45428cd372203bbc161, type: 3}
       propertyPath: trapObj.Array.size
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3507521565515842755, guid: 7a789516cd06d45428cd372203bbc161, type: 3}
       propertyPath: trapObj.Array.data[0]
@@ -48,6 +48,14 @@ PrefabInstance:
       propertyPath: trapObj.Array.data[7]
       value: 
       objectReference: {fileID: 2055197002879597668, guid: 0bfef716a3e8878499c8d527981a6257, type: 3}
+    - target: {fileID: 3507521565515842755, guid: 7a789516cd06d45428cd372203bbc161, type: 3}
+      propertyPath: trapObj.Array.data[8]
+      value: 
+      objectReference: {fileID: 6828806516823141215, guid: 9f6a10378fc4ff546892070a3c76bdc5, type: 3}
+    - target: {fileID: 3507521565515842755, guid: 7a789516cd06d45428cd372203bbc161, type: 3}
+      propertyPath: trapObj.Array.data[9]
+      value: 
+      objectReference: {fileID: 2055197002879597668, guid: 5e2118af6a21d6e4b966d91a023fb05b, type: 3}
     - target: {fileID: 7666609304824818679, guid: 7a789516cd06d45428cd372203bbc161, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

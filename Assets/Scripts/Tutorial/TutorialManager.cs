@@ -5,8 +5,12 @@ using UnityEngine.Rendering.PostProcessing;
 
 public class TutorialManager : MonoBehaviour
 {
+    //ゲームの情報取得用
+    [SerializeField, Header("ゲームの情報")] GameData gameData;
+    //プレイヤー人数
+    int playerCount;
     //ポーズマネージャー
-    [SerializeField] PauseManager pauseManager;
+    [SerializeField] PauseManager pause;
     //生成用プレイヤープレハブ
     [SerializeField] GameObject[] playerPrefabs = new GameObject[4];
     //各プレイヤーオブジェクト
@@ -17,12 +21,6 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] CorseCheck corseCheck;
     //トラップストア
     [SerializeField] TrapStore trapStore;
-    //参加アクション
-    [SerializeField] InputActionReference joinActionRef;
-    //参加検知用Action
-    InputAction joinInputAction;
-    //初期スポーン地点
-    [SerializeField] Transform[] spownPoint = new Transform[4];
     //落下用の復帰場所
     [SerializeField] Transform respownPoint;
     //一時停止画面
@@ -31,76 +29,118 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] PostProcessVolume post;
     //フェードインのアニメーション
     [SerializeField] Animator anim;
-
-
-    //現プレイヤー人数
-    int currentPlayerCount = 0;
-    //現在使われているデバイスリスト
-    List<InputDevice> inputDeviceList = new();
-    //最大参加可能人数
-    const int MAX_PLAYER_COUNT = 4;
+    //キャラの生成場所
+    [SerializeField] Transform[] spownPoints;
 
     private void Awake()
     {
-        //ボタンを検知できるようにIAReferenceからInputActionを取得
-        joinInputAction = joinActionRef.action;
+        //コンポーネントを取得
+        pause = GetComponent<PauseManager>();
 
-        //ボタン検知を有効化
-        joinInputAction.Enable();
+        //ゲームデータから情報を取得
+        playerCount = gameData.playerCount;
 
-        //参加ボタン入力時呼び出す関数を登録
-        joinInputAction.started += OnJoin;
+        List<PlayerInfo> playerInfo = gameData.playerInfoList;
+
+        //人数分プレイヤーオブジェクトを生成
+        for (int i = 0; i < playerCount; i++)
+        {
+            PlayerManager pm = null;
+            //コントローラーを付与して生成
+            PlayerInput player = PlayerInput.Instantiate(
+                prefab: playerPrefabs[playerInfo[i].charactorNum],
+                playerIndex: playerInfo[i].playerIndex,
+                pairWithDevice: playerInfo[i].device
+            );
+            //オブジェクトの登録
+            playerObjs.Add(player.transform.parent.gameObject);
+            pm = player.transform.parent.GetComponent<PlayerManager>();
+            //初期位置に移動
+            Transform charactorTf = playerObjs[i].transform.GetChild(0);
+            charactorTf.position = spownPoints[i].position;
+            charactorTf.rotation = spownPoints[i].rotation;
+            //外部スクリプトを渡す
+            pm.corseCheck = corseCheck; //コースの情報
+            pm.pause = pause;    //ポーズマネージャーの登録
+            //モードを指定
+            pm.nowMode = PlayerManager.GameMode.Battle;
+
+            pm.playerController.StartRace();
+        }
+        //プレイヤー全員のデータを生成
+        for (int i = 0; i < playerObjs.Count; i++)
+        {
+            Transform charactor = playerObjs[i].transform.GetChild(0);
+            PlayerManager pm = playerObjs[i].GetComponent<PlayerManager>();
+            pm.playerData = new PlayerData(pm.playerNum, charactor);
+            pm.playerData.nearestPos = spownPoints[i].position;
+            pm.playerData.ranking = 4;
+            playerDatas.Add(pm.playerData);
+        }
     }
-        void DisableActions()
-    {
-        //ボタン検知を解除
-        joinInputAction.Disable();
-        //参加ボタン入力時呼び出す関数を登録
-        joinInputAction.started -= OnJoin;
-    }
 
-    /// <summary>
-    /// 参加した時にプレイヤーを生成
-    /// </summary>
-    /// <param name="context"></param>
-    void OnJoin(InputAction.CallbackContext context)
-    {
-        //最大数以上は無視
-        if (currentPlayerCount >= MAX_PLAYER_COUNT) return;
-        //すでにいる時は無視
-        if (inputDeviceList.Contains(context.control.device)) return;
+    //private void Awake()
+    //{
+    //    //ボタンを検知できるようにIAReferenceからInputActionを取得
+    //    joinInputAction = joinActionRef.action;
 
-        //コントローラーを付与して生成
-        PlayerInput player = PlayerInput.Instantiate(
-            prefab: playerPrefabs[currentPlayerCount],
-            playerIndex: currentPlayerCount,
-            pairWithDevice: context.control.device
-        );
+    //    //ボタン検知を有効化
+    //    joinInputAction.Enable();
 
-        //オブジェクトの登録
-        GameObject playerObj = player.transform.parent.gameObject;
-        playerObjs.Add(playerObj);
-        playerObj.transform.GetChild(0).position = spownPoint[currentPlayerCount].position;
-        PlayerManager pm = playerObj.GetComponent<PlayerManager>();
+    //    //参加ボタン入力時呼び出す関数を登録
+    //    joinInputAction.started += OnJoin;
+    //}
 
-        //外部スクリプトを渡す
-        pm.corseCheck = corseCheck; //コースの情報の登録
-        pm.pause = pauseManager;    //ポーズマネージャーの登録
+    //void DisableActions()
+    //{
+    //    //ボタン検知を解除
+    //    joinInputAction.Disable();
+    //    //参加ボタン入力時呼び出す関数を登録
+    //    joinInputAction.started -= OnJoin;
+    //}
 
-        //プレイヤーデータを作成
-        pm.playerData = new PlayerData(pm.playerNum, player.transform);
-        pm.playerData.ranking = 4;                          //順位を5位固定
-        pm.playerData.nearestPos = respownPoint.position;   //復帰場所を固定
-        playerDatas.Add(pm.playerData);
+    ///// <summary>
+    ///// 参加した時にプレイヤーを生成
+    ///// </summary>
+    ///// <param name="context"></param>
+    //void OnJoin(InputAction.CallbackContext context)
+    //{
+    //    //最大数以上は無視
+    //    if (currentPlayerCount >= MAX_PLAYER_COUNT) return;
+    //    //すでにいる時は無視
+    //    if (inputDeviceList.Contains(context.control.device)) return;
 
-        //登録したコントローラーを登録
-        inputDeviceList.Add(context.control.device);
-        //現在の参加者を増加
-        currentPlayerCount++;
+    //    //コントローラーを付与して生成
+    //    PlayerInput player = PlayerInput.Instantiate(
+    //        prefab: playerPrefabs[currentPlayerCount],
+    //        playerIndex: currentPlayerCount,
+    //        pairWithDevice: context.control.device
+    //    );
 
-        //レース開始関数を呼ぶ
-        pm.playerController.StartRace();
-    }
+    //    //オブジェクトの登録
+    //    GameObject playerObj = player.transform.parent.gameObject;
+    //    playerObjs.Add(playerObj);
+    //    playerObj.transform.GetChild(0).position = spownPoint[currentPlayerCount].position;
+    //    PlayerManager pm = playerObj.GetComponent<PlayerManager>();
+
+    //    //外部スクリプトを渡す
+    //    pm.corseCheck = corseCheck; //コースの情報の登録
+    //    pm.pause = pauseManager;    //ポーズマネージャーの登録
+
+    //    //プレイヤーデータを作成
+    //    pm.playerData = new PlayerData(pm.playerNum, player.transform);
+    //    pm.playerData.ranking = 4;                          //順位を5位固定
+    //    pm.playerData.nearestPos = respownPoint.position;   //復帰場所を固定
+    //    playerDatas.Add(pm.playerData);
+
+    //    //登録したコントローラーを登録
+    //    inputDeviceList.Add(context.control.device);
+    //    //現在の参加者を増加
+    //    currentPlayerCount++;
+
+    //    //レース開始関数を呼ぶ
+    //    pm.playerController.StartRace();
+    //}
 
     /// <summary>
     /// ポーズメニューを表示&非表示
@@ -127,8 +167,6 @@ public class TutorialManager : MonoBehaviour
     /// </summary>
     public void ToTitleScene()
     {
-        //ボタン検知を解除
-        DisableActions();
         anim.SetTrigger("Load");
         //時間停止を解除
         Time.timeScale = 1;

@@ -37,6 +37,8 @@ public class IllutionTrapSc : TrapThrow
         //トラップの登録
         dummyPm.playerController.trapObj = pm.playerController.trapObj;
         dummyPm.trap.trapNum = pm.trap.trapNum;
+        //トラップアイコンの登録
+        dummyPm.iconManager.GetIconSprite();
         //トラップを一時的に禁止
         dummyPm.trap.BunTrap(true);
         //ランキングを主から参照して代入
