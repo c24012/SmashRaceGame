@@ -128,6 +128,8 @@ public class RaceManager : MonoBehaviour
             //外部スクリプトを渡す
             pm.corseCheck = corseCheck; //コースの情報
             pm.pause = pause;    //ポーズマネージャーの登録
+            //モードを指定
+            pm.nowMode = PlayerManager.GameMode.Race;
         }
         //プレイヤー全員のデータを生成
         for(int i = 0; i < playerObjs.Count; i++)

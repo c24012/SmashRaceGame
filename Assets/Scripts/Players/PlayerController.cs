@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -9,14 +10,14 @@ public class PlayerController : MonoBehaviour
 {
     PlayerManager pm;
 
-    Rigidbody2D rb;
-    Animator anim;
-    SpriteRenderer sr;
-    Collider2D col;
+    protected Rigidbody2D rb;
+    protected Animator anim;
+    protected SpriteRenderer sr;
+    protected Collider2D col;
     PlayerInput playerInput;
-    AudioSource audioSource;
+    protected AudioSource audioSource;
 
-    [SerializeField] AudioClip[] audioClip;
+    [SerializeField] protected AudioClip[] audioClip;
 
 
     [SerializeField, Tooltip("プレイヤーUI"),Header("コンポーネント")] Transform guisTf;
@@ -24,7 +25,7 @@ public class PlayerController : MonoBehaviour
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
     [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj;
-    [Tooltip("一反木綿のスプライト"), SerializeField] SpriteRenderer cottonSr;
+    [Tooltip("一反木綿のスプライト"), SerializeField] protected SpriteRenderer cottonSr;
     [Tooltip("エフェクトのオブジェ"), SerializeField] GameObject effectObj;
     [Tooltip("エフェクトのスプライト"), SerializeField] Sprite[] effectSp;
     SpriteRenderer effectSR;
@@ -43,18 +44,19 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Header("フラグ確認用")] 
     bool isMove = false;                        //動いているか
-    [SerializeField] bool isStop = false;       //行動不能
+    [SerializeField] protected bool isStop = false;       //行動不能
     [SerializeField] bool isStart = false;      //レースが始まっているか
     [SerializeField] bool isFinish = false;     //レースが終わっているか
     [SerializeField] bool isSlow = false;       //泥踏み状態
     [SerializeField] bool isSlip = false;       //滑り状態
     [SerializeField] int confusionNum = 0;      //混乱状態
     [SerializeField] bool isLocket = false;     //ロケット状態
+    public bool isIllution = false;   //幻影出現状態
 
     /// <summary>
     /// 初期化
     /// </summary>
-    void Init()
+    protected void Init()
     {
         //パワーゲージ非表示
         powerGageCanvas.enabled = false;
@@ -69,7 +71,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         //レース開始まで待機状態
-        isStart = false;
+        //isStart = false;
 
         //プレイヤーマネージャー取得
         pm = transform.transform.parent.GetComponent<PlayerManager>();
@@ -177,7 +179,7 @@ public class PlayerController : MonoBehaviour
     void CheckIsMove()
     {
         //速度がx,yいずれかが0.3以上だと「動いている」判定
-        isMove = Mathf.Abs(rb.velocity.x) > 0.3f || Mathf.Abs(rb.velocity.y) > 0.3f;
+        isMove = Mathf.Abs(rb.velocity.x) > 0.4f || Mathf.Abs(rb.velocity.y) > 0.4f;
         //動いているかをアニメーションに適応
         if (isMove)
         {
@@ -228,7 +230,7 @@ public class PlayerController : MonoBehaviour
     /// <summary>
     /// コース外に出たときのコース復帰
     /// </summary>
-    IEnumerator CorseOut()
+    protected virtual IEnumerator CorseOut()
     {
         //一旦行動不能に
         isStop = true;
@@ -324,7 +326,7 @@ public class PlayerController : MonoBehaviour
         isSlip = isActive;
         if (isSlip)
         {
-            rb.drag = 0.3f;
+            rb.drag = 0.5f;
         }
     }
 
@@ -342,6 +344,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void LocketDash()
     {
+        if (isStop) return;
+
         //前方に加速
         rb.AddForce(transform.up * locketSpeed);
 
@@ -363,6 +367,28 @@ public class PlayerController : MonoBehaviour
             pm.trap.ResetCharge();
         }
     }
+
+    /// <summary>
+    /// 透過
+    /// </summary>
+    void Transparent(bool isActive)
+    {
+        if (isActive)
+        {
+            col.excludeLayers = LayerMask.GetMask("Player", "Ignore Raycast");
+            Color32 color = sr.color;
+            color.a = 100;
+            sr.color = color;
+        }
+        else
+        {
+            col.excludeLayers = 0;
+            Color32 color = sr.color;
+            color.a = 255;
+            sr.color = color;
+        }
+    }
+
 
     #endregion
 
@@ -422,7 +448,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="stunTime"></param>
     /// <param name="trapName"></param>
-    public void EffectStun_ElectricShock(bool isActive, string trapName)
+    virtual public void EffectStun_ElectricShock(bool isActive, string trapName)
     {
         //付与
         if (isActive)
@@ -548,7 +574,7 @@ public class PlayerController : MonoBehaviour
         vec.Normalize();
 
         //ロケットダッシュ状態は影響を強く受ける
-        if (isLocket) vec *= 1.5f;
+        if (isLocket) vec *= 2f;
 
         //中心から離れるほど弱く加速
         //自分に当たった場合は影響を弱くする
@@ -594,7 +620,7 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     /// <param name="stunTime"></param>
     /// <param name="trapName"></param>
-    public void EffectStun_Flame(bool isActive, string trapName)
+    virtual public void EffectStun_Flame(bool isActive, string trapName)
     {
         //付与
         if (isActive)
@@ -635,6 +661,72 @@ public class PlayerController : MonoBehaviour
             {
                 effectObj.SetActive(false);
             }
+        }
+    }
+
+    /// <summary>
+    /// 透過付与&解除
+    /// </summary>
+    /// <param name="stunTime"></param>
+    /// <param name="trapName"></param>
+    public void EffectTransparent(bool isActive, string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            Transparent(true);
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            Transparent(false);
+        }
+    }
+
+    /// <summary>
+    /// 幻影出現＆解除
+    /// </summary>
+    /// <param name="isActive"></param>
+    /// <param name="trapName"></param>
+    public void EffectisIllution(bool isActive, string trapName)
+    {
+        //付与
+        if (isActive)
+        {
+            //もうすでに存在している効果かどうかを取得
+            bool isContain = effectNameList.Contains(trapName);
+            //効果名を登録
+            effectNameList.Add(trapName);
+            //もとから存在していた場合返却
+            if (isContain) return;
+            //初めての効果の場合は付与
+            isIllution = true;
+            //アイコンを半透明に
+            pm.iconManager.CheckIllutionIcon();
+        }
+        //解除
+        else
+        {
+            //一つ登録から消す
+            effectNameList.Remove(trapName);
+            //消してもなお残っている場合返却
+            if (effectNameList.Contains(trapName)) return;
+            //もう残っていない効果の場合戻す
+            isIllution = false;
+            //アイコンの半透明を修正
+            pm.iconManager.CheckIllutionIcon();
         }
     }
 
@@ -702,7 +794,7 @@ public class PlayerController : MonoBehaviour
         //一時停止中は無効
         //if (pm.pause.isOpen) return;
 
-        //速攻発動トラップの場合
+        //速攻発動アイテムの場合
         if (pm.trap.GetIsInstantActive())
         {
             //ボタンが押されたら準備
@@ -719,8 +811,15 @@ public class PlayerController : MonoBehaviour
                 pm.trap.Trap();
             }
         }
+        //投げるアイテムの場合
         else
         {
+            //幻影出現状態では狐のお面を発動できない
+            if(isIllution)
+            {
+                if (trapObj[pm.trap.trapNum] == pm.trapStore.trapObjs[9]) return;
+            }
+
             //ボタンが押されたら力をチャージ
             if (context.started)
             {
@@ -812,7 +911,6 @@ public class PlayerController : MonoBehaviour
         if (!context.performed) return;
         
         Vector2 inputValue = context.ReadValue<Vector2>();
-        print(inputValue);
         //横軸が大きい
         if (Mathf.Abs(inputValue.x) >= Mathf.Abs(inputValue.y))
         {

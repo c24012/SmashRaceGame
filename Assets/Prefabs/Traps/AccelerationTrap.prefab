@@ -48,10 +48,10 @@ MonoBehaviour:
   icon: {fileID: 547239158, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: "\u56E3\u6247"
   effectTime:
-  - 0.5
+  - 1
   - 2
   - 3
-  - 4
+  - 5
   - 3
   isInstantActive: 1
   speeds: 0.5

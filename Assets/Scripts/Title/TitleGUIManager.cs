@@ -60,7 +60,7 @@ public class TitleGUIManager : MonoBehaviour
     int playerNum_local;
     int charactorId_local;
 
-    string[] itemName = { "’cî", "“D", "‘¾ŒÛ", "á‹Ê", "’ƒŠ˜", "•—‘Ü", "ˆê”½–Ø–È", "‰Î‚Ì‹Ê"};
+    string[] itemName = { "’cî", "“D", "‘¾ŒÛ", "á‹Ê", "’ƒŠ˜", "•—‘Ü", "ˆê”½–Ø–È", "‰Î‚Ì‹Ê", "OŠp“ª‹Ğ", "‚¨–Ê"};
     [SerializeField] Text[] testText;
 
     [SerializeField] AudioSource audioSource;
@@ -106,10 +106,6 @@ public class TitleGUIManager : MonoBehaviour
         for (int i = 0; i < trapStore.trapObjs.Count; i++)
         {
             trapIconsImage_store[i].sprite = trapStore.trapObjs[i].GetComponent<TrapBase>().icon;
-            //trapIconsImage_store[i].enabled = true;
-        }
-        for (int i = trapStore.trapObjs.Count; i < 8; i++)
-        {
             trapIconsImage_store[i].enabled = false;
         }
 
@@ -346,7 +342,7 @@ public class TitleGUIManager : MonoBehaviour
                 trapIconsImage_mine[i][j].enabled = true;
             }
         }
-        for (int i = 0; i < 8; i++)
+        for (int i = 0; i < trapStore.trapObjs.Count; i++)
         {
             trapIconsImage_store[i].enabled = true;
         }

@@ -53,7 +53,8 @@ public class LocketTrapSc : TrapBase
     void RemoveEffect()
     {
         //加速をリセット
-        pm.playerController.EffectLocketDash(false, gameObject.name);
+        if (pm.playerController != null)
+            pm.playerController.EffectLocketDash(false, gameObject.name);
         //音を徐々に小さくする
         for (float i = 1; i > 0; i -= 0.1f)
         {

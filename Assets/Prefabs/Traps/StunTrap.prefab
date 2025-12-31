@@ -52,11 +52,11 @@ MonoBehaviour:
   icon: {fileID: -424866608, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
-  - 1.2
-  - 1
+  - 2.2
+  - 1.6
   - 0.8
-  - 0.6
-  - 1
+  - 0.4
+  - 2
   isInstantActive: 0
   anim: {fileID: 5560984728642017152}
   warningAreaObj: {fileID: 2510229072975050310}
@@ -243,7 +243,7 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 1
+  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!58 &8518913892211045518
 CircleCollider2D:

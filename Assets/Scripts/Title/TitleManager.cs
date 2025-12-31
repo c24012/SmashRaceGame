@@ -321,20 +321,6 @@ public class TitleManager : MonoBehaviour
 #endif
     }
     
-    
-    /// <summary>
-    /// チュートリアル開始
-    /// </summary>
-    //public void StartTutorial()
-    //{
-    //    //タイトル以外は返却
-    //    //if (nowPhase != NowPhase.CountSelect) return;
-        
-    //    //画面の暗転アニメーションが入る
-    //    //gui_m.PlayFadeIn();
-    //}
-    
-    
 
     #region #プレイヤーからの入力
 
@@ -385,7 +371,7 @@ public class TitleManager : MonoBehaviour
                 //チュートリアルなら移行
                 if (modeNum == 0)
                 {
-                    gui_m.PlayFadeIn();
+                    StartGame();
                     return;
                 }
 
@@ -599,7 +585,7 @@ public class TitleManager : MonoBehaviour
                     {
                         if (playerSelectingTrap_store[playerId] == trapWidthCount * i)
                         {
-                            playerSelectingTrap_store[playerId] = trapWidthCount * i - 4;
+                            playerSelectingTrap_store[playerId] = trapWidthCount * i - trapWidthCount;
                             break;
                         }
                     }

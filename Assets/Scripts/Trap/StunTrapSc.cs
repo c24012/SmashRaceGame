@@ -45,6 +45,7 @@ public class StunTrapSc : TrapBase
         //‰ğœ‚Ü‚Å‘Ò‹@
         yield return new WaitForSeconds(effectTime[rankingPower]);
         //ƒXƒ^ƒ“‚ğ‰ğœ
+        if(pm.playerController != null)
         pm.playerController.EffectStun_ElectricShock(false, gameObject.name);
     }
 

@@ -23,7 +23,7 @@ public class TrapBase : MonoBehaviour
         trapObj = transform.GetChild(0).gameObject;
     }
 
-    private void Start()
+    void Start()
     {
         //PlayerManager‚ðŽæ“¾
         rankingPower = pm.playerData.ranking;

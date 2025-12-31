@@ -38,6 +38,7 @@ public class ConfusionTrapSc : TrapThrow
         //‰ğœ‚Ü‚Å‘Ò‹@
         yield return new WaitForSeconds(effectTime[rankingPower]);
         //ƒXƒ^ƒ“‚ğ‰ğœ
+        if(pm.playerController != null)
         pm.playerController.EffectConfusion(false, gameObject.name);
     }
 

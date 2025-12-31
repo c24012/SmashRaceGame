@@ -30,7 +30,8 @@ public class DecelerationTrapSc : TrapThrow
             //合ったったプレイヤーのマネージャーを取得しておく
             pm = collision.transform.parent.GetComponent<PlayerManager>();
             //減速をリセット
-            pm.playerController.EffectMoveSpeedRatio(downSpeed, false, gameObject.name);
+            if (pm.playerController != null)
+                pm.playerController.EffectMoveSpeedRatio(downSpeed, false, gameObject.name);
         }
     }
 

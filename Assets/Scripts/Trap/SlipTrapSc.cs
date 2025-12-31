@@ -16,7 +16,7 @@ public class SlipTrapSc : TrapThrow
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //合ったったプレイヤーのマネージャーを取得しておく
+            //当たったプレイヤーのマネージャーを取得しておく
             pm = collision.transform.parent.GetComponent<PlayerManager>();
             //当たったプレイヤーに効果を付与
             pm.playerController.EffectSlip(true, gameObject.name);
@@ -27,10 +27,11 @@ public class SlipTrapSc : TrapThrow
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            //合ったったプレイヤーのマネージャーを取得しておく
+            //抜けたプレイヤーのマネージャーを取得しておく
             pm = collision.transform.parent.GetComponent<PlayerManager>();
-            //当たったプレイヤーに効果を付与
-            pm.playerController.EffectSlip(false, gameObject.name);
+            //抜けたプレイヤーは効果を解除
+            if (pm.playerController != null)
+                pm.playerController.EffectSlip(false, gameObject.name);
         }
     }
 

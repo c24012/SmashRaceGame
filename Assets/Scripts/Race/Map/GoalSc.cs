@@ -5,6 +5,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class GoalSc : MonoBehaviour
 {
@@ -25,24 +26,26 @@ public class GoalSc : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            PlayerManager pm = collision.transform.parent.GetComponent<PlayerManager>();
-            
-            //ÉSÅ[Éã
-            if (pm.playerData.progress == 9)
+            if (collision.transform.parent.TryGetComponent(out PlayerManager pm))
             {
-                if (pm.playerData.lapCount >= raceManager.lapCount)
+                if (pm.isDummy) return;
+                //ÉSÅ[Éã
+                if (pm.playerData.progress == 9)
                 {
-                    raceManager.PlayFinishAnimation();
-                }
-                
-                if (pm.playerData.lapCount <= 0)
-                {
-                    lapText[pm.playerNum].text = 0 + "/" + raceManager.lapCount;
-                }
-                else
-                {
-                    lapText[textDic[pm.playerNum]].text = pm.playerData.lapCount + "/" + raceManager.lapCount;
+                    if (pm.playerData.lapCount >= raceManager.lapCount)
+                    {
+                        raceManager.PlayFinishAnimation();
+                    }
 
+                    if (pm.playerData.lapCount <= 0)
+                    {
+                        lapText[pm.playerNum].text = 0 + "/" + raceManager.lapCount;
+                    }
+                    else
+                    {
+                        lapText[textDic[pm.playerNum]].text = pm.playerData.lapCount + "/" + raceManager.lapCount;
+
+                    }
                 }
             }
         }

@@ -33,6 +33,8 @@ public class TrapThrow : TrapBase
         distance = Vector2.Distance(trapPos, mastarPos);
         //自分の場所を主の場所に一旦移動
         transform.position = mastarPos;
+        //トラップにStart後関数を発火
+        LateStart();
     }
 
     private void Update()
@@ -72,10 +74,18 @@ public class TrapThrow : TrapBase
     }
 
     /// <summary>
+    /// 本体へのStart後発火用
+    /// </summary>
+    virtual protected void LateStart()
+    {
+        
+    }
+
+    /// <summary>
     /// 本体への着地発火用
     /// </summary>
     virtual protected void LandedTrap()
     {
-        //Debug.LogError("本体の関数に発火できませんでした Name:"+gameObject.name);
+        
     }
 }

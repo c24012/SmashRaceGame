@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Drawing;
 
 public class IconManager : MonoBehaviour
 {
@@ -36,9 +37,11 @@ public class IconManager : MonoBehaviour
     /// トラップのSpriteを変更
     /// </summary>
     /// <param name="iconNum"></param>
-    public void IconChange(int iconNum)
+    public void IconChange()
     {
-        trapIconSr.sprite = trapIconSp[iconNum];
+        trapIconSr.sprite = trapIconSp[pm.trap.trapNum];
+        //狐のお面確認
+        CheckIllutionIcon();
     }
 
 
@@ -48,6 +51,7 @@ public class IconManager : MonoBehaviour
         banIconSr.enabled = isBan;
         bunCount++;
         Invoke(nameof(IconReset), disappearanceTime);
+        IconChange();
     }
 
     private void IconReset()
@@ -75,5 +79,24 @@ public class IconManager : MonoBehaviour
             this.isView = false;
             trapFrameObj.SetActive(false);
         }
+    }
+
+    public void CheckIllutionIcon()
+    {
+        Color32 color = trapIconSr.color;
+
+        //幻影出現状態では狐のお面アイコンが半透明になる
+        if (pm.playerController.isIllution)
+        {
+            if (pm.playerController.trapObj[pm.trap.trapNum] == pm.trapStore.trapObjs[9])
+            {
+                color.a = 128;
+                trapIconSr.color = color;
+                return;
+            }
+        }
+        //条件外は戻す
+        color.a = 255;
+        trapIconSr.color = color;
     }
 }

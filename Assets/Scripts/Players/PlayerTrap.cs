@@ -14,10 +14,10 @@ public class PlayerTrap : MonoBehaviour
     [SerializeField] GameObject aimObj;
 
     [SerializeField, Tooltip("Rayの長さ")] float maxPower;
-    [SerializeField, Tooltip("置くトラップの種類の番号")] int trapNum = 0;
+    [Tooltip("置くトラップの種類の番号")] public int trapNum = 0;
     [SerializeField] float chargeSpeed = 1;
     [SerializeField] float power = 0;
-    [SerializeField] float coolTime = 4f;
+    public float coolTime = 4f;
 
     public bool trapFlag = true;
 
@@ -60,7 +60,7 @@ public class PlayerTrap : MonoBehaviour
         if (power > maxPower) power = maxPower;
 
         //トラップを置く直線状に障害物があるか確認用のレイ
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, power, 1);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, power, 1 << LayerMask.NameToLayer("MapObj"));
         //なにもない
         if(hit.collider == null)
         {
@@ -111,7 +111,7 @@ public class PlayerTrap : MonoBehaviour
             trapNum = (trapNum + value + pm.playerController.trapObj.Length) % pm.playerController.trapObj.Length;
         }
         //トラップとアイコンを変更
-        pm.iconManager.IconChange(trapNum);
+        pm.iconManager.IconChange();
         pm.iconManager.BanCheck(!trapFlag);
 
         //今貯めているパワーはリセット
@@ -137,8 +137,7 @@ public class PlayerTrap : MonoBehaviour
         }
 
         //トラップを置く直線状に障害物があるか確認用のレイ
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, power, 1);
-
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.up, power, 1 << LayerMask.NameToLayer("MapObj"));
         //PlayerManager代入用
         TrapBase sampleBase = null;
         //壁に当たった場合
@@ -169,5 +168,29 @@ public class PlayerTrap : MonoBehaviour
     public void ResetCharge()
     {
         Init();
+    }
+
+    /// <summary>
+    /// アイテムの使用を禁止
+    /// </summary>
+    /// <param name="bun"></param>
+    public void BunTrap(bool bun)
+    {
+        if (bun)
+        {
+            if (trapFlag)
+            {
+                pm.iconManager.BanCheck(true);
+                trapFlag = false;
+            }
+        }
+        else
+        {
+            if (!trapFlag)
+            {
+                pm.iconManager.BanCheck(false);
+                trapFlag = true;
+            }
+        }
     }
 }

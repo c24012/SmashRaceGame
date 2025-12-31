@@ -17,9 +17,12 @@ public class PlayerManager : MonoBehaviour
     }
     public GameMode nowMode;
 
+    public bool isDummy = false;
+
     [Header("他オブジェスクリプト")]
     public CorseCheck corseCheck;
     public PauseManager pause;
+    public TrapStore trapStore;
 
     [Header("Playerスクリプト")]
     public PlayerController playerController;

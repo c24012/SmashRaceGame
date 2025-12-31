@@ -32,7 +32,6 @@ public class ChaseTrapColliderSc : MonoBehaviour
             //プレイヤー以外にぶつかった
             else if(collision.CompareTag("MapObj"))
             {
-                print(collision.name);
                 trap.TimeUpAnim();
             }
         }

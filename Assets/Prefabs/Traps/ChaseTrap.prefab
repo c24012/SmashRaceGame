@@ -132,11 +132,11 @@ MonoBehaviour:
   icon: {fileID: 1725031693, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
-  - 2
+  - 1.8
   - 0.5
   - 0.2
   - 0.1
-  - 0.5
+  - 0.4
   isInstantActive: 1
   rb: {fileID: 2511541324827407470}
   sensorCol: {fileID: 1246592143764396139}

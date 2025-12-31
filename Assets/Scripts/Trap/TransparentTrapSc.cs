@@ -1,0 +1,33 @@
+using System.Collections;
+using UnityEngine;
+
+public class TransparentTrapSc : TrapBase
+{
+    [SerializeField, Header("効果音")] AudioSource audioSource;
+
+    private void Start()
+    {
+        //効果を付与
+        StartCoroutine(GiveEffect(pm));
+    }
+
+    /// <summary>
+    /// 効果を付与
+    /// </summary>
+    /// <param name="pm"></param>
+    /// <returns></returns>
+    IEnumerator GiveEffect(PlayerManager pm)
+    {
+        //順位を取得
+        rankingPower = pm.playerData.ranking;
+        //透過を付与
+        pm.playerController.EffectTransparent(true, gameObject.name);
+        //各順位の時間待機
+        yield return new WaitForSeconds(effectTime[rankingPower]);
+        //透過を解除
+        if (pm.playerController != null)
+            pm.playerController.EffectTransparent(false, gameObject.name);
+        //オブジェクトを破壊
+        Destroy(gameObject);
+    }
+}
