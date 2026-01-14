@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abdbb3d47e67b6498534abfe8847711, type: 3}
+  m_Name: confusion
+  m_EditorClassIdentifier: 
+  title: "\u5996\u602A\u306E\u9053\u5177"
+  info: "\u3051\u3080\u308A\u306B\u3055\u308F\u308B\u3068\n\u5411\u304D\u304C\u304A\u304B\u3057\u304F\n\u306A\u3063\u3066\u3057\u307E\u3046\u3088"
+  isItem: 1
+  itemName: "\u300C\u72F8\u306E\u8336\u91DC\u300D"
+  itemIcon: {fileID: 378201916, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
+  movie: {fileID: 32900000, guid: 73e5bd3b02d0b5641a2476769c247987, type: 3}

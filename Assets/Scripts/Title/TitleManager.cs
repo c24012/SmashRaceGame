@@ -59,7 +59,7 @@ public class TitleManager : MonoBehaviour
     [SerializeField] int trapWidthCount = 4;
     [SerializeField] int trapHighCount = 2;
 
-    public int maxPlayerCount = 1;                         //決められたプレイヤー人数
+    public int maxPlayerCount = 1;                  //決められたプレイヤー人数
     int[] playerCharactor = { 0, 1, 2, 3 };         //各プレイヤーのキャラクターId
     int[,] playerSelectedTraps =                    //各プレイヤーのトラップId
         {{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1},{-1,-1,-1,-1}};

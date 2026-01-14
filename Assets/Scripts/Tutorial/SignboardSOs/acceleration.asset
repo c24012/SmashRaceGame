@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abdbb3d47e67b6498534abfe8847711, type: 3}
+  m_Name: acceleration
+  m_EditorClassIdentifier: 
+  title: "\u5996\u602A\u306E\u9053\u5177"
+  info: "\u79FB\u52D5\u3068\n\u30AB\u3092\u305F\u3081\u308B\u306E\u304C\n\u65E9\u304F\u306A\u308B\u3088"
+  isItem: 1
+  itemName: "\u300C\u5929\u72D7\u306E\u56E3\u6247\u300D"
+  itemIcon: {fileID: 547239158, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
+  movie: {fileID: 32900000, guid: e7f6b96ad6914374b8b2eb138ef7164a, type: 3}

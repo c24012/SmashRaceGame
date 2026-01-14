@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abdbb3d47e67b6498534abfe8847711, type: 3}
+  m_Name: direction
+  m_EditorClassIdentifier: 
+  title: "\u64CD\u4F5C\u65B9\u6CD5"
+  info: "<sprite name=\"Stick\">\u3092\u50BE\u3051\u308B\u3068\n\u305D\u306E\u65B9\u5411\u306B\n\u5411\u3044\u3066\u304F\u308C\u308B\u3088"
+  isItem: 0
+  itemName: 
+  itemIcon: {fileID: 0}
+  movie: {fileID: 32900000, guid: 723eb6ba7e5c23a4d89afa3be4e4eec1, type: 3}

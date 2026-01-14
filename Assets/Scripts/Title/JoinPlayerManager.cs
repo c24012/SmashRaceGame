@@ -18,7 +18,7 @@ public class JoinPlayerManager : MonoBehaviour
     [SerializeField] GameObject cursorRootObj;
 
     InputAction joinInputAction;                    //参加ボタン検知用
-    //InputAction tutorialInputAction;                //チュートリアルボタン検知用
+    //InputAction tutorialInputAction;              //チュートリアルボタン検知用
     InputAction quitGameInputAction;                //終了ボタン検知用
     List<InputDevice> inputDeviceList = new();      //現在使われているデバイスリスト
     const int MAX_PLAYER_COUNT = 4;                 //最大参加可能人数
@@ -29,7 +29,7 @@ public class JoinPlayerManager : MonoBehaviour
         //PlayerInputManagerを取得
         playerInputManager = GetComponent<PlayerInputManager>();
 
-        //参加ボタン,チュートリアルボタンを検知できるようにIAReferenceからInputActionを取得
+        //参加ボタンを検知できるようにIAReferenceからInputActionを取得
         joinInputAction = joinActionRef.action;
         //tutorialInputAction = tutorialActionRef.action;
         quitGameInputAction = quitGameActionRef.action;

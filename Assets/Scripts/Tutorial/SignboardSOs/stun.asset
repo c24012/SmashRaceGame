@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abdbb3d47e67b6498534abfe8847711, type: 3}
+  m_Name: stun
+  m_EditorClassIdentifier: 
+  title: "\u5996\u602A\u306E\u9053\u5177"
+  info: "\u96F7\u306B\u3042\u305F\u308B\u3068\n\u3057\u3070\u3089\u304F\u884C\u52D5\u304C\n\u3067\u304D\u306A\u304F\u306A\u308B\u3088"
+  isItem: 1
+  itemName: "\u300C\u96F7\u795E\u306E\u592A\u9F13\u300D"
+  itemIcon: {fileID: -424866608, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
+  movie: {fileID: 32900000, guid: 3726f28834ba65c499d300a536fdbc21, type: 3}

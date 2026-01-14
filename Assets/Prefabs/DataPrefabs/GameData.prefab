@@ -49,11 +49,11 @@ MonoBehaviour:
   - playerInput: {fileID: 0}
     playerIndex: 0
     charactorNum: 0
-    trapNum: 08000000090000000300000004000000
+    trapNum: 05000000060000000700000008000000
   - playerInput: {fileID: 0}
     playerIndex: 1
     charactorNum: 1
-    trapNum: 01000000020000000300000004000000
+    trapNum: 05000000060000000700000008000000
   - playerInput: {fileID: 0}
     playerIndex: 1
     charactorNum: 2

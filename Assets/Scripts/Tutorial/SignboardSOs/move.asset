@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4abdbb3d47e67b6498534abfe8847711, type: 3}
+  m_Name: move
+  m_EditorClassIdentifier: 
+  title: "\u64CD\u4F5C\u65B9\u6CD5"
+  info: "<sprite name=\"A\">\u79FB\u52D5\u30DC\u30BF\u30F3\n\u9577\u62BC\u3057\u3067\u6E9C\u3081\u3066\n\u653E\u3059\u3068\u9032\u3080\u3088"
+  isItem: 0
+  itemName: 
+  itemIcon: {fileID: 0}
+  movie: {fileID: 32900000, guid: d2ac3f54efbd9ee498091bd1da3c3617, type: 3}
