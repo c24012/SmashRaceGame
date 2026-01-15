@@ -5,7 +5,9 @@ using UnityEngine.InputSystem;
 
 public class IllutionTrapSc : TrapThrow
 {
-    [SerializeField] GameObject[] dummyCharactorPf;
+    [SerializeField,Header("ダミーキャラリスト")] GameObject[] dummyCharactorPf;
+    [SerializeField, Header("消える為にかかる時間")] float timeItTakesToClear = 0.2f;
+    [SerializeField, Header("効果音")] AudioSource audioSource;
     CorseCheck corseCheck;
     PlayerManager dummyPm;
 
@@ -15,6 +17,8 @@ public class IllutionTrapSc : TrapThrow
         Invoke(nameof(FinishDammyTrapCoolTime), pm.trap.coolTime);
         //主を幻影出現状態にする
         pm.playerController.EffectisIllution(true, gameObject.name);
+        //けむりをゆっくり消す
+        StartCoroutine(FadeAway(timeItTakesToClear));
     }
 
     protected override void LandedTrap()
@@ -50,6 +54,9 @@ public class IllutionTrapSc : TrapThrow
 
         //ダミーのコントローラーにこのアイテムを登録
         dummyPm.playerController.transform.GetComponent<DummyPlayerController>().illutionTrap = this;
+
+        //SEを再生
+        audioSource.Play();
     } 
 
     /// <summary>
@@ -59,6 +66,29 @@ public class IllutionTrapSc : TrapThrow
     {
         //トラップの使用を解除
         dummyPm.trap.BunTrap(false);
+    }
+
+    /// <summary>
+    /// ゆっくり消える
+    /// </summary>
+    IEnumerator FadeAway(float speedTime)
+    {
+        yield return new WaitForSeconds(0.5f);
+        SpriteRenderer sr = trapObj.GetComponent<SpriteRenderer>();
+        Color32 color = sr.color;
+
+        WaitForSeconds wait = new(speedTime / 20);  //１ループで待つ時間
+        byte reducAlpha = (byte)(color.a / 20);     //１ループで消える割合
+
+        //だんだん透明に
+        for (int i = 0; i < 20; i++)
+        {
+            yield return wait;
+            color.a -= reducAlpha;
+            sr.color = color;
+        }
+        //スプライト自体を非表示
+        sr.enabled = false;
     }
 
     /// <summary>

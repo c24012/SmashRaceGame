@@ -4792,6 +4792,7 @@ MonoBehaviour:
   isSlip: 0
   confusionNum: 0
   isLocket: 0
+  isIllution: 0
 --- !u!212 &193425421603313409
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5281,8 +5282,10 @@ MonoBehaviour:
     percentagePos: 0
     progress: 0
   nowMode: 0
+  isDummy: 0
   corseCheck: {fileID: 205846377}
   pause: {fileID: 0}
+  trapStore: {fileID: 0}
   playerController: {fileID: 7929373744505230601}
   powerGage: {fileID: 1293122385942575580}
   iconManager: {fileID: 3851451278394576675}
@@ -7864,6 +7867,8 @@ MonoBehaviour:
   - {fileID: 2055197002879597668, guid: ddda4bff1158c604388cee020e418f98, type: 3}
   - {fileID: 2055197002879597668, guid: 167d811b117ceba4eaba771bd2eb89a2, type: 3}
   - {fileID: 2055197002879597668, guid: 0bfef716a3e8878499c8d527981a6257, type: 3}
+  - {fileID: 6828806516823141215, guid: 9f6a10378fc4ff546892070a3c76bdc5, type: 3}
+  - {fileID: 2055197002879597668, guid: 5e2118af6a21d6e4b966d91a023fb05b, type: 3}
   cottonObj: {fileID: 291161352781577017}
   cottonSr: {fileID: 8544016257515882966}
   effectObj: {fileID: 8461080042675222509}
@@ -7882,6 +7887,7 @@ MonoBehaviour:
   isSlip: 0
   confusionNum: 0
   isLocket: 0
+  isIllution: 0
 --- !u!1 &7942859909280785630
 GameObject:
   m_ObjectHideFlags: 0
@@ -7969,8 +7975,10 @@ MonoBehaviour:
     percentagePos: 0
     progress: 0
   nowMode: 0
+  isDummy: 0
   corseCheck: {fileID: 205846377}
   pause: {fileID: 0}
+  trapStore: {fileID: 0}
   playerController: {fileID: 122738426697725425}
   powerGage: {fileID: 9100879222320584996}
   iconManager: {fileID: 6543127805410832347}

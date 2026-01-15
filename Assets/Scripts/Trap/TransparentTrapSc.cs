@@ -5,10 +5,24 @@ public class TransparentTrapSc : TrapBase
 {
     [SerializeField, Header("効果音")] AudioSource audioSource;
 
+    Transform pmCharactorTf;
+
     private void Start()
     {
         //効果を付与
         StartCoroutine(GiveEffect(pm));
+        //主キャラのtransformを取得
+        pmCharactorTf = pm.transform.GetChild(0);
+        //トラップの向きを初期化
+        transform.rotation = Quaternion.identity;
+        //SE再生
+        audioSource.Play();
+    }
+
+    private void Update()
+    {
+        //アニメーションのためにプレイヤーの場所へ移動
+        transform.position = pmCharactorTf.position;
     }
 
     /// <summary>
