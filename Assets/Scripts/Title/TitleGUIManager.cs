@@ -15,11 +15,16 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField, Header("人数選択画面")] GameObject countSelectPanel;
     [SerializeField] Animator countSelect_GhostAnim;
     [SerializeField] Animator modeSelect_GhostAnim;
+    [SerializeField] Animator modeSelect_Makimono;
     [SerializeField] TextMeshProUGUI[] countSlect_PlayerCountText;
     [SerializeField] TextMeshProUGUI[] modeSlect_GameModeText;
+    [SerializeField] TextMeshProUGUI modeSlect_MakimonoText;
     [SerializeField] Image[] countPanelImage;
     [SerializeField] Image[] modePanelImage;
     string[] modeNames = { "チュートリアル", "レース", "バトル" };
+    string[] makimonoTexts = {
+        "遊び方を確認できるよ", "３周して１位をめざせ！", "ライバルをおしだせ！" 
+    };
 
     [SerializeField, Header("キャラ選択画面")] GameObject[] playerPanels = new GameObject[4];
     [SerializeField] GameObject[] joinPanels = new GameObject[4];
@@ -395,6 +400,8 @@ public class TitleGUIManager : MonoBehaviour
         else modeSelect_GhostAnim.SetTrigger("Right");
         //数字を表示
         modeSlect_GameModeText[0].text = modeNames[count];
+        //巻物の説明を変更
+        modeSlect_MakimonoText.text = makimonoTexts[count];
         //SEを再生
         audioSource.Play();
     }
@@ -426,6 +433,8 @@ public class TitleGUIManager : MonoBehaviour
             {
                 modeSlect_GameModeText[i].color = afterColor_text;
             }
+            //巻物を開くアニメーション
+            modeSelect_Makimono.SetBool("isOpen", true);
         }
         //カウントのパネルへ
         else
@@ -448,6 +457,8 @@ public class TitleGUIManager : MonoBehaviour
             {
                 countSlect_PlayerCountText[i].color = afterColor_text;
             }
+            //巻物を閉じるアニメーション
+            modeSelect_Makimono.SetBool("isOpen", false);
         }
     }
 
