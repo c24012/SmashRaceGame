@@ -16,6 +16,10 @@ public class TutorialSignboard : MonoBehaviour
     [SerializeField] Image itemIcon;
     [SerializeField] GameObject itemPanel;
 
+    [SerializeField] TextMeshProUGUI gimmickName;
+    [SerializeField] TextMeshProUGUI gimmickInfo;
+    [SerializeField] GameObject gimmickPanel;
+
     [SerializeField, Header("ページデータ")] TutorialSignboardInfo_SO[] pageDatas;
     [SerializeField, Header("ボタン入力")] InputActionReference pageControllRef;
 
@@ -86,6 +90,13 @@ public class TutorialSignboard : MonoBehaviour
             itemInfo.text = pageDatas[nowPage].info;
             itemIcon.sprite = pageDatas[nowPage].itemIcon;
         }
+        //ギミックの紹介
+        else if (pageDatas[nowPage].isGimmick)
+        {
+            title.text = pageDatas[nowPage].title;
+            gimmickName.text = pageDatas[nowPage].gimmickName;
+            gimmickInfo.text = pageDatas[nowPage].info;
+        }
         //その他
         else
         {
@@ -95,8 +106,9 @@ public class TutorialSignboard : MonoBehaviour
         //動画を挿入
         video.clip = pageDatas[nowPage].movie;
         //各パネルの切り替え
-        infoPanel.SetActive(!pageDatas[nowPage].isItem);
+        infoPanel.SetActive(!(pageDatas[nowPage].isItem || pageDatas[nowPage].isGimmick));
         itemPanel.SetActive(pageDatas[nowPage].isItem);
+        gimmickPanel.SetActive(pageDatas[nowPage].isGimmick);
         //動画再生
         video.Play();
     }

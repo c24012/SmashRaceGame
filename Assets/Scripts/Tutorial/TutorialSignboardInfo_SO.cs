@@ -9,5 +9,7 @@ public class TutorialSignboardInfo_SO : ScriptableObject
     [Header("アイテムかどうか")] public bool isItem;
     [Tooltip("アイテム名")] public string itemName;
     [Tooltip("アイテム名")] public Sprite itemIcon;
+    [Header("ギミックかどうか")] public bool isGimmick;
+    [Tooltip("ギミック名")] public string gimmickName;
     [Header("動画")] public VideoClip movie;
 }
