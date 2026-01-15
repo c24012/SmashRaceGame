@@ -92,7 +92,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   isRotation: 0
   rotationSpeed: 0
-  timeItTakesToBreak: 6
+  timeItTakesToBreak: 5
   timeItTakesToClear: 0.1
 --- !u!50 &7679580076165372362
 Rigidbody2D:

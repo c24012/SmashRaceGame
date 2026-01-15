@@ -20,6 +20,15 @@ public class StunTrapSc : TrapBase
         anim.Play();
     }
 
+    private void Start()
+    {
+        //バトルの場合マスクをかける
+        if (pm.nowMode == PlayerManager.GameMode.Battle)
+        {
+            transform.GetChild(0).GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))

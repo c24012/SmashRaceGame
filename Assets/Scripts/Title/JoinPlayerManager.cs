@@ -1,6 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Haptics;
 
 
 public class JoinPlayerManager : MonoBehaviour
@@ -124,12 +126,24 @@ public class JoinPlayerManager : MonoBehaviour
 
         //GUI表示を更新
         gui_m.SetJoinPlayer(title_m.currentPlayerCount);
+
+        //参加したコントローラーを振動
+        StartCoroutine(StartVibration(context.control.device));
     }
 
-    //void OnTutorial(InputAction.CallbackContext context)
-    //{
-    //    title_m.StartTutorial();
-    //}
+    IEnumerator StartVibration(InputDevice device)
+    {
+        // PlayerInputから振動可能なデバイス取得
+        // playerInput.devicesは現在選択されているスキームのデバイス一覧であることに注意
+        if (device is not IDualMotorRumble gamepad)
+        {
+            yield break;
+        }
+        gamepad.SetMotorSpeeds(0.5f, 0.5f);
+        yield return new WaitForSeconds(0.3f);
+        //振動停止
+        gamepad.SetMotorSpeeds(0.0f, 0.0f);
+    }
 
     void OnQuitGame(InputAction.CallbackContext context)
     {

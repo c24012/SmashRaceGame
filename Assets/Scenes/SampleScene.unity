@@ -301,7 +301,6 @@ GameObject:
   m_Component:
   - component: {fileID: 205846376}
   - component: {fileID: 205846375}
-  - component: {fileID: 205846377}
   m_Layer: 0
   m_Name: Tutorial
   m_TagString: Untagged
@@ -376,20 +375,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 760115279}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &205846377
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 205846374}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5534003c4a79cad4f9d7d58a2d936180, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  attributeTexture: {fileID: 2800000, guid: 6b0611dca2b571b4ab91bb21c5677566, type: 3}
-  pixcelParUnit: 25
 --- !u!1 &210877899
 GameObject:
   m_ObjectHideFlags: 0
@@ -1752,9 +1737,10 @@ GameObject:
   m_Component:
   - component: {fileID: 650001313}
   - component: {fileID: 650001312}
+  - component: {fileID: 650001314}
   m_Layer: 0
   m_Name: TakeManager
-  m_TagString: Untagged
+  m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1789,6 +1775,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &650001314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650001311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5534003c4a79cad4f9d7d58a2d936180, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attributeTexture: {fileID: 2800000, guid: 6b0611dca2b571b4ab91bb21c5677566, type: 3}
+  pixcelParUnit: 25
 --- !u!1 &659964192
 GameObject:
   m_ObjectHideFlags: 0
@@ -4774,6 +4774,8 @@ MonoBehaviour:
   - {fileID: 2055197002879597668, guid: ddda4bff1158c604388cee020e418f98, type: 3}
   - {fileID: 2055197002879597668, guid: 167d811b117ceba4eaba771bd2eb89a2, type: 3}
   - {fileID: 2055197002879597668, guid: 0bfef716a3e8878499c8d527981a6257, type: 3}
+  - {fileID: 6828806516823141215, guid: 9f6a10378fc4ff546892070a3c76bdc5, type: 3}
+  - {fileID: 2055197002879597668, guid: 5e2118af6a21d6e4b966d91a023fb05b, type: 3}
   cottonObj: {fileID: 7761020676341668801}
   cottonSr: {fileID: 1814026093552019758}
   effectObj: {fileID: 1933466879353755413}
@@ -5283,9 +5285,9 @@ MonoBehaviour:
     progress: 0
   nowMode: 0
   isDummy: 0
-  corseCheck: {fileID: 205846377}
+  corseCheck: {fileID: 650001314}
   pause: {fileID: 0}
-  trapStore: {fileID: 0}
+  trapStore: {fileID: 1406684144879853369, guid: 57e55d6597ec69c4a8796728b8257d09, type: 3}
   playerController: {fileID: 7929373744505230601}
   powerGage: {fileID: 1293122385942575580}
   iconManager: {fileID: 3851451278394576675}
@@ -7976,9 +7978,9 @@ MonoBehaviour:
     progress: 0
   nowMode: 0
   isDummy: 0
-  corseCheck: {fileID: 205846377}
+  corseCheck: {fileID: 650001314}
   pause: {fileID: 0}
-  trapStore: {fileID: 0}
+  trapStore: {fileID: 1406684144879853369, guid: 57e55d6597ec69c4a8796728b8257d09, type: 3}
   playerController: {fileID: 122738426697725425}
   powerGage: {fileID: 9100879222320584996}
   iconManager: {fileID: 6543127805410832347}

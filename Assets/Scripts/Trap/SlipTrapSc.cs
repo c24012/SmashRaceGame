@@ -10,6 +10,11 @@ public class SlipTrapSc : TrapThrow
     {
         //指定時間後にトラップを破壊
         Invoke(nameof(TimeUp),timeItTakesToBreak);
+        //バトルの場合マスクをかける
+        if (pm.nowMode == PlayerManager.GameMode.Battle)
+        {
+            trapObj.GetComponent<SpriteRenderer>().maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
