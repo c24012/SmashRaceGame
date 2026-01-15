@@ -23,6 +23,7 @@ public class DecoySc : MonoBehaviour
     [SerializeField] SpriteRenderer sr;
     [SerializeField] Collider2D collisionCol;
     [SerializeField] AudioSource audioSource;
+    [SerializeField] GameObject breakdownEffect;
 
     Vector2 firstPos;
     int enterPlayerCount = 0;
@@ -44,6 +45,8 @@ public class DecoySc : MonoBehaviour
         firstPos = transform.position;
 
         rb = GetComponent<Rigidbody2D>();
+        //故障エフェクトを非表示
+        breakdownEffect.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -107,7 +110,8 @@ public class DecoySc : MonoBehaviour
                 anim.SetBool("isBreak", true);
                 speed = 0;
                 stopAccumulationCount = 100;
-                sr.color = new Color(0.5f, 0.5f, 0.5f);
+                sr.color = new Color(0.8f, 0.8f, 0.8f);
+                breakdownEffect.SetActive(true);
                 isBreak = true;
                 Invoke(nameof(ResetDecoy), resetTime);
             }
@@ -254,6 +258,8 @@ public class DecoySc : MonoBehaviour
         strength = strengthMax;
         //色を戻す
         sr.color = new Color(1,1,1);
+        //故障エフェクト非表示
+        breakdownEffect.SetActive(false);
         //衝撃重複値をリセット
         stopAccumulationCount = 0;
         //破壊フラグをオフ
