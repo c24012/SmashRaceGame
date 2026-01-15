@@ -49,5 +49,5 @@ MonoBehaviour:
   - playerInput: {fileID: 0}
     playerIndex: 0
     charactorNum: 2
-    trapNum: 01000000020000000300000000000000
+    trapNum: 09000000080000000200000001000000
   ranking: 00000000000000000000000000000000

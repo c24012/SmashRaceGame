@@ -56,6 +56,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Dummy_3
       objectReference: {fileID: 0}
+    - target: {fileID: 8601245312843385508, guid: 9ab47260f4a93d543ad13c35d3722d06, type: 3}
+      propertyPath: m_Color.b
+      value: 0.72264147
+      objectReference: {fileID: 0}
+    - target: {fileID: 8601245312843385508, guid: 9ab47260f4a93d543ad13c35d3722d06, type: 3}
+      propertyPath: m_Color.r
+      value: 0.99052805
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
