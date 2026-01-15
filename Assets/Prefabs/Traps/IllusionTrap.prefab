@@ -75,7 +75,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e929e817d5b9b764380d09f0c8d34446, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: d6f6f2dd178c6b04aac3d5a3519af86b, type: 3}
+  icon: {fileID: -1375066668, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
   - 6
@@ -297,7 +297,7 @@ SpriteRenderer:
   m_SortingLayerID: -1550550645
   m_SortingLayer: 1
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: d6f6f2dd178c6b04aac3d5a3519af86b, type: 3}
+  m_Sprite: {fileID: -1375066668, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

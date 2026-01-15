@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786073552968d434aa58a168c6f7dd8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: fe7360732e71c204d85f9a9cfcdbc643, type: 3}
+  icon: {fileID: -110850212, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
   - 0.4
