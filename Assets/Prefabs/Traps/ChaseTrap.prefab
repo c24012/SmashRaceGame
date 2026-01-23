@@ -132,7 +132,7 @@ MonoBehaviour:
   icon: {fileID: 1725031693, guid: 66a46e4da0da37d4cb9cf242074b4cf7, type: 3}
   info: 
   effectTime:
-  - 1.8
+  - 1.6
   - 0.5
   - 0.2
   - 0.1

@@ -13,7 +13,8 @@ public class PlayerManager : MonoBehaviour
     {
         None,
         Race,
-        Battle
+        Battle,
+        Tutorial
     }
     public GameMode nowMode;
 

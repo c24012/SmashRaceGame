@@ -44,10 +44,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745320b217cb27241aca5427e8bafc1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCount: 1
+  playerCount: 3
   playerInfoList:
   - playerInput: {fileID: 0}
     playerIndex: 0
+    charactorNum: 0
+    trapNum: 06000000070000000800000009000000
+  - playerInput: {fileID: 0}
+    playerIndex: 1
+    charactorNum: 1
+    trapNum: 09000000080000000200000001000000
+  - playerInput: {fileID: 0}
+    playerIndex: 2
     charactorNum: 2
     trapNum: 09000000080000000200000001000000
   ranking: 00000000000000000000000000000000

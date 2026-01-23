@@ -9,6 +9,8 @@ using UnityEngine.UI;
 
 public class TitleGUIManager : MonoBehaviour
 {
+    static bool isFirstStart = false;
+
     [SerializeField] TitleManager title;
     [SerializeField] TrapStore trapStore;
 
@@ -46,8 +48,10 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] HorizontalLayoutGroup SelectManulayoutGroup;
     [SerializeField] Transform root;
     [SerializeField] Animator lastCheckSignBoardAnim;
-    [SerializeField] Image[] iconImage;
-    [SerializeField] Sprite[] iconSp;
+    [SerializeField] Image[] selectSoulImage;
+    [SerializeField] Image[] selectArrowImage;
+    [SerializeField] Sprite[] selectSoulSp;
+    [SerializeField] Sprite[] selectArrowSp;
     [SerializeField] GameObject[] infoHintUiObj;
     [SerializeField] GameObject cursorsObj;
 
@@ -60,6 +64,7 @@ public class TitleGUIManager : MonoBehaviour
     [SerializeField] PlayableDirector charaSelectOutAnim;
     [SerializeField] PlayableDirector trapSelectInAnim;
     [SerializeField] PlayableDirector fadeIn;
+    [SerializeField] GameObject fadeOutPanelObj;
 
 
     int playerNum_local;
@@ -93,6 +98,10 @@ public class TitleGUIManager : MonoBehaviour
 
     private void Awake()
     {
+        //初回起動時はフェードアウトアニメーションをしない
+        fadeOutPanelObj.SetActive(isFirstStart);
+        isFirstStart = true;
+
         //各プレイヤーの自分のトラップアイコンのRectTransformを取得
         SetTrapIcons_mine();
 
@@ -197,6 +206,86 @@ public class TitleGUIManager : MonoBehaviour
         R_CountAnim_Out.stopped += StopedAnimation;
     }
 
+    #endregion
+
+    #region #アイテム選択画面
+
+    /// <summary>
+    /// トラップ選択画面表示
+    /// </summary>
+    public void ViewTrapSelect()
+    {
+        //プレイヤーの自動レイアウトをオフ
+        SelectManulayoutGroup.enabled = false;
+
+        //アニメーション開始
+        title.isPlayingAnim = true;
+        charaSelectOutAnim.stopped += CharaSelectOutAnim_stopped;
+        charaSelectOutAnim.Play();
+    }
+    void CharaSelectOutAnim_stopped(PlayableDirector obj)
+    {
+        //登録を削除
+        charaSelectOutAnim.stopped -= CharaSelectOutAnim_stopped;
+        //アイテム選択画面を表示
+        SetPhasePanel(TitleManager.NowPhase.TrapSelect);
+
+        //アニメーション開始
+        trapSelectInAnim.stopped += TrapSelectInAnim_stopped;
+        trapSelectInAnim.Play();
+    }
+    void TrapSelectInAnim_stopped(PlayableDirector obj)
+    {
+        //登録を解除
+        trapSelectInAnim.stopped -= TrapSelectInAnim_stopped;
+        //アニメーション終了
+        title.isPlayingAnim = false;
+        //キャラによってアイコンを変更
+        for (int i = 0; i < title.currentPlayerCount; i++)
+        {
+            selectSoulImage[i].sprite = selectSoulSp[title.playerInfoList[i].charactorNum];
+            selectArrowImage[i].sprite = selectArrowSp[title.playerInfoList[i].charactorNum];
+        }
+        //変更後にカーソルを表示
+        cursorsObj.SetActive(true);
+        // アニメーション終了に合わせてトラップアイコンを表示
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                trapIconsImage_mine[i][j].enabled = true;
+            }
+        }
+        for (int i = 0; i < trapStore.trapObjs.Count; i++)
+        {
+            trapIconsImage_store[i].enabled = true;
+        }
+        //説明のヒントUIも表示
+        //infoHintUiObj.SetActive(true);
+    }
+
+    /// <summary>
+    /// キャラ選択画面に戻る
+    /// </summary>
+    public void ReturnCharactorSelect()
+    {
+        //トラップアイコンを非表示
+        for (int i = 0; i < 4; i++)
+        {
+            for (int j = 0; j < 4; j++)
+            {
+                trapIconsImage_mine[i][j].enabled = false;
+            }
+        }
+        for (int i = 0; i < trapStore.trapObjs.Count; i++)
+        {
+            trapIconsImage_store[i].enabled = false;
+        }
+        //アイテム選択画面を表示
+        SetPhasePanel(TitleManager.NowPhase.CharaSelect);
+        //変更後にカーソルを表示
+        cursorsObj.SetActive(false);
+    }
 
     #endregion
 
@@ -302,58 +391,6 @@ public class TitleGUIManager : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// トラップ選択画面表示
-    /// </summary>
-    public void ViewTrapSelect()
-    {
-        //プレイヤーの自動レイアウトをオフ
-        SelectManulayoutGroup.enabled = false;
-
-        //アニメーション開始
-        title.isPlayingAnim = true;
-        charaSelectOutAnim.stopped += CharaSelectOutAnim_stopped;
-        charaSelectOutAnim.Play();
-    }
-    void CharaSelectOutAnim_stopped(PlayableDirector obj)
-    {
-        //登録を削除
-        charaSelectOutAnim.stopped -= CharaSelectOutAnim_stopped;
-        //アイテム選択画面を表示
-        SetPhasePanel(TitleManager.NowPhase.TrapSelect);
-
-        //アニメーション開始
-        trapSelectInAnim.stopped += TrapSelectInAnim_stopped;
-        trapSelectInAnim.Play();
-    }
-    void TrapSelectInAnim_stopped(PlayableDirector obj)
-    {
-        //登録を解除
-        trapSelectInAnim.stopped -= TrapSelectInAnim_stopped;
-        //アニメーション終了
-        title.isPlayingAnim = false;
-        //キャラによってアイコンを変更
-        for (int i = 0; i < title.currentPlayerCount; i++)
-        {
-            iconImage[i].sprite = iconSp[title.playerInfoList[i].charactorNum];
-        }
-        //変更後にカーソルを表示
-        cursorsObj.SetActive(true);
-        // アニメーション終了に合わせてトラップアイコンを表示
-        for (int i = 0; i < 4; i++)
-        {
-            for (int j = 0; j < 4; j++)
-            {
-                trapIconsImage_mine[i][j].enabled = true;
-            }
-        }
-        for (int i = 0; i < trapStore.trapObjs.Count; i++)
-        {
-            trapIconsImage_store[i].enabled = true;
-        }
-        //説明のヒントUIも表示
-        //infoHintUiObj.SetActive(true);
-    }
 
     public void InfoHint(int playerNum,bool isView)
     {
@@ -374,7 +411,6 @@ public class TitleGUIManager : MonoBehaviour
         charactorImage[playerNum].enabled = isView;
     }
 
-
     /// <summary>
     /// 人数選択の看板の数字変更&アニメーション
     /// </summary>
@@ -392,6 +428,11 @@ public class TitleGUIManager : MonoBehaviour
         audioSource.Play();
     }
 
+    /// <summary>
+    /// 人数選択画面のモードの看板テキストを変更する
+    /// </summary>
+    /// <param name="inputValue"></param>
+    /// <param name="count"></param>
     public void ChangeGameModeText(int inputValue,int count)
     {
         //入力がプラスの場合は左
@@ -406,6 +447,10 @@ public class TitleGUIManager : MonoBehaviour
         audioSource.Play();
     }
 
+    /// <summary>
+    /// 人数選択画面の選んでいない看板を半透明にする
+    /// </summary>
+    /// <param name="isCount"></param>
     public void ColorChenge(bool isCount)
     {
         Color32 beforColor = new(255, 255, 255, 128);

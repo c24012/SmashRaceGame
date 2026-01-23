@@ -1,5 +1,6 @@
 using System.Collections;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,6 +10,10 @@ public class IllutionTrapSc : TrapThrow
     [SerializeField, Header("消える為にかかる時間")] float timeItTakesToClear = 0.2f;
     [SerializeField, Header("効果音")] AudioSource audioSource;
     CorseCheck corseCheck;
+    RaceManager race;
+    BattleManager battle;
+    TutorialManager tutorial;
+    PlayerManager.GameMode gameMode;
     PlayerManager dummyPm;
 
     protected override void LateStart()
@@ -24,14 +29,20 @@ public class IllutionTrapSc : TrapThrow
     protected override void LandedTrap()
     {
         GameObject managerObj = GameObject.FindWithTag("GameController");
+        //コースチェックを取得
         if (managerObj.TryGetComponent(out corseCheck)) { }
         else Debug.LogError("コースチェックが見つかりません");
+        //各マネージャーのいずれかを取得
+        if (managerObj.TryGetComponent(out race)) { gameMode = PlayerManager.GameMode.Race; }
+        else if (managerObj.TryGetComponent(out battle)) { gameMode = PlayerManager.GameMode.Battle; }
+        else if (managerObj.TryGetComponent(out tutorial)) { gameMode = PlayerManager.GameMode.Tutorial; }
+        else Debug.LogError("マネージャーが見つかりません");
 
         //コントローラーを付与してダミーを生成
         PlayerInput player = PlayerInput.Instantiate(
-            prefab: dummyCharactorPf[pm.playerNum],
-            pairWithDevice: pm.playerController.GetComponent<PlayerInput>().devices[0]
-        );
+                prefab: dummyCharactorPf[pm.playerNum],
+                pairWithDevice: pm.playerController.GetComponent<PlayerInput>().devices[0]
+            );
         //この場所に移動
         player.transform.position = transform.position;
         player.transform.rotation = transform.rotation;
@@ -54,6 +65,15 @@ public class IllutionTrapSc : TrapThrow
 
         //ダミーのコントローラーにこのアイテムを登録
         dummyPm.playerController.transform.GetComponent<DummyPlayerController>().illutionTrap = this;
+
+        if(gameMode == PlayerManager.GameMode.Race)
+        {
+            race.AddOrRemoveDummyPlayerObj(dummyPm.gameObject, isAdd: true);
+        }
+        else if (gameMode == PlayerManager.GameMode.Battle)
+        {
+            battle.AddOrRemoveDummyPlayerObj(dummyPm.gameObject, isAdd: true);
+        }
 
         //SEを再生
         audioSource.Play();
@@ -96,8 +116,18 @@ public class IllutionTrapSc : TrapThrow
     /// </summary>
     public void TimeUp()
     {
+        //マネージャーのダミーリストから削除
+        if (gameMode == PlayerManager.GameMode.Race)
+        {
+            race.AddOrRemoveDummyPlayerObj(dummyPm.gameObject, isAdd: false);
+        }
+        else if (gameMode == PlayerManager.GameMode.Battle)
+        {
+            battle.AddOrRemoveDummyPlayerObj(dummyPm.gameObject, isAdd: false);
+        }
+
         //まだダミーが破壊されていない場合破壊
-        if(dummyPm.gameObject != null)
+        if (dummyPm.gameObject != null)
         {
             //ダミー破壊
             Destroy(dummyPm.gameObject);

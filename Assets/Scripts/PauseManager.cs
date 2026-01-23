@@ -5,32 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PauseManager : MonoBehaviour
 {
-    [SerializeField] bool isTutorial;
-
-    TutorialManager tutorial;
-    RaceManager race;
-
     int openPlayer = -1;
     public bool isOpen = false;
-
-    private void Awake()
-    {
-        //Žæ“¾‚Å‚«‚é•û‚ðŽæ“¾
-        TryGetComponent(out tutorial);
-        TryGetComponent(out race);
-    }
 
     public void Pause(int playerNum)
     {
         openPlayer = playerNum;
-        if (isTutorial)
-        {
-            tutorial.ViewPauseMenu(true);
-        }
-        else
-        {
-
-        }
+        gameObject.SendMessage("SetPausePlayerText", playerNum);
+        gameObject.SendMessage("ViewPauseMenu", true);
         isOpen = true;
     }
 
@@ -38,14 +20,7 @@ public class PauseManager : MonoBehaviour
     {
         if(openPlayer == playerNum)
         {
-            if (isTutorial)
-            {
-                tutorial.ViewPauseMenu(false);
-            }
-            else
-            {
-
-            }
+            gameObject.SendMessage("ViewPauseMenu", false);
         }
         openPlayer = -1;
         isOpen = false;
@@ -55,14 +30,7 @@ public class PauseManager : MonoBehaviour
     {
         if (openPlayer == playerNum)
         {
-            if (isTutorial)
-            {
-                tutorial.ToTitleScene();
-            }
-            else
-            {
-
-            }
+            gameObject.SendMessage("ToTitleScene");
         }
     }
 }

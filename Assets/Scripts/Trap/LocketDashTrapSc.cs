@@ -46,8 +46,17 @@ public class LocketTrapSc : TrapBase
     {
         //順位を取得
         rankingPower = pm.playerData.ranking;
-        //加速を与える
-        pm.playerController.EffectLocketDash(true, gameObject.name, speed, maxSpeed);
+        //バトルモードでは速度が落ちる
+        if(pm.nowMode == PlayerManager.GameMode.Battle)
+        {
+            //加速を与える
+            pm.playerController.EffectLocketDash(true, gameObject.name, speed * 0.8f, maxSpeed * 0.8f);
+        }
+        else
+        {
+            //加速を与える
+            pm.playerController.EffectLocketDash(true, gameObject.name, speed, maxSpeed);
+        }
     }
 
     void RemoveEffect()
