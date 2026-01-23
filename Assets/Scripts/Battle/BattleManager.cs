@@ -199,17 +199,6 @@ public class BattleManager : MonoBehaviour
         else dummyPlayerObjs.Remove(dummy);
     }
 
-    /// <summary>
-    /// ダミーのオブジェクトをリストに追加＆削除
-    /// </summary>
-    /// <param name="dummy"></param>
-    /// <param name="isAdd"></param>
-    public void AddOrRemoveDummyPlayerObj(GameObject dummy, bool isAdd)
-    {
-        if (isAdd) dummyPlayerObjs.Add(dummy);
-        else dummyPlayerObjs.Remove(dummy);
-    }
-
     public void PlayFinishAnimation()
     {
         //ゴールアニメーション
@@ -279,16 +268,6 @@ public class BattleManager : MonoBehaviour
             post.weight = 0;
             Time.timeScale = 1;
         }
-    }
-
-    /// <summary>
-    /// 誰が止めたかをテキストで表示
-    /// </summary>
-    /// <param name="playerId"></param>
-    public void SetPausePlayerText(int playerNum)
-    {
-        pausePlayerText.text = $"{playerNum + 1}P";
-        pausePlayerText.color = charaColor[playerNum];
     }
 
     /// <summary>
