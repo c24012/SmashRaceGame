@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.PostProcessing;
@@ -31,6 +32,10 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] Animator anim;
     //キャラの生成場所
     [SerializeField] Transform[] spownPoints;
+    //誰が止めたか
+    [SerializeField] TextMeshProUGUI pausePlayerText;
+    //各キャラクターの色
+    [SerializeField] Color32[] charaColor;
 
     private void Awake()
     {
@@ -63,7 +68,7 @@ public class TutorialManager : MonoBehaviour
             pm.corseCheck = corseCheck; //コースの情報
             pm.pause = pause;    //ポーズマネージャーの登録
             //モードを指定
-            pm.nowMode = PlayerManager.GameMode.Battle;
+            pm.nowMode = PlayerManager.GameMode.Tutorial;
 
             pm.playerController.StartRace();
         }
@@ -160,6 +165,16 @@ public class TutorialManager : MonoBehaviour
             post.weight = 0;
             Time.timeScale = 1;
         }
+    }
+
+    /// <summary>
+    /// 誰が止めたかをテキストで表示
+    /// </summary>
+    /// <param name="playerId"></param>
+    public void SetPausePlayerText(int playerNum)
+    {
+        pausePlayerText.text = $"{playerNum + 1}P";
+        pausePlayerText.color = charaColor[playerNum];
     }
 
     /// <summary>

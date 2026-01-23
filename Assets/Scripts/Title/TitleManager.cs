@@ -163,7 +163,8 @@ public class TitleManager : MonoBehaviour
     {
         if (isReturn)
         {
-
+            gui_m.ReturnCharactorSelect();
+            nowPhase = NowPhase.CharaSelect;
         }
         else
         {
@@ -492,8 +493,8 @@ public class TitleManager : MonoBehaviour
                     isStoreTrapTable[playerId]
                     );
             }
-            ////準備をキャンセル
-            //playerIsLady[playerId] = false;
+            //キャラ選択画面に戻る
+            //TrapSelectView(isReturn: true);
         }
     }
 

@@ -2904,6 +2904,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Decoy
       objectReference: {fileID: 0}
+    - target: {fileID: 1417244198663561330, guid: 95a0b549d414f744cb01b9131140a433, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3003718749099961816, guid: 95a0b549d414f744cb01b9131140a433, type: 3}
       propertyPath: m_LocalPosition.x
       value: 3.08
@@ -5018,7 +5022,9 @@ MonoBehaviour:
   - {fileID: 6828806516823141215, guid: 9f6a10378fc4ff546892070a3c76bdc5, type: 3}
   - {fileID: 2055197002879597668, guid: 5e2118af6a21d6e4b966d91a023fb05b, type: 3}
   cottonObj: {fileID: 7761020676341668801}
+  cottonTf: {fileID: 0}
   cottonSr: {fileID: 1814026093552019758}
+  cottonAnim: {fileID: 0}
   effectObj: {fileID: 1933466879353755413}
   effectSp:
   - {fileID: 359227658, guid: 09df723a215c6c548a5f229328029db7, type: 3}
@@ -5027,8 +5033,10 @@ MonoBehaviour:
   windEffectObj: {fileID: 5680205335943870477}
   moveSpeedRatio: 1
   effectNameList: []
+  hiddenGuiList: []
   isMove: 0
   isStop: 0
+  isFall: 0
   isStart: 1
   isFinish: 0
   isSlow: 0
@@ -8113,7 +8121,9 @@ MonoBehaviour:
   - {fileID: 6828806516823141215, guid: 9f6a10378fc4ff546892070a3c76bdc5, type: 3}
   - {fileID: 2055197002879597668, guid: 5e2118af6a21d6e4b966d91a023fb05b, type: 3}
   cottonObj: {fileID: 291161352781577017}
+  cottonTf: {fileID: 0}
   cottonSr: {fileID: 8544016257515882966}
+  cottonAnim: {fileID: 0}
   effectObj: {fileID: 8461080042675222509}
   effectSp:
   - {fileID: 359227658, guid: 09df723a215c6c548a5f229328029db7, type: 3}
@@ -8122,8 +8132,10 @@ MonoBehaviour:
   windEffectObj: {fileID: 2407985655748942069}
   moveSpeedRatio: 1
   effectNameList: []
+  hiddenGuiList: []
   isMove: 0
   isStop: 0
+  isFall: 0
   isStart: 1
   isFinish: 0
   isSlow: 0

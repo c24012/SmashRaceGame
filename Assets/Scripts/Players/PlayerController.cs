@@ -25,7 +25,9 @@ public class PlayerController : MonoBehaviour
     [Tooltip("生成するトラップ")] public GameObject[] trapObj = new GameObject[4];
 
     [Tooltip("一反木綿のオブジェ"), SerializeField] GameObject cottonObj;
+    [Tooltip("一反木綿のトランスフォーム"), SerializeField] Transform cottonTf;
     [Tooltip("一反木綿のスプライト"), SerializeField] protected SpriteRenderer cottonSr;
+    [Tooltip("一反木綿のアニメーション"), SerializeField] Animator cottonAnim;
     [Tooltip("エフェクトのオブジェ"), SerializeField] GameObject effectObj;
     [Tooltip("エフェクトのスプライト"), SerializeField] Sprite[] effectSp;
     SpriteRenderer effectSR;
@@ -35,6 +37,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField, Tooltip("速度の倍率"),Header("変数")] float moveSpeedRatio = 1;
     [SerializeField, Tooltip("バフリスト")] List<string> effectNameList = new();
+    [SerializeField, Tooltip("落下時非表示にするSprite")] List<SpriteRenderer> hiddenGuiList = new();
 
     const float MOVE_POWER = 500;
     CorseCheck.EAttribute road = CorseCheck.EAttribute.None;
@@ -45,6 +48,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Header("フラグ確認用")] 
     bool isMove = false;                                //動いているか
     [SerializeField] protected bool isStop = false;     //行動不能
+    [SerializeField] bool isFall = false;               //落下状態
     [SerializeField] bool isStart = false;              //レースが始まっているか
     [SerializeField] bool isFinish = false;             //レースが終わっているか
     [SerializeField] bool isSlow = false;               //泥踏み状態
@@ -102,6 +106,13 @@ public class PlayerController : MonoBehaviour
             powerGageCanvas.enabled = false;
             //パワーゲージのリセット
             pm.powerGage.ResetCharge();
+        }
+
+        //ロケット状態だと一反木綿を自分の場所へ
+        if (isLocket && !isFall)
+        {
+            cottonTf.position = transform.position;
+            cottonTf.rotation = transform.rotation;
         }
     }
 
@@ -198,8 +209,8 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void ChangeRigidBodyDrag()
     {
-        //行動不能時は返却
-        if (isStop) return;
+        //落下中は無視
+        if (isFall) return;
         //試合開始前は返却
         if (!isStart) return;
         //現在の道の状態を確認＆取得
@@ -232,14 +243,17 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     protected virtual IEnumerator CorseOut()
     {
-        //一旦行動不能に
+        //行動不能&落下状態に
         isStop = true;
+        isFall = true;
         col.enabled = false;
         //初期化
         Init();
         //当たり判定をオフに
         rb.isKinematic = true;
         anim.SetTrigger("Fall");
+        //一反木綿に乗っていたら逃げていくアニメーション再生
+        if (isLocket) cottonAnim.SetBool("isEscape", true);
         WaitForSeconds wait = new(0.1f);
         Quaternion deforeRotate = transform.rotation;
         audioSource.PlayOneShot(audioClip[1]);
@@ -249,9 +263,14 @@ public class PlayerController : MonoBehaviour
             transform.Rotate(new Vector3(0, 0, 10));
             yield return wait;
         }
+        //落下中は見た目を非表示
         cottonSr.enabled = false;
         sr.enabled = false;
-        //落下中は見た目を非表示
+        for (int i = 0; i < hiddenGuiList.Count; i++) 
+        {
+            hiddenGuiList[i].enabled = false;
+        }
+
         transform.localScale = new Vector2(1, 1);
         transform.rotation = deforeRotate;
 
@@ -279,7 +298,7 @@ public class PlayerController : MonoBehaviour
                 yield return wait;
             }
         }
-        else if(pm.nowMode == PlayerManager.GameMode.Race)
+        else
         {
             //落下ペナルティタイム
             yield return new WaitForSeconds(1f);
@@ -294,13 +313,26 @@ public class PlayerController : MonoBehaviour
                 yield return wait;
             }
         }
-            
+
+        //一反木綿に乗っていたら効果を削除
+        if (isLocket)
+        {
+            cottonAnim.SetBool("isEscape", false);
+            //一反木綿の効果を無くす
+            EffectLocketDash(false);
+        }
+
         //全部元に戻す
         col.enabled = true;
         rb.isKinematic = false;
         sr.enabled = true;
         cottonSr.enabled = true;
+        for (int i = 0; i < hiddenGuiList.Count; i++)
+        {
+            hiddenGuiList[i].enabled = true;
+        }
         isStop = false;
+        isFall = false;
     }
 
     #region 状態異常関数
@@ -573,21 +605,38 @@ public class PlayerController : MonoBehaviour
         //方向の正規化
         vec.Normalize();
 
-        //ロケットダッシュ状態は影響を強く受ける
-        if (isLocket) vec *= 2f;
-
         //中心から離れるほど弱く加速
-        //自分に当たった場合は影響を弱くする
-        if (mySelf) rb.AddForce((vec * MOVE_POWER) / (diff * 2));
-        else rb.AddForce((vec * MOVE_POWER) / diff);
+        if(pm.nowMode == PlayerManager.GameMode.Battle)
+        {
+            //ロケットダッシュ状態は影響を強く受ける
+            if (isLocket) vec *= 4f;
+            //バトルの場合は少し弱体化
+            rb.AddForce((vec * MOVE_POWER) / (diff * 1.5f));
+        }
+        else
+        {
+            //ロケットダッシュ状態は影響を強く受ける
+            if (isLocket) vec *= 3f;
+            //自分に当たった場合は影響を弱くする
+            if (mySelf) rb.AddForce((vec * MOVE_POWER) / (diff * 2));
+            else rb.AddForce((vec * MOVE_POWER) / diff);
+        }
     }
 
     /// <summary>
     /// ロケットダッシュ開始＆終了
     /// </summary>
     /// <param name="isActive"></param>
-    public void EffectLocketDash(bool isActive,string trapName,float speed = 0, float maxSpeed = 0)
+    public void EffectLocketDash(bool isActive, string trapName = null, float speed = 0, float maxSpeed = 0)
     {
+        //もしすでにロケットダッシュが終わっていた場合
+        if(!(isLocket || isActive))
+        {
+            //効果名を削除
+            effectNameList.Remove(trapName);
+            return;
+        }
+
         isLocket = isActive;
 
         //速度を指定
@@ -595,16 +644,23 @@ public class PlayerController : MonoBehaviour
         //最高速度を指定
         locketMaxSpeed = maxSpeed;
 
-        if (isActive)
+        if(trapName != null)
         {
-            //効果名を登録
-            effectNameList.Add(trapName);
+            if (isActive)
+            {
+                //効果名を登録
+                effectNameList.Add(trapName);
+            }
+            else
+            {
+                //効果名を削除
+                effectNameList.Remove(trapName);
+            }
         }
-        else
-        {
-            //効果名を削除
-            effectNameList.Remove(trapName);
-        }
+
+        //一反木綿のSpriteを自分の場所へ
+        cottonTf.position = transform.position;
+        cottonTf.rotation = transform.rotation;
 
         //一反木綿を生成or消失
         cottonObj.SetActive(isActive);

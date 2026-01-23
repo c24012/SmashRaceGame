@@ -13,6 +13,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8641560390756901, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
+      propertyPath: nowMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8641560390756901, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: playerController
       value: 
       objectReference: {fileID: 5332735824621068140}
@@ -204,6 +208,7 @@ MonoBehaviour:
   confusionNum: 0
   isLocket: 0
   isIllution: 0
+  illutionTrap: {fileID: 0}
 --- !u!1 &6693950005629017098 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7852663145402198422, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -30,8 +31,14 @@ public class BattleManager : MonoBehaviour
     [SerializeField] Canvas pauseMenuCanvas;
     //ピンぼけ
     [SerializeField] PostProcessVolume post;
+    //誰が止めたか
+    [SerializeField] TextMeshProUGUI pausePlayerText;
+    //各キャラクターの色
+    [SerializeField] Color32[] charaColor;
     //キャラの生成場所
     [SerializeField] Transform[] spownPoints;
+    //ダミープレイヤーオブジェクト
+    [SerializeField] List<GameObject> dummyPlayerObjs = new();
 
     //看板キャラの変数
     [SerializeField] GameObject[] signboardObj;
@@ -114,6 +121,10 @@ public class BattleManager : MonoBehaviour
             signboardObj[i].SetActive(true);
             if (!debugMode) soulsImage[i].sprite = soulsSprite[gameData.playerInfoList[i].charactorNum];
         }
+        for(int i = playerCount;i < 4; i++)
+        {
+            signboardObj[i].SetActive(false);
+        }
         //初期の残り人数を設定
         remainingAmount = playerObjs.Count;
     }
@@ -142,21 +153,6 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     void GetPlayerDatas()
     {
-        ////リストをランキング順に並び替え
-        //playerDatas = playerDatas.OrderByDescending((x) => x.lives).ToList();
-        ////各プレイヤーデータに現在のランキングを入力
-        //for (int i = 0; i < playerDatas.Count; i++)
-        //{
-        //    playerDatas[i].ranking = i;
-        //    for(int j = 0; j < i; j++)
-        //    {
-        //        if (playerDatas[j].lives == playerDatas[i].lives)
-        //        {
-        //            playerDatas[i].ranking = playerDatas[j].ranking;
-        //            break;
-        //        }
-        //    }
-        //}
 
         for (int i = 0; i < playerDatas.Count; i++) 
         {
@@ -178,10 +174,10 @@ public class BattleManager : MonoBehaviour
                 //残り人数を減らす
                 remainingAmount--;
                 //残り人数が一人になったらゲーム終了
-                if (remainingAmount == 1)
+                if (remainingAmount <= 1)
                 {
                     //残った一人の順位を1位に指定
-                    for(int j = 0; j < 4; j++)
+                    for(int j = 0; j < playerCount; j++)
                     {
                         if (playerDatas[j].lives > 0) playerDatas[j].ranking = 0;
                     }
@@ -190,6 +186,17 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// ダミーのオブジェクトをリストに追加＆削除
+    /// </summary>
+    /// <param name="dummy"></param>
+    /// <param name="isAdd"></param>
+    public void AddOrRemoveDummyPlayerObj(GameObject dummy, bool isAdd)
+    {
+        if (isAdd) dummyPlayerObjs.Add(dummy);
+        else dummyPlayerObjs.Remove(dummy);
     }
 
     public void PlayFinishAnimation()
@@ -219,6 +226,11 @@ public class BattleManager : MonoBehaviour
         {
             playerObjs[i].GetComponent<PlayerManager>().playerController.FinishRace();
         }
+        //ダミーが存在するならダミーの終了関数も起動
+        for (int i = 0; i < dummyPlayerObjs.Count; i++)
+        {
+            dummyPlayerObjs[i].GetComponent<PlayerManager>().playerController.FinishRace();
+        }
     }
 
     /// <summary>
@@ -226,10 +238,14 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void ToResultScene()
     {
+        //プレイヤーはランキング順に並び替え
+        playerDatas = playerDatas.OrderBy((x) => x.ranking).ToList();
+        //playerDatas = playerDatas.OrderByDescending((x) => x.ranking).ToList();
+        //playerDatas.Reverse();
         //各プレイヤーデータのランキングをゲームデータのランキングに入力
         for (int i = 0; i < playerDatas.Count; i++)
         {
-            gameData.ranking[i] = playerDatas[i].ranking;
+            gameData.ranking[i] = playerDatas[i].playerNum;
         }
         SceneManager.LoadScene("ResultScene");
     }
@@ -252,6 +268,16 @@ public class BattleManager : MonoBehaviour
             post.weight = 0;
             Time.timeScale = 1;
         }
+    }
+
+    /// <summary>
+    /// 誰が止めたかをテキストで表示
+    /// </summary>
+    /// <param name="playerId"></param>
+    public void SetPausePlayerText(int playerNum)
+    {
+        pausePlayerText.text = $"{playerNum + 1}P";
+        pausePlayerText.color = charaColor[playerNum];
     }
 
     /// <summary>

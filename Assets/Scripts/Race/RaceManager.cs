@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -63,6 +64,12 @@ public class RaceManager : MonoBehaviour
     [SerializeField] Canvas pauseMenuCanvas;
     //ピンぼけ
     [SerializeField] PostProcessVolume post;
+    //誰が止めたか
+    [SerializeField] TextMeshProUGUI pausePlayerText;
+    //各キャラクターの色
+    [SerializeField] Color32[] charaColor;
+    //ダミープレイヤーオブジェクト
+    [SerializeField] List<GameObject> dummyPlayerObjs = new();
 
     // 解像度
     [SerializeField, Range(SplineUtility.PickResolutionMin, SplineUtility.PickResolutionMax)]
@@ -219,6 +226,17 @@ public class RaceManager : MonoBehaviour
     }
 
     /// <summary>
+    /// ダミーのオブジェクトをリストに追加＆削除
+    /// </summary>
+    /// <param name="dummy"></param>
+    /// <param name="isAdd"></param>
+    public void AddOrRemoveDummyPlayerObj(GameObject dummy, bool isAdd)
+    {
+        if (isAdd) dummyPlayerObjs.Add(dummy);
+        else dummyPlayerObjs.Remove(dummy);
+    }
+
+    /// <summary>
     /// レース開始
     /// </summary>
     public void StartRace()
@@ -236,6 +254,11 @@ public class RaceManager : MonoBehaviour
         for (int i = 0; i < playerObjs.Count; i++)
         {
             playerObjs[i].GetComponent<PlayerManager>().playerController.FinishRace();
+        }
+        //ダミーが存在するならダミーの終了関数も起動
+        for(int i = 0;i < dummyPlayerObjs.Count; i++)
+        {
+            dummyPlayerObjs[i].GetComponent<PlayerManager>().playerController.FinishRace();
         }
     }
 
@@ -270,6 +293,16 @@ public class RaceManager : MonoBehaviour
             post.weight = 0;
             Time.timeScale = 1;
         }
+    }
+
+    /// <summary>
+    /// 誰が止めたかをテキストで表示
+    /// </summary>
+    /// <param name="playerId"></param>
+    public void SetPausePlayerText(int playerNum)
+    {
+        pausePlayerText.text = $"{playerNum + 1}P";
+        pausePlayerText.color = charaColor[playerNum];
     }
 
     /// <summary>
