@@ -14,7 +14,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8641560390756901, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: nowMode
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8641560390756901, guid: c589728978d01b54a94f25597fe2c5d1, type: 3}
       propertyPath: playerController
@@ -190,7 +190,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   cottonObj: {fileID: 3279767169544376542}
+  cottonTf: {fileID: 0}
   cottonSr: {fileID: 6853364744130519601}
+  cottonAnim: {fileID: 0}
   effectObj: {fileID: 6693950005629017098}
   effectSp:
   - {fileID: 359227658, guid: 09df723a215c6c548a5f229328029db7, type: 3}
@@ -199,8 +201,10 @@ MonoBehaviour:
   windEffectObj: {fileID: 640805659110454034}
   moveSpeedRatio: 1
   effectNameList: []
+  hiddenGuiList: []
   isMove: 0
   isStop: 0
+  isFall: 0
   isStart: 0
   isFinish: 0
   isSlow: 0

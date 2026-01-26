@@ -60,6 +60,8 @@ public class IllutionTrapSc : TrapThrow
         dummyPm.playerData.ranking = pm.playerData.ranking;
         //ダミーは狐のお面を使用できない
         dummyPm.playerController.isIllution = true;
+        //ダミーのゲームモードを指定
+        dummyPm.nowMode = pm.nowMode;
         //開始関数を起動
         dummyPm.playerController.StartRace();
 

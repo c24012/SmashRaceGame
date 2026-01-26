@@ -20,6 +20,7 @@ public class DummyPlayerController : PlayerController
     {
         //ˆê’Us“®•s”\‚É
         isStop = true;
+        isFall = true;
         col.enabled = false;
         //‰Šú‰»
         Init();

@@ -48,7 +48,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField, Header("フラグ確認用")] 
     bool isMove = false;                                //動いているか
     [SerializeField] protected bool isStop = false;     //行動不能
-    [SerializeField] bool isFall = false;               //落下状態
+    [SerializeField] protected bool isFall = false;     //落下状態
     [SerializeField] bool isStart = false;              //レースが始まっているか
     [SerializeField] bool isFinish = false;             //レースが終わっているか
     [SerializeField] bool isSlow = false;               //泥踏み状態
@@ -99,14 +99,14 @@ public class PlayerController : MonoBehaviour
         //動いているとアニメーションを変化
         CheckIsMove();
 
-        //滑っているときのチャージをキャンセル
-        if (isSlip && isMove)
-        {
-            //パワーゲージ非表示
-            powerGageCanvas.enabled = false;
-            //パワーゲージのリセット
-            pm.powerGage.ResetCharge();
-        }
+        ////滑っているときのチャージをキャンセル
+        //if (isSlip && isMove)
+        //{
+        //    //パワーゲージ非表示
+        //    powerGageCanvas.enabled = false;
+        //    //パワーゲージのリセット
+        //    pm.powerGage.ResetCharge();
+        //}
 
         //ロケット状態だと一反木綿を自分の場所へ
         if (isLocket && !isFall)
@@ -134,8 +134,10 @@ public class PlayerController : MonoBehaviour
         if (!isStart) return;
         //進む力を計算
         float force = power * moveSpeedRatio * MOVE_POWER;
+        //滑っているときは加速を弱くする
+        if(isSlip) force *= 0.5f;
         //ダート判定の時は減速
-        if(road == CorseCheck.EAttribute.Dart)
+        if (road == CorseCheck.EAttribute.Dart)
         {
             force *= 0.5f;
         }
@@ -801,9 +803,6 @@ public class PlayerController : MonoBehaviour
 
         //行動不能時は返却
         if (isStop) return;
-
-        //滑っていて動いている時はチャージできない
-        if (isSlip && isMove) return;
 
         //ロケット状態ではチャージできない
         if (isLocket) return;
