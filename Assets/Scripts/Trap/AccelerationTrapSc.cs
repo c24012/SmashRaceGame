@@ -31,7 +31,7 @@ public class AccelerationTrapSc : TrapBase
         if (pm.playerController != null)
             pm.playerController.EffectMoveSpeedRatio(speeds, false, gameObject.name, chargeSpeeds);
         //‰¹‚ð™X‚É¬‚³‚­‚·‚é
-        WaitForSeconds wait = new(0.1f);
+        WaitForSeconds wait = new(0.02f);
         for (float i = 1; i > 0; i -= 0.1f)
         {
             audioSource.volume = i;
